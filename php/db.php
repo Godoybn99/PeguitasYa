@@ -8,11 +8,7 @@
 //}else{
  //   echo "Hola '$usuario' ";
 //}
- $conn = mysqli_connect('localhost','root','','peguita');
- if(isset($conn))
- {
-    
- }else{
-     echo 'no conectada';
- }
+ $mysqli = new mysqli ('localhost','root','','peguita');
+
+
 ?>

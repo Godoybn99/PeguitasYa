@@ -1,6 +1,6 @@
 <?php
-include("db.php");
-
+require "db.php";
+session_start();
 if(isset($_POST['btn_registro'])){
 $btn= $_POST['btn_registro'];
 $rut = $_POST['txtRut'];
@@ -11,21 +11,21 @@ $cpas = $_POST['txtCpas'];
 
 if($cpas == '' || $cpas =! $pas){
  
-$_SESSION['message2'] = 'Las contraseñas no coinciden';
-$_SESSION['message_type2'] = 'danger';
+$_SESSION['message'] = 'Las contraseñas no coinciden';
+$_SESSION['message_type'] = 'danger';
 
 }else{
 $query ="INSERT INTO usuarios(rut,usuario,contra,email) VALUES('$rut','$us','$email','$pas')";
-$resultado = mysqli_query($conn, $query);
+$resultado = $mysqli->query($query);
 if(!$resultado){
     echo mysqli_error($conn);
 }else{
 
+} 
+$_SESSION['message'] = 'Se registro el usuario';
+$_SESSION['message_type'] = 'success';
 }
 
-}
-$_SESSION['message2'] = 'Se registro el usuario';
-$_SESSION['message_type2'] = 'success';
 header("Location: ../inicio.php");
 }
 ?>

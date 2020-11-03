@@ -1,44 +1,35 @@
+
 <?php
-include("db.php");
+require "db.php";
+session_start();
+if($_POST){
+    $us= $_POST['txtUs'];
+    $con= $_POST['txtCon'];
 
-include("usuario.php");
-include('SesionUser.php');
+    $query ="SELECT * FROM usuarios where usuario = '$us'";
 
-$Usersesion = new UserSesion();
-$usuario = new usuario();
+    $resultado = $mysqli->query($query);
+    $num = $resultado->num_rows;
 
+    if($num>0){
+         $row = $resultado->fetch_assoc();
+         $contra_bd = $row['contra'];
+        if($contra_bd == $con){
 
-if(isset($_SESSION['usuario'])){
-    echo "Hay sesion";
-    
-}else if (isset($_POST['txtUs']) && isset($_POST['txtCon'])){
+            $_SESSION['nombre'] = $row['usuario'];
+            $_SESSION['rut'] = $row['rut'];
+            header("Location: ../index.php");
+        }else{
+            $_SESSION['message'] = 'Contraseña incorrecta';
+            $_SESSION['message_type'] = 'danger';
+            header("Location: ../inicio.php");
+        }
 
-    $us = $_POST['txtUs'];
-    $contra = $_POST['txtCon'];
-
-    if($usuario->exUs($us,$contra,$conn)){
-        echo "Usuario valido";
     }else{
-    $errorLogin = "El nobmre de usuario/contraseña son erroneos";
-    $errorType = "danger";
-    include_once 'location: ../inicio.php';
+        $_SESSION['message'] = 'El usuario no existe';
+        $_SESSION['message_type'] = 'danger';
+        header("Location: ../inicio.php");
+    }
 }
-
-}else{
-
-
-    
-}
-//$query = "SELECT * from usuarios where usuario = '$us' and contra = '$pas'";
-//$resultado = mysqli_query($conn, $query);
-
-//while($row = mysqli_fetch_array($resultado)){
-  //  $_SESSION['message'] = 'Se inicio sesion';
-    //$_SESSION['message_type'] = 'success';
-    //header("location: ../inicio.php");
-
-
-
-
 
 ?>

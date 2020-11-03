@@ -8,6 +8,7 @@ if(isset($_POST['btn_publicar'])|| isset($_POST['job-location'])||isset($_POST['
     $ciudad = $_POST['job-location'];
     $region = $_POST['job-region'];
     $tipo = $_POST['job-type'];
+    
     $query = "INSERT INTO trabajo(email,titulo,locacion,region,tipo,descripcion) VALUES ('$email', '$titulo', '$ciudad', '$region', '$tipo', 'a')";
     $resultado = mysqli_query($conn, $query);
     if(!$resultado){

@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
   <?php 
-  include("php/db.php");
+  require "php/db.php";
+  session_start();
   ?>
   <head>
     <title>JobBoard &mdash; Website Template by Colorlib</title>
@@ -17,10 +18,6 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/quill.snow.css">
-    <?php
-
-
-    ?>
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">    
@@ -81,13 +78,24 @@
               <li><a href="contact.html">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
+            
             </ul>
           </nav>
           
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
               <a href="post-job.html" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
-              <a href="login.html" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Iniciar sesion</a>
+              <?php 
+              
+              if(isset($_SESSION['usuario'])){
+            
+                $no = $usuario->getNom();
+              }else{
+                 $no = "Inicio sesion";
+              }
+              
+              ?>
+              <a href="inicio.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $no ?></a>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>
@@ -131,7 +139,7 @@
           <div class="col-lg-6 mb-5">
             <h2 class="mb-4">Registro</h2>
         
-            <form action="php/login.php" class="p-4 border rounded" method="POST">
+            <form action="php/Registro.php" class="p-4 border rounded" method="POST">
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Rut</label>
@@ -191,7 +199,7 @@
 
             <h2 class="mb-4">Inicio de sesion</h2>
              
-            <form action="php/sesion.php" class="p-4 border rounded" method="POST">
+            <form action="php/Sesion.php" class="p-4 border rounded" method="POST">
             <?php
               if(isset($_SESSION['message2'])){  
             ?>
@@ -207,14 +215,14 @@
             ?>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Email</label>
-                  <input type="text" name="txtUs" id="fname" class="form-control" placeholder="Email">
+                  <label class="text-black" for="fname">Nombre de usuario</label>
+                  <input type="text" name="txtUs" id="fname" class="form-control" placeholder="Nombre de usuario">
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">contraseña</label>
-                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="contraseña">
+                  <label class="text-black" for="fname">Contraseña</label>
+                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="Contraseña">
                 </div>
               </div>
 
