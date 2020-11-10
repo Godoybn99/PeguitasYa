@@ -1,11 +1,41 @@
+<!--Verificacion de sesion -->
+<?php
+
+session_start();
+
+
+if(!isset($_SESSION['nombre'])){
+  $estado = "Inicio sesion";
+  $nombre = ''; 
+  $ref ='inicio.php';
+  $mis = false;
+}else{
+  $estado= "Cerrar sesion";
+  $nombre = $_SESSION['nombre'];
+  $id=$_SESSION['id'];
+  $ape=$_SESSION['ape'];
+  $con=$_SESSION['contra'];
+  $car=$_SESSION['Cargo'];
+  $dir=$_SESSION['direccion'];
+  $correo=$_SESSION['correo'];
+  $ref ='php/Cerrar.php';
+  $mis = true;
+
+  if($car==''){
+    $car="Cargo*";
+  }
+}
+
+?> 
+
 <!doctype html>
 <html lang="en">
   <?php 
   require "php/db.php";
-  session_start();
+
   ?>
   <head>
-    <title>JobBoard &mdash; Website Template by Colorlib</title>
+    <title>PeguitasYa &mdash; Mi Perfil</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -43,12 +73,11 @@
       <div class="site-mobile-menu-body"></div>
     </div> <!-- .site-mobile-menu -->
     
-
     <!-- NAVBAR -->
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6"><a href="index.html">PeguitasYa</a></div>
+          <div class="site-logo col-6"><a href="index.php">PeguitasYa</a></div>
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
@@ -76,26 +105,59 @@
               </li>
               <li><a href="blog.html">Blog</a></li>
               <li><a href="contact.html">Contacto</a></li>
-              <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Publicar Trabajos</a></li>
+              <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
-            
             </ul>
           </nav>
           
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
-              <a href="post-job.html" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
-              <?php 
-              
-              if(isset($_SESSION['usuario'])){
+            <?php 
             
-                $no = $usuario->getNom();
-              }else{
-                 $no = "Inicio sesion";
-              }
-              
+            if($mis == true){
               ?>
-              <a href="inicio.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $no ?></a>
+            <a href="post-job.html" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+            <?php 
+                }
+              ?>
+
+             
+            <?php 
+            
+            if($mis == true){
+              ?>
+            <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
+            <?php 
+                }else{
+              ?>
+             <button type="button" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block" data-toggle="modal" data-target="#staticBackdrop"><span class="mr-2 icon-add"></span>
+               Publicar Trabajo
+              </button>
+
+              <!-- Modal -->
+              <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar un trabajo?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" algin="center" >
+                      Para poder publicar un trabajo se necesita una cuenta "Registrate".          
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                      <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <?php 
+                }
+              ?>
+              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado?></a>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>
@@ -109,10 +171,10 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Registro/inicio de sesion</h1>
+            <h1 class="text-white font-weight-bold">Mi Perfil</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Inicio de sesion</strong></span>
+              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Mi Perfil</strong></span>
             </div>
           </div>
         </div>
@@ -132,117 +194,98 @@
             session_unset();
               }  
             ?>
- <!--Registro-->
+ <!--Datos Perfil-->
     <section class="site-section">
-      <div class="container">
+      <div class="container"> 
         <div class="row">
           <div class="col-lg-6 mb-5">
-            <h2 class="mb-4">Registro</h2>
+            <h2 class="mb-4">Mis Datos</h2>
         
-            <form action="php/Registro.php" class="p-4 border rounded" method="POST">
+            <form action="php/Perfil.php" class="p-4 border rounded" method="POST">
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Nombre</label>
-                  <input type="text" name="txtNom" class="form-control" placeholder="Ingrese su nombre">
+                  <input type="text"  name="txtNom" class="form-control" value= <?php echo $nombre ?>>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Apellidos</label>
-                  <input type="text" name="txtApe" class="form-control" placeholder="Ingrese sus apellidos">
+                  <input type="text" name="txtApe" class="form-control" value= <?php echo $ape ?>>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Correo</label>
-                  <input type="text" name="txtEmail" class="form-control" placeholder="Ingrese su correo">
+                  <label class="text-black" for="fname">Correo Electronico</label>
+                  <input type="text" name="txtEmail" class="form-control" value= <?php echo $correo ?>>
                 </div>
               </div>
-              <div class="row form-group">
+              <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Cargo</label>
+                  <input type="text" name="txtCar" class="form-control" placeholder= <?php echo $car ?>>
+                </div>
+              </div>
+
+              <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Direccion</label>
-                  <input type="text" name="txtDir" class="form-control" placeholder="Ingrese su direccion">
+                  <input type="text" name="txtDir" class="form-control" placeholder= <?php echo $dir ?>>
                 </div>
               </div>
+
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Contraseña</label>
-                  <input type="password" name="txtPas" class="form-control" placeholder="Ingrese su contraseña">
+                  <label class="text-black" for="fname">Valoracion</label>
+                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder="puntuacion">
                 </div>
               </div>
-              <div class="row form-group mb-4">
+
+              <div class="row form-group">
+                <div class="col-md-12">
+                  <input type="submit" name="btn_registro" value="Guardar Datos" class="btn px-4 btn-primary text-white">
+                  <input type="reset" name="btn_registro" value="Cancelar" class="btn px-4 btn-primary text-white">
+                </div>
+              </div>
+            </form>
+          </div>
+            
+            <!----Cambio de Contraseña---->
+          <div class="col-lg-6 mb-5">
+            <h2 class="mb-4">¿Quiere cambiar su contraseña?</h2>
+        
+            <form action="php/Cambio.php" class="p-4 border rounded" method="POST">
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Contraseña Actual</label>
+                  <input type="password"  name="txtApas" class="form-control" placeholder="Ingrese su contraseña acutal">
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Nueva Contraseña</label>
+                  <input type="password" name="txtNpas" class="form-control" placeholder="Ingrese su nueva contraseña">
+                </div>
+              </div>
+              <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Confirme su contraseña</label>
                   <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña">
                 </div>
               </div>
-              <div class="row form-group">
-                <div class="col-md-12">
-                  <input type="submit" name="btn_registro" value="Registro" class="btn px-4 btn-primary text-white">
-                </div>
-              </div>
-
-            </form>
-
-            <!--Inicio de sesion-->
-          </div>
-
-        <div class="col-lg-6">
-          <?php
-              if(isset($errorLogin)){  
-            ?>
-            <div class="alert alert-<?= $_SESSION['errorType'];?> alert-dismissible fade show" role="alert">
-                   <?= $errorLogin; ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                   </button>
-            </div>
-            <?php
-            session_unset();
-              }  
-            ?>
-
-            <h2 class="mb-4">Correo electronico</h2>
-             
-            <form action="php/Sesion.php" class="p-4 border rounded" method="POST">
-            <?php
-              if(isset($_SESSION['message2'])){  
-            ?>
-            <div class="alert alert-<?= $_SESSION['message_type2'];?> alert-dismissible fade show" role="alert">
-                   <?= $_SESSION['message2']; ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                   </button>
-            </div>
-            <?php
-            session_unset();
-              }  
-            ?>
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Correo electronico</label>
-                  <input type="text" name="txtUs" id="fname" class="form-control" placeholder="ejemplo@correo.com">
-                </div>
-              </div>
-              <div class="row form-group mb-4">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Contraseña</label>
-                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="Contraseña">
-                </div>
-              </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <input type="submit" value="Inicio de sesion" class="btn px-4 btn-primary text-white">
+                  <input type="submit" name="btn_registro" value="Cambiar Contraseña" class="btn px-4 btn-primary text-white">
+                  <input type="reset" name="btn_registro" value="Cancelar" class="btn px-4 btn-primary text-white">
                 </div>
               </div>
-
             </form>
           </div>
         </div>
       </div>
     </section>
-    
+  
     <footer class="site-footer">
 
       <a href="#top" class="smoothscroll scroll-top">

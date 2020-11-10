@@ -1,11 +1,27 @@
+<!--Verificacion de sesion -->
+<?php
+require "php/db.php";
+session_start();
+
+
+if(!isset($_SESSION['nombre'])){
+  $estado = "Inicio sesion";
+  $nombre = ''; 
+  $ref ='inicio.php';
+  $mis = false;
+}else{
+  $estado= "Cerrar sesion";
+  $nombre = $_SESSION['nombre'];
+  $ref ='php/Cerrar.php';
+  $mis = true;
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
-  <?php 
-  require "php/db.php";
-  session_start();
-  ?>
   <head>
-    <title>JobBoard &mdash; Website Template by Colorlib</title>
+    <title>PeguitasYa &mdash; Publicar anuncio</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -18,6 +34,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/quill.snow.css">
+    
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">    
@@ -52,7 +69,7 @@
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="index.html" class="nav-link active">Inicio</a></li>
+              <li><a href="index.php" class="nav-link active">Inicio</a></li>
               <li><a href="about.html">Sobre Nosotros</a></li>
               <li class="has-children">
                 <a href="job-listings.html">Listado de trabajos</a>
@@ -76,49 +93,48 @@
               </li>
               <li><a href="blog.html">Blog</a></li>
               <li><a href="contact.html">Contacto</a></li>
-              <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Publicar Trabajos</a></li>
+              <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
-            
             </ul>
           </nav>
           
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
-              <a href="post-job.html" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
-              <?php 
-              
-              if(isset($_SESSION['usuario'])){
+            <?php 
             
-                $no = $usuario->getNom();
-              }else{
-                 $no = "Inicio sesion";
-              }
-              
+            if($mis == true){
               ?>
-              <a href="inicio.php" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $no ?></a>
+            <a href="post-job.html" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+            <?php 
+                }
+              ?>
+              <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
+              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado?></a>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>
 
         </div>
-      </div>
+      </div> 
     </header>
 
+    
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Registro/inicio de sesion</h1>
+            <h1 class="text-white font-weight-bold">Publicar trabajo</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Inicio de sesion</strong></span>
+              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
+              <a href="#">trabajo</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Publicar trabajo</strong></span>
             </div>
           </div>
         </div>
       </div>
     </section>
-     <!--Alerta-->
+    <!--Alerta-->
     <?php
               if(isset($_SESSION['message'])){  
             ?>
@@ -131,117 +147,124 @@
             <?php
             session_unset();
               }  
-            ?>
- <!--Registro-->
+            ?> 
+
+
+    <!---Formulario-->
+
+    
     <section class="site-section">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-6 mb-5">
-            <h2 class="mb-4">Registro</h2>
-        
-            <form action="php/Registro.php" class="p-4 border rounded" method="POST">
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Nombre</label>
-                  <input type="text" name="txtNom" class="form-control" placeholder="Ingrese su nombre">
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Apellidos</label>
-                  <input type="text" name="txtApe" class="form-control" placeholder="Ingrese sus apellidos">
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Correo</label>
-                  <input type="text" name="txtEmail" class="form-control" placeholder="Ingrese su correo">
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Direccion</label>
-                  <input type="text" name="txtDir" class="form-control" placeholder="Ingrese su direccion">
-                </div>
-              </div>
-              <div class="row form-group mb-4">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Contraseña</label>
-                  <input type="password" name="txtPas" class="form-control" placeholder="Ingrese su contraseña">
-                </div>
-              </div>
-              <div class="row form-group mb-4">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Confirme su contraseña</label>
-                  <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña">
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-md-12">
-                  <input type="submit" name="btn_registro" value="Registro" class="btn px-4 btn-primary text-white">
-                </div>
-              </div>
 
-            </form>
-
-            <!--Inicio de sesion-->
+        <div class="row align-items-center mb-5">
+          <div class="col-lg-8 mb-4 mb-lg-0">
+            <div class="d-flex align-items-center">
+              <div>
+                <h2>Publicar trabajo</h2>
+              </div>
+            </div>
           </div>
-
-        <div class="col-lg-6">
-          <?php
-              if(isset($errorLogin)){  
-            ?>
-            <div class="alert alert-<?= $_SESSION['errorType'];?> alert-dismissible fade show" role="alert">
-                   <?= $errorLogin; ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                   </button>
+          <div class="col-lg-4">
+            <div class="row">
             </div>
-            <?php
-            session_unset();
-              }  
-            ?>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col-lg-12">
+            <form class="p-4 p-md-5 border rounded" method="post" action="php/Publicar.php" method="POST">
+              <h3 class="text-black mb-5 border-bottom pb-2">Detalles del trabajo</h3>
+              
+              <div class="form-group">
+                <label for="company-website-tw d-block">Subir imagen de refrencia</label> <br>
+                <label class="btn btn-primary btn-md btn-file">
+                  Browse File<input type="file" hidden>
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="job-title">Nombre del trabajo</label>
+                <input type="text" class="form-control" name="job-title" placeholder="Programador">
+              </div>
+              <div class="form-group">
+                <label for="job-region">Region</label>
+                <select class="selectpicker border rounded" name="job-region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
+                      <option>Tarapaca</option>
+                      <option>Antofagasta</option>
+                      <option>Atacama y Coquimbo</option>
+                      <option>Valparaiso</option>
+                      <option>O'Higgins</option>
+                      <option>Maule</option>
+                      <option>Ñuble</option>
+                      <option>Biobio</option>
+                      <option>La araucania</option>
+                      <option>Los Rios</option>
+                      <option>Los Lagos</option>
+                      <option>Aysen</option>
+                      <option>Magallanes</option>
+                      <option>Metropolitana</option>
+                    </select>
+              </div>
+              <div class="form-group">
+                <label for="job-location">Comuna</label>
+                <select class="selectpicker border rounded" name="job-location" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
+                <?php
+                    $query="SELECT * FROM comuna";
+                    $resultado= $mysqli->query($query);
+                    while($var=mysqli_fetch_row($resultado)){
+                ?>
+                
 
-            <h2 class="mb-4">Correo electronico</h2>
-             
-            <form action="php/Sesion.php" class="p-4 border rounded" method="POST">
-            <?php
-              if(isset($_SESSION['message2'])){  
-            ?>
-            <div class="alert alert-<?= $_SESSION['message_type2'];?> alert-dismissible fade show" role="alert">
-                   <?= $_SESSION['message2']; ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                   </button>
+                      <option><?php echo $var[1]  ?></option>
+                    <?php } ?>
+           
+              </select>
+              </div>
+
+              <div class="form-group">
+                <label for="job-title">Nombre de la calle</label>
+                <input type="text" class="form-control" name="txtCalle" placeholder="ej. Baquedano">
+              </div>
+
+              <div class="form-group">
+                <label for="job-title">Numero de la calle</label>
+                <input type="text" class="form-control" name="txtNum" placeholder="ej. 234">
+              </div>
+
+              <div class="form-group">
+                <label for="job-type">Tipo de trabajo</label>
+                <select class="selectpicker border rounded" name="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione tipo de trabajo">
+                  <option>Part Time</option>
+                  <option>Full Time</option>
+                  <option>Esporadico</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Descripcion</label>
+              </div>
+                <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion"></textarea>
+                <div class="form-group">
+                <
+              </div>
+
+        <div class="row align-items-center mb-5">
+          
+          <div class="col-lg-4 ml-auto">
+            <div class="row">
+              
+              <div class="col-6">
+                <input type="submit" class="btn btn-block btn-primary btn-md" name="btn_publicar" value="Publicar trabajo ">
+              </div>
             </div>
-            <?php
-            session_unset();
-              }  
-            ?>
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Correo electronico</label>
-                  <input type="text" name="txtUs" id="fname" class="form-control" placeholder="ejemplo@correo.com">
-                </div>
-              </div>
-              <div class="row form-group mb-4">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Contraseña</label>
-                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="Contraseña">
-                </div>
-              </div>
-
-              <div class="row form-group">
-                <div class="col-md-12">
-                  <input type="submit" value="Inicio de sesion" class="btn px-4 btn-primary text-white">
-                </div>
-              </div>
-
-            </form>
           </div>
         </div>
       </div>
+      
     </section>
+
+
+   
+  
+
     
     <footer class="site-footer">
 
@@ -288,6 +311,9 @@
               <a href="#"><span class="icon-linkedin"></span></a>
             </div>
           </div>
+        </div>
+
+       
         </div>
       </div>
     </footer>

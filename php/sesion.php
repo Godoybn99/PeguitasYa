@@ -6,18 +6,22 @@ if($_POST){
     $us= $_POST['txtUs'];
     $con= $_POST['txtCon'];
 
-    $query ="SELECT * FROM usuarios where usuario = '$us'";
+    $query ="SELECT * FROM usuario where correo = '$us'";
 
     $resultado = $mysqli->query($query);
     $num = $resultado->num_rows;
 
     if($num>0){
          $row = $resultado->fetch_assoc();
-         $contra_bd = $row['contra'];
+         $contra_bd = $row['contra']; 
         if($contra_bd == $con){
-
-            $_SESSION['nombre'] = $row['usuario'];
-            $_SESSION['rut'] = $row['rut'];
+            $_SESSION['id'] = $row['idUsuario'];
+            $_SESSION['nombre'] = $row['nombre'];
+            $_SESSION['ape'] = $row['apellidos'];
+            $_SESSION['contra'] = $row['apellidos'];
+            $_SESSION['Cargo'] = $row['trabajo'];
+            $_SESSION['direccion'] = $row['direccion'];
+            $_SESSION['correo'] = $row['correo'];
             header("Location: ../index.php");
         }else{
             $_SESSION['message'] = 'Contraseña incorrecta';
