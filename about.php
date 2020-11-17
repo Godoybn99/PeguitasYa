@@ -144,7 +144,7 @@ if(!isset($_SESSION['nombre'])){
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Sobre Nosotros</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
+              <a href="index.php">Inicio</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Sobre Nosotros</strong></span>
             </div>
           </div>
