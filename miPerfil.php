@@ -81,7 +81,7 @@ if(!isset($_SESSION['nombre'])){
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="index.html" class="nav-link active">Inicio</a></li>
+              <li><a href="index.php" class="nav-link active">Inicio</a></li>
               <li><a href="about.html">Sobre Nosotros</a></li>
               <li class="has-children">
                 <a href="job-listings.html">Listado de trabajos</a>
@@ -173,7 +173,7 @@ if(!isset($_SESSION['nombre'])){
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Mi Perfil</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
+              <a href="index.php">Inicio</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Mi Perfil</strong></span>
             </div>
           </div>
