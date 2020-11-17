@@ -1,12 +1,22 @@
 <?php 
-require_once 'bd.php';
+$conexion=mysqli_connect('localhost','root','','peguita');
+$continente=$_POST['idre'];
 
-$prove = mysqli_real_escape_string($mysqli, $_POST["idRegion"]);
-$query = "SELECT * FROM inventario WHERE IdProveedor = ".$prove."";
-$resultado= $mysqli->query($query);
-while($var=mysqli_fetch_row($resultado)){
-    ?>
-          <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
-        <?php } 
-        
-?>
+	$sql="SELECT *
+		from comuna 
+		where idRegion='$continente'";
+
+	$result=mysqli_query($conexion,$sql);
+
+  $cadena='<label>Comuna (Selecione una region)</label>
+  
+  <select class="selectpicker border rounded" name="comunas" id="comunas" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna">';
+
+	while ($ver=mysqli_fetch_row($result)) {
+		$cadena=$cadena.'<option value='.$ver[0].'>'.($ver[1]).'</option>';
+	}
+
+	echo  $cadena."</select>";
+	
+
+?>        

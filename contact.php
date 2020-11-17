@@ -1,3 +1,23 @@
+<!--Verificacion de sesion -->
+<?php
+
+session_start();
+
+
+if(!isset($_SESSION['nombre'])){
+  $estado = "Inicio sesion";
+  $nombre = ''; 
+  $ref ='inicio.php';
+  $mis = false;
+}else{
+  $estado= "Mi Perfil";
+  $nombre = $_SESSION['nombre'];
+  $ref ='miPerfil.php';
+  $mis = true;
+}
+
+?> 
+
 <!doctype html>
 <html lang="en">
   <head>
