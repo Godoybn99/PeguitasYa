@@ -340,7 +340,7 @@ if(!isset($_SESSION['nombre'])){
           </li>
 
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
+            <a href="job-single.php"></a>
             <div class="job-listing-logo">
               <img src="images/job_logo_5.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
