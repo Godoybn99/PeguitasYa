@@ -70,15 +70,15 @@ if(!isset($_SESSION['nombre'])){
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="index.html" class="nav-link active">Inicio</a></li>
-              <li><a href="about.html">Sobre Nosotros</a></li>
+              <li><a href="index.php" class="nav-link active">Inicio</a></li>
+              <li><a href="about.php">Sobre Nosotros</a></li>
               <li class="has-children">
                 <a href="job-listings.html">Servicios</a>
                 <ul class="dropdown">
                   <li><a href="job-single.html">Buscar un trabajador</a></li>
-                  <li><a href="post-job.html">Buscar un trabajo</a></li>
+                  <li><a href="post-job.php">Publicar un trabajo</a></li>
                 </ul>
-              <li><a href="contact.html">Contacto</a></li>
+              <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -90,7 +90,7 @@ if(!isset($_SESSION['nombre'])){
             
             if($mis == true){
               ?>
-            <a href="post-job.html" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+            <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
             <?php 
                 }
               ?>

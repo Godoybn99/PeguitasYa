@@ -24,8 +24,7 @@ if(!isset($_SESSION['nombre'])){
     <title>PeguitasYa &mdash; Publicar anuncio</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/custom-bs.css">
     <link rel="stylesheet" href="css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="css/bootstrap-select.min.css">
@@ -184,38 +183,31 @@ if(!isset($_SESSION['nombre'])){
                 <label for="job-title">Nombre del trabajo</label>
                 <input type="text" class="form-control" name="job-title" placeholder="Programador">
               </div>
+
               <div class="form-group">
-                <label for="job-region">Region</label>
-                <select class="selectpicker border rounded" name="job-region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
-                      <option>Tarapaca</option>
-                      <option>Antofagasta</option>
-                      <option>Atacama y Coquimbo</option>
-                      <option>Valparaiso</option>
-                      <option>O'Higgins</option>
-                      <option>Maule</option>
-                      <option>Ñuble</option>
-                      <option>Biobio</option>
-                      <option>La araucania</option>
-                      <option>Los Rios</option>
-                      <option>Los Lagos</option>
-                      <option>Aysen</option>
-                      <option>Magallanes</option>
-                      <option>Metropolitana</option>
-                    </select>
+                <label for="job-location">Region</label>
+                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
+                <?php
+                    $query="SELECT * FROM region";
+                    $resultado= $mysqli->query($query);
+                    while($var=mysqli_fetch_row($resultado)){
+                ?>
+                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
+                    <?php } ?>
+                    
+              </select>
               </div>
+
               <div class="form-group">
-                <label for="job-location">Comuna</label>
-                <select class="selectpicker border rounded" name="job-location" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
+                <label for="comuna">Comuna</label>
+                <select class="selectpicker border rounded" name="comunas" id="comunas" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna">
                 <?php
                     $query="SELECT * FROM comuna";
                     $resultado= $mysqli->query($query);
                     while($var=mysqli_fetch_row($resultado)){
                 ?>
-                
-
-                      <option><?php echo $var[1]  ?></option>
+                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
                     <?php } ?>
-           
               </select>
               </div>
 
@@ -243,7 +235,6 @@ if(!isset($_SESSION['nombre'])){
               </div>
                 <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion"></textarea>
                 <div class="form-group">
-                <
               </div>
 
         <div class="row align-items-center mb-5">
@@ -304,12 +295,12 @@ if(!isset($_SESSION['nombre'])){
           </div>
           <div class="col-6 col-md-3 mb-4 mb-md-0">
             <h3>Contact Us</h3>
-            <div class="footer-social">
-              <a href="#"><span class="icon-facebook"></span></a>
-              <a href="#"><span class="icon-twitter"></span></a>
-              <a href="#"><span class="icon-instagram"></span></a>
-              <a href="#"><span class="icon-linkedin"></span></a>
-            </div>
+            <div class="footer-social"> 
+              <a href="#"><span class="icon-facebook"></span></a> 
+              <a href="#"><span class="icon-twitter"></span></a> 
+              <a href="#"><span class="icon-instagram"></span></a> 
+              <a href="#"><span class="icon-linkedin"></span></a> 
+            </div> 
           </div>
         </div>
 
@@ -327,18 +318,26 @@ if(!isset($_SESSION['nombre'])){
     <script src="js/stickyfill.min.js"></script>
     <script src="js/jquery.fancybox.min.js"></script>
     <script src="js/jquery.easing.1.3.js"></script>
-    
     <script src="js/jquery.waypoints.min.js"></script>
     <script src="js/jquery.animateNumber.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/quill.min.js"></script>
-    
-    
     <script src="js/bootstrap-select.min.js"></script>
-    
     <script src="js/custom.js"></script>
-   
-   
-     
+    <script>
+function CargarProductos(val)
+{
+    $("#respuesta").html("Por favor espera un momento");   
+    $.ajax({
+        type: "POST",
+        url: "php/ajax_comunas.php",
+        data: "idproovedor="+val,
+        success: function(resp){
+            $("#productos").html(resp);
+            $("#respuesta").html("");
+        }
+    });
+}
+</script>
   </body>
 </html>
