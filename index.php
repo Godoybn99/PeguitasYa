@@ -432,7 +432,7 @@ if(!isset($_SESSION['nombre'])){
             <p class="mb-0 text-white lead">Registrate en nuestra pagina web .</p>
           </div>
           <div class="col-md-3 ml-auto">
-            <a href="#" class="btn btn-warning btn-block btn-lg">Registrate</a>
+            <a href="inicio.php" class="btn btn-warning btn-block btn-lg">Registrate</a>
           </div>
         </div>
       </div>
