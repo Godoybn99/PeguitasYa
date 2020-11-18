@@ -220,7 +220,10 @@ if(!isset($_SESSION['nombre'])){
               </select>
               </div>
 
-              <div class="form-group" id="comuna"> 
+              <div class="form-group">
+              <label for="job-location">Comunas</label>
+              <select class="form-control col-sm-12" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna" >
+              </select>
               </div>
 
               <div class="form-group">
@@ -352,8 +355,8 @@ if(!isset($_SESSION['nombre'])){
 			type:"POST",
 			url:"php/ajax_comunas.php",
 			data:"idre=" + $('#region').val(),
-			success:function(r){
-				$('#comuna').html(r);
+			success:function(response){
+				$('#comuna').html(response);
 			}
 		});
 	}

@@ -220,7 +220,8 @@ if(!isset($_SESSION['nombre'])){
               </select>
               </div>
 
-              <div class="form-group" id="comuna"> 
+              <div class="form-group"> 
+              <select class="selectpicker border rounded" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
               </div>
 
               <div class="form-group">
