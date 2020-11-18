@@ -181,8 +181,9 @@ if(!isset($_SESSION['nombre'])){
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
-                    <option>Part Time</option>
                     <option>Full Time</option>
+                    <option>Part Time</option>
+                    <option>Esporadico</option>
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
