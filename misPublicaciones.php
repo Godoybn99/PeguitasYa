@@ -151,11 +151,10 @@ if(!isset($_SESSION['nombre'])){
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Publicar trabajo</h1>
+            <h1 class="text-white font-weight-bold">Mis Publicaciones</h1>
             <div class="custom-breadcrumbs">
               <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
-              <a href="#">trabajo</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Publicar trabajo</strong></span>
+              <span class="text-white"><strong>Mis Publicaciones</strong></span>
             </div>
           </div>
         </div>
