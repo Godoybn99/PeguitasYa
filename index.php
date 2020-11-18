@@ -158,13 +158,13 @@ if(!isset($_SESSION['nombre'])){
               <h1 class="text-white font-weight-bold">PeguitasYA</h1>
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
-            <form method="post" class="search-jobs-form">
+            <form action="php/buscar.php" method="post" class="search-jobs-form">
               <div class="row mb-5">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
+                  <input for="pBusq" type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione Region">
+                  <select for="region" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione Region">
                     <option>Tarapaca</option>
                     <option>Antofagasta</option>
                     <option>Atacama y Coquimbo</option>
@@ -182,7 +182,7 @@ if(!isset($_SESSION['nombre'])){
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
+                  <select for="tipoT" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
                     <option>Full Time</option>
                     <option>Part Time</option>
                     <option>Esporadico</option>
