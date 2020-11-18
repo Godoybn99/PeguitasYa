@@ -18,7 +18,13 @@ if(!isset($_SESSION['nombre'])){
 }
 
 ?>
-
+ <!-- Contador de publicaciones --->
+ <?php
+          $query="SELECT count(idTrabajo) FROM trabajo where idUsuario = '$id'";
+          $resultado= $mysqli->query($query);
+          while($cant=mysqli_fetch_row($resultado)){ 
+            $canti=$cant ;          
+             } ?>  
 <!doctype html>
 <html lang="en">
   <head>
@@ -89,7 +95,7 @@ if(!isset($_SESSION['nombre'])){
             
             if($mis == true){
               ?>
-            <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+            <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
             <?php 
                 }
               ?>
@@ -171,100 +177,82 @@ if(!isset($_SESSION['nombre'])){
             ?> 
 
 
-    <!---Formulario-->
+    <!---Lista de Mis publicaciones-->
 
     
     <section class="site-section">
       <div class="container">
-
-        <div class="row align-items-center mb-5">
-          <div class="col-lg-8 mb-4 mb-lg-0">
-            <div class="d-flex align-items-center">
-              <div>
-                <h2>Publicar trabajo</h2>
-              </div>
-            </div>
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+          <?php
+          $query="SELECT count(idTrabajo) FROM trabajo where idUsuario = '$id'";
+          $resultado= $mysqli->query($query);
+          while($var=mysqli_fetch_row($resultado)){            
+          ?>
+            <h2 class="section-title mb-2"> Mis Trabajos <?php echo $var[0] ?></h2>
+          <?php } ?>  
           </div>
-          <div class="col-lg-4">
-            <div class="row">
+        </div>
+        
+        <ul class="job-listings mb-5">
+        <?php
+          $query="SELECT titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
+          $resultado= $mysqli->query($query); 
+          while($var=mysqli_fetch_row($resultado)){
+          ?>
+          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+            <?php
+            if($mis == true){
+              ?>
+              <a href="job-single.php"></a>
+              <?php
+            }else{
+              ?>
+              <a  data-toggle="modal" data-target="#staticBackdrop" ></a>
+              <?php
+            }
+            ?>
+            
+            <div class="job-listing-logo">
+              <img src="images/job_logo_1.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
+            </div>
+
+            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                <h2><?php echo $var[0] ?></h2>
+                                
+                <strong><?php echo $var[1] ?></strong>
+              </div>
+              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                <span class="icon-room"></span> <?php echo $var[2] ?>, <?php echo $var[3] ?>
+              </div>
+              <div class="job-listing-meta">
+                <span class="badge badge-danger"><?php echo $var[4] ?></span>
+              </div>
+              <?php } ?>     
+            </div>             
+        </ul>
+<!-- Mostrar cantidad de trabajos  -->
+        <div class="row pagination-wrap">
+          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
+          </div>
+          <div class="col-md-6 text-center text-md-right">
+            <div class="custom-pagination ml-auto">
+              <a href="#" class="prev">Atras</a>
+              <div class="d-inline-block">
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              </div>
+              <a href="#" class="next">Siguente</a>
             </div>
           </div>
         </div>
-        <div class="row mb-5">
-          <div class="col-lg-12">
-            <form class="p-4 p-md-5 border rounded" method="post" action="php/Publicar.php" method="POST">
-              <h3 class="text-black mb-5 border-bottom pb-2">Detalles del trabajo</h3>
-              
-              <div class="form-group">
-                <label for="company-website-tw d-block">Subir imagen de refrencia</label> <br>
-                <label class="btn btn-primary btn-md btn-file">
-                  Browse File<input type="file" hidden>
-                </label>
-              </div>
-              <div class="form-group">
-                <label for="job-title">Nombre del trabajo</label>
-                <input type="text" class="form-control" name="job-title" placeholder="Programador">
-              </div>
 
-              <div class="form-group">
-                <label for="job-location">Region</label>
-                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
-                <?php
-                    $query="SELECT * FROM region";
-                    $resultado= $mysqli->query($query);
-                    while($var=mysqli_fetch_row($resultado)){
-                ?>
-                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
-                    <?php } ?>
-                    
-              </select>
-              </div>
-
-              <div class="form-group"> 
-              <select class="selectpicker border rounded" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
-              </div>
-
-              <div class="form-group">
-                <label for="job-title">Nombre de la calle</label>
-                <input type="text" class="form-control" name="txtCalle" placeholder="ej. Baquedano">
-              </div>
-
-              <div class="form-group">
-                <label for="job-title">Numero de la calle</label>
-                <input type="text" class="form-control" name="txtNum" placeholder="ej. 234">
-              </div>
-
-              <div class="form-group">
-                <label for="job-type">Tipo de trabajo</label>
-                <select class="selectpicker border rounded" name="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione tipo de trabajo">
-                  <option>Part Time</option>
-                  <option>Full Time</option>
-                  <option>Esporadico</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Descripcion</label>
-              </div>
-                <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion"></textarea>
-                <div class="form-group">
-              </div>
-
-        <div class="row align-items-center mb-5">
-          
-          <div class="col-lg-4 ml-auto">
-            <div class="row">
-              
-              <div class="col-6">
-                <input type="submit" class="btn btn-block btn-primary btn-md" name="btn_publicar" value="Publicar trabajo ">
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-      
     </section>
-
 
    
   

@@ -9,6 +9,7 @@ if(!isset($_SESSION['nombre'])){
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
+  $publi = true;
 }else{
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
@@ -20,6 +21,7 @@ if(!isset($_SESSION['nombre'])){
 
 <!doctype html>
 <html lang="en">
+  <!-- Contador de publicaciones --->
 <?php
           $query="SELECT count(idTrabajo) FROM trabajo";
           $resultado= $mysqli->query($query);
@@ -96,7 +98,7 @@ if(!isset($_SESSION['nombre'])){
             
             if($mis == true){
               ?>
-            <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+            <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
             <?php 
                 }
               ?>
@@ -119,13 +121,13 @@ if(!isset($_SESSION['nombre'])){
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar un trabajo?</h5>
+                      <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar o ver un trabajo?</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body" algin="center" >
-                      Para poder publicar un trabajo se necesita una cuenta "Registrate".          
+                      Para poder publicar o ver un trabajo se necesita una cuenta "Registrate".          
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -254,7 +256,7 @@ if(!isset($_SESSION['nombre'])){
       </div>
     </section>
 
-    
+    <!-- Listado de trabajos  -->
 
     <section class="site-section">
       <div class="container">
@@ -277,7 +279,18 @@ if(!isset($_SESSION['nombre'])){
           while($var=mysqli_fetch_row($resultado)){
           ?>
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
+            <?php
+            if($mis == true){
+              ?>
+              <a href="job-single.php"></a>
+              <?php
+            }else{
+              ?>
+              <a  data-toggle="modal" data-target="#staticBackdrop" ></a>
+              <?php
+            }
+            ?>
+            
             <div class="job-listing-logo">
               <img src="images/job_logo_1.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
