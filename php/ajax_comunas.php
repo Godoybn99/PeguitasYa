@@ -1,22 +1,20 @@
 <?php 
 $conexion=mysqli_connect('localhost','root','','peguita');
-$continente=$_POST['idre'];
+$region=$_POST['idre'];
 
 	$sql="SELECT *
 		from comuna 
-		where idRegion='$continente'";
+		where idRegion='$region'";
 
 	$result=mysqli_query($conexion,$sql);
 
-  $cadena="<label>Comuna (Selecione una comuna)</label>
-
-  <select  name='comuna' id='comuna' data-style='btn-black'data-width='100%' data-live-search='true' title='Selecione comuna' placeholder='Selecione una comuna'>";
+  $cadena="";
 
 	while ($ver=mysqli_fetch_row($result)) {
-		$cadena=$cadena.'<option value='.$ver[0].'>'.($ver[1]).'</option>';
+		$cadena=$cadena.'<option  class=selectpicker border rounded" value='.$ver[0].'>'.($ver[1]).'</option>';
 	}
 
-	echo  $cadena."</select>";
+	echo  $cadena;
 	
 
 ?>        
