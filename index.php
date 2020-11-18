@@ -12,6 +12,7 @@ if(!isset($_SESSION['nombre'])){
 }else{
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
+  $id = $_SESSION['id'];
   $ref ='miPerfil.php';
   $mis = true;
 }
@@ -203,7 +204,7 @@ if(!isset($_SESSION['nombre'])){
       </a>
 
     </section>
-    
+     <!-- Barra de info -->
     <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('images/hero_1.jpg');">
       <div class="container">
         <div class="row mb-5 justify-content-center">
@@ -248,7 +249,7 @@ if(!isset($_SESSION['nombre'])){
     </section>
 
     
-
+ <!-- Lista de trabajos -->
     <section class="site-section">
       <div class="container">
 

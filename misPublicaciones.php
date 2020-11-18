@@ -147,7 +147,7 @@ if(!isset($_SESSION['nombre'])){
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Publicar trabajo</h1>
             <div class="custom-breadcrumbs">
-              <a href="index.php">Inicio</a> <span class="mx-2 slash">/</span>
+              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
               <a href="#">trabajo</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Publicar trabajo</strong></span>
             </div>
