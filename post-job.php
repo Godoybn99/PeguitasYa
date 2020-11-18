@@ -233,12 +233,12 @@ if(!isset($_SESSION['nombre'])){
 
               <div class="form-group">
                 <label for="job-title">Correo de contacto</label>
-                <input type="text" class="form-control" name="txtNum" placeholder="ej. correo@ejemplo.com">
+                <input type="text" class="form-control" name="txtCorreo" placeholder="ej. correo@ejemplo.com">
               </div>
 
               <div class="form-group">
                 <label for="job-title">Telefono de contacto</label>
-                <input type="text" class="form-control" name="txtNum" placeholder="ej. +56987654321">
+                <input type="text" class="form-control" name="txtFono" placeholder="ej. +56987654321">
               </div>
 
               <div class="form-group">
@@ -261,11 +261,11 @@ if(!isset($_SESSION['nombre'])){
               </div>
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. 200000">
+                <input type="text" class="form-control col-sm-10" name="rentamin" placeholder="ej. 200000">
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. 500000">
+                <input type="text" class="form-control col-sm-10" name="rentamax" placeholder="ej. 500000">
                 </div>
               </div>
               </div>          
@@ -275,6 +275,16 @@ if(!isset($_SESSION['nombre'])){
                 <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion"></textarea>
                 <div class="form-group">
               </div>
+
+              <div class="form-group">
+                <label for="IA">¿Es necesario el apoyo de la IA de PeguitasYa?</label>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                  <select for="ia" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="">
+                    <option>No</option>
+                    <option>Si</option>
+                  </select>
+                </div>
 
         <div class="row align-items-center mb-5">
           

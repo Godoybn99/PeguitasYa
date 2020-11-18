@@ -7,8 +7,11 @@ if(isset($_POST)){
     $comuna = $_POST['comuna'];
     $tipo = $_POST['job-type'];
     $calle = $_POST['txtCalle'];
-    $num = $_POST['txtNum'];
-    $des = $_POST['txtDes'];
+    $cor = $_POST['txtCorreo'];
+    $tel = $_POST['txtFono'];
+    $rentMin = $_POST['rentamin'];
+    $rentMax = $_POST['rentamax'];
+    $ia = $_POST['ia'];
     
     if($tipo=="Full Time"){
         $tipo="1";
