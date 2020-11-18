@@ -1,6 +1,6 @@
 <!--Verificacion de sesion -->
 <?php
-
+require "php/db.php";
 session_start();
 
 
@@ -267,15 +267,22 @@ if(!isset($_SESSION['nombre'])){
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
               <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Adidas</strong>
+              <?php
+                    $query="SELECT titulo, idUsuario, idDireccion, idTipo FROM trabajo WHERE idTrabajo = 17";
+                    $resultado= $mysqli->query($query); 
+                    while($var=mysqli_fetch_row($resultado)){
+                      ?>
+                      <h2><?php echo $var[0] ?></h2>
+                                   
+                <strong><?php echo $var[1] ?></strong>
               </div>
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> New York, New York
+                <span class="icon-room"></span> <?php echo $var[2] ?>
               </div>
               <div class="job-listing-meta">
-                <span class="badge badge-danger">Part Time</span>
+                <span class="badge badge-danger"><?php echo $var[3] ?></span>
               </div>
+              <?php } ?>     
             </div>
             
           </li>
