@@ -21,10 +21,8 @@ if(isset($_POST)){
         $tipo="3";
     }
 
-    if($ia=="No"){
-        $tipo="0";
-    }else if($ia=="Si"){
-        $tipo="1";
+    if($ia=="Si"){
+        $tipo="True";
     }
 
 
