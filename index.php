@@ -20,6 +20,12 @@ if(!isset($_SESSION['nombre'])){
 
 <!doctype html>
 <html lang="en">
+<?php
+          $query="SELECT count(idTrabajo) FROM trabajo";
+          $resultado= $mysqli->query($query);
+          while($cant=mysqli_fetch_row($resultado)){ 
+            $canti=$cant ;          
+             } ?>  
   <head>
     <title>PeguitasYa</title>
     <meta charset="utf-8">
@@ -251,7 +257,6 @@ if(!isset($_SESSION['nombre'])){
 
     <section class="site-section">
       <div class="container">
-
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
           <?php
@@ -291,10 +296,10 @@ if(!isset($_SESSION['nombre'])){
               <?php } ?>     
             </div>             
         </ul>
-
+<!-- Mostrar cantidad de trabajos  -->
         <div class="row pagination-wrap">
           <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Mostrando 1-7 de 43,167 trabajos</span>
+            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
           </div>
           <div class="col-md-6 text-center text-md-right">
             <div class="custom-pagination ml-auto">
