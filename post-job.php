@@ -261,11 +261,11 @@ if(!isset($_SESSION['nombre'])){
               </div>
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. +56987654321">
+                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. 200000">
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. +56987654321">
+                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. 500000">
                 </div>
               </div>
               </div>          
