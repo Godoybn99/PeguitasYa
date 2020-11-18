@@ -1,8 +1,9 @@
 <!--Verificacion de sesion -->
 <?php
-require "php/db.php";
-session_start();
 
+require "php/db.php";
+
+session_start();
 
 if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
@@ -232,12 +233,12 @@ if(!isset($_SESSION['nombre'])){
               </div>
 
               <div class="form-group">
-                <label for="job-title">Correo de contacto</label>
+                <label for="txtCorreo">Correo de contacto</label>
                 <input type="text" class="form-control" name="txtCorreo" placeholder="ej. correo@ejemplo.com">
               </div>
 
               <div class="form-group">
-                <label for="job-title">Telefono de contacto</label>
+                <label for="txtFono">Telefono de contacto</label>
                 <input type="text" class="form-control" name="txtFono" placeholder="ej. +56987654321">
               </div>
 
@@ -253,10 +254,10 @@ if(!isset($_SESSION['nombre'])){
               <div class="form-group">
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-              <label for="job-title">Renta minima</label>
+              <label for="rentamin">Renta minima</label>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-              <label for="job-title">Renta maxima</label>
+              <label for="rentamax">Renta maxima</label>
               </div>
               </div>
               <div class="row mb-7">
@@ -277,10 +278,10 @@ if(!isset($_SESSION['nombre'])){
               </div>
 
               <div class="form-group">
-                <label for="IA">¿Necesita de la IA de PeguitasYa?</label><br>
-                <select class="selectpicker border rounded" name="ia" data-style="btn-black" data-width="20%" data-live-search="true">
-                  <option>No</option>
-                  <option>Si</option>
+                <label>¿Necesita de la IA de PeguitasYa?</label><br>
+                <select class="selectpicker border rounded" name="IA" data-style="btn-black" data-width="20%" data-live-search="true">
+                  <option value="0">No</option>
+                  <option value="1">Si</option>
                 </select>
               </div>
 
