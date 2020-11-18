@@ -202,8 +202,8 @@ if(!isset($_SESSION['nombre'])){
                 </label>
               </div>
               <div class="form-group">
-                <label for="job-title">Nombre del trabajo</label>
-                <input type="text" class="form-control" name="job-title" placeholder="Programador">
+                <label for="job-title">Titulo del trabajo</label>
+                <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero...">
               </div>
 
               <div class="form-group">
@@ -227,13 +227,18 @@ if(!isset($_SESSION['nombre'])){
               </div>
 
               <div class="form-group">
-                <label for="job-title">Nombre de la calle</label>
-                <input type="text" class="form-control" name="txtCalle" placeholder="ej. Baquedano">
+                <label for="job-title">Calle</label>
+                <input type="text" class="form-control" name="txtCalle" placeholder="ej. CalleEjemplo 123">
               </div>
 
               <div class="form-group">
-                <label for="job-title">Numero de la calle</label>
-                <input type="text" class="form-control" name="txtNum" placeholder="ej. 234">
+                <label for="job-title">Correo de contacto</label>
+                <input type="text" class="form-control" name="txtNum" placeholder="ej. correo@ejemplo.com">
+              </div>
+
+              <div class="form-group">
+                <label for="job-title">Telefono de contacto</label>
+                <input type="text" class="form-control" name="txtNum" placeholder="ej. +56987654321">
               </div>
 
               <div class="form-group">
@@ -243,6 +248,12 @@ if(!isset($_SESSION['nombre'])){
                   <option>Full Time</option>
                   <option>Esporadico</option>
                 </select>
+              </div>
+
+              <div class="form-group">
+                <label for="job-title">Renta</label>
+                <input type="text" class="form-control col-sm-3" name="txtNum" placeholder="ej. +56987654321">
+                <input type="text" class="form-control col-sm-3" name="txtNum" placeholder="ej. +56987654321">
               </div>
 
               <div class="form-group">
