@@ -12,7 +12,6 @@ if(!isset($_SESSION['nombre'])){
 }else{
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
-  $id = $_SESSION['id'];
   $ref ='miPerfil.php';
   $mis = true;
 }
@@ -204,7 +203,7 @@ if(!isset($_SESSION['nombre'])){
       </a>
 
     </section>
-     <!-- Barra de info -->
+    
     <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('images/hero_1.jpg');">
       <div class="container">
         <div class="row mb-5 justify-content-center">
@@ -249,13 +248,19 @@ if(!isset($_SESSION['nombre'])){
     </section>
 
     
- <!-- Lista de trabajos -->
+
     <section class="site-section">
       <div class="container">
 
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
-            <h2 class="section-title mb-2">43,167 Trabajos Listados</h2>
+          <?php
+          $query="SELECT count(idTrabajo) FROM trabajo";
+          $resultado= $mysqli->query($query);
+          while($var=mysqli_fetch_row($resultado)){            
+          ?>
+            <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Listados</h2>
+          <?php } ?>  
           </div>
         </div>
         
