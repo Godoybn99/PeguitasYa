@@ -21,8 +21,14 @@ if(isset($_POST)){
         $tipo="3";
     }
 
+    if($ia=="No"){
+        $tipo="0";
+    }else if($ia=="Si"){
+        $tipo="1";
+    }
 
-    $query = "INSERT INTO direccion (nombreCalle,numeroCalle,idComuna) VALUES ('$calle','$num','$comuna')";
+
+    $query = "INSERT INTO direccion (nombreCalle, idComuna) VALUES ('$calle', '$comuna')";
     $resultado = $mysqli->query($query);
     if($resultado){
         
@@ -39,7 +45,7 @@ if(isset($_POST)){
         echo mysqli_error($resultado);
 
     }
-    $query2 = "INSERT INTO trabajo(titulo,descripcion,idUsuario,idDireccion,idEstado,idTipo) VALUES ('$titulo', '$des', '$id', '$dir', '1', '$tipo')";
+    $query2 = "INSERT INTO trabajo(titulo,descripcion,idUsuario,idDireccion,idEstado,idTipo,correo,fono,rentaMin,rentaMax,ia) VALUES ('$titulo', '$des', '$id', '$dir', '1', '$tipo', '$cor', '$tel', '$rentMin', '$rentMax', '$ia')";
     $resultado2 = $mysqli->query($query2);
     if($resultado2){
        $_SESSION['message'] = 'Se realizo la publicacion';

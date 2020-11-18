@@ -286,11 +286,9 @@ if(!isset($_SESSION['nombre'])){
                   </select>
                 </div>
 
-        <div class="row align-items-center mb-5">
-          
+        <div class="row align-items-center mb-5">          
           <div class="col-lg-4 ml-auto">
-            <div class="row">
-              
+            <div class="row">              
               <div class="col-6">
                 <input type="submit" class="btn btn-block btn-primary btn-md" name="btn_publicar" value="Publicar trabajo ">
               </div>

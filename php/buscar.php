@@ -8,7 +8,7 @@ if($_POST){
     $reg = $_POST['region'];
     $tipo = $_POST['tipoT'];
     if($nc == $cc){
-    $query ="UPDATE usuario SET contra = '$nc' where idUsuario = '$id'";
+    $query ="SELECT * FROM trabajo WHERE titulo =  '$nc' where idUsuario = '$id'";
     $resultado = $mysqli->query($query);
 
     if($resultado){
