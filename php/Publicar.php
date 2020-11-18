@@ -11,7 +11,7 @@ if(isset($_POST)){
     $tel = $_POST['txtFono'];
     $rentMin = $_POST['rentamin'];
     $rentMax = $_POST['rentamax'];
-    $ia = $_POST['ia'];
+    $ia = $_POST['IA'];
     
     if($tipo=="Full Time"){
         $tipo="1";
@@ -22,7 +22,7 @@ if(isset($_POST)){
     }
 
     if($ia=="Si"){
-        $tipo="True";
+        $ia="True";
     }
 
 
