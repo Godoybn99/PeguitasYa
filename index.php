@@ -257,11 +257,12 @@ if(!isset($_SESSION['nombre'])){
     </section>
 
     <!-- Listado de trabajos  -->
-
+    
     <section class="site-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
+          <form action="job-single.php" method="POST">
           <?php
           $query="SELECT count(idTrabajo) FROM trabajo";
           $resultado= $mysqli->query($query);
@@ -271,18 +272,21 @@ if(!isset($_SESSION['nombre'])){
           <?php } ?>  
           </div>
         </div>
-        
-        <ul class="job-listings mb-5">
+          
+        <ul  class="job-listings mb-5">
         <?php
-          $query="SELECT titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
+          $query="SELECT idTrabajo, titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
           $resultado= $mysqli->query($query); 
           while($var=mysqli_fetch_row($resultado)){
           ?>
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+       
             <?php
             if($mis == true){
               ?>
-              <a href="job-single.php"></a>
+              <input type="hidden" name="idTrabajo" value=<?php echo $var[0] ?>>
+              <a type="hidden"> </a>
+              </form>
               <?php
             }else{
               ?>
@@ -297,18 +301,19 @@ if(!isset($_SESSION['nombre'])){
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
               <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2><?php echo $var[0] ?></h2>
+                <h2><?php echo $var[1] ?></h2>
                                 
-                <strong><?php echo $var[1] ?></strong>
+                <strong><?php echo $var[2] ?></strong>
               </div>
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> <?php echo $var[2] ?>, <?php echo $var[3] ?>
+                <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
               </div>
               <div class="job-listing-meta">
-                <span class="badge badge-danger"><?php echo $var[4] ?></span>
+                <span class="badge badge-danger"><?php echo $var[5] ?></span>
               </div>
               <?php } ?>     
-            </div>             
+            </div>
+                      
         </ul>
 <!-- Mostrar cantidad de trabajos  -->
         <div class="row pagination-wrap">

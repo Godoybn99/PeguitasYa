@@ -3,7 +3,8 @@
 
 session_start();
 
-
+$trabajo = $_GET['datos'];
+echo $trabajo;
 if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
   $nombre = ''; 
