@@ -3,7 +3,6 @@
 require "php/db.php";
 session_start();
 
-
 if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
   $nombre = ''; 
@@ -177,8 +176,6 @@ if(!isset($_SESSION['nombre'])){
 
 
     <!---Lista de Mis publicaciones-->
-
-    <form class="p-4 p-md-5 border rounded" method="post" action="php/Publicar.php" method="POST">
     <section class="site-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">
@@ -203,7 +200,7 @@ if(!isset($_SESSION['nombre'])){
             <?php
             if($mis == true){
               ?>
-              <a href="job-single.php?publicacion=<?php echo $var[0]?>"></a>
+             
               <?php
             }else{
               ?>
@@ -226,16 +223,20 @@ if(!isset($_SESSION['nombre'])){
                 <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
                 <span class="badge badge-danger"><?php echo $var[5] ?></span>
               </div>
+              <form  method="post" action="php/eliminarPublicacion.php" method="POST">
               <div class="job-listing-meta">
+              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
               <button href=<?php echo $ref ?> class="btn btn-info border-width-2 d-none d-lg-inline-block">Editar</button>
               </div>
+              </form>
+              <form  method="post" action="php/eliminarPublicacion.php" method="POST">
               <div class="job-listing-meta">
-              <button href=<?php echo $ref ?> class="btn btn-danger border-width-2 d-none d-lg-inline-block">Eliminar</button>
+              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
+              <button type="submit" class="btn btn-danger border-width-2 d-none d-lg-inline-block">Eliminar</button>
               </div>
-              
+              </form>
               <?php } ?>     
-            </div>
-          </form>             
+            </div>            
             </ul>
 
 <!-- Mostrar cantidad de trabajos  -->

@@ -60,7 +60,7 @@ if(isset($_POST)){
        $id=$_SESSION['id'];
     }
     $id=$_SESSION['id'];
-    header("Location: ../inicio.php");
+    header("Location: ../index.php");
 }
 
 ?> 
