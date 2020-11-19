@@ -1,4 +1,4 @@
-<!--Verificacion de sesion -->
+<!-- ############  Verificacion de sesion ############  -->
 <?php
 require "php/db.php";
 session_start();
@@ -10,6 +10,12 @@ if (isset($_POST['pBusq'])) {
 } else {
   $queryc = "SELECT count(idTrabajo) FROM trabajo";
   $queryb = "SELECT idTrabajo, titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
+}
+if (isset($_POST['region'])){
+  $reg = $_POST['region'];
+  $queryb = "SELECT idTrabajo, titulo, trabajo.descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%' AND WHERE ";
+}else{
+  $queryb = "SELECT idTrabajo, titulo, trabajo.descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE region.nombreRegion = '$reg'";
 }
 
 if (!isset($_SESSION['nombre'])) {
@@ -29,7 +35,7 @@ if (!isset($_SESSION['nombre'])) {
 
 <!doctype html>
 <html lang="en">
-<!-- Contador de publicaciones --->
+<!--  ############  Contador de publicaciones  ############ --->
 <?php
 $query = "SELECT count(idTrabajo) FROM trabajo";
 $resultado = $mysqli->query($query);
@@ -54,7 +60,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
   <link rel="stylesheet" href="css/owl.carousel.min.css">
   <link rel="stylesheet" href="css/animate.min.css">
 
-  <!-- MAIN CSS -->
+  <!--  ############  MAIN CSS  ############ -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -80,7 +86,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
     </div> <!-- .site-mobile-menu -->
 
 
-    <!-- NAVBAR -->
+    <!-- ############  NAVBAR   ############ -->
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
@@ -126,7 +132,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   Publicar Trabajo
                 </button>
 
-                <!-- Modal -->
+                <!-- ############  Modal  ############ -->
                 <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -158,7 +164,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
       </div>
     </header>
 
-    <!-- HOME -->
+    <!-- ############  HOME  ############ -->
     <section class="home-section section-hero overlay bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
 
       <div class="container">
@@ -182,7 +188,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                     <option>O'Higgins</option>
                     <option>Maule</option>
                     <option>Ñuble</option>
-                    <option>Biobio</option>
+                    <option>Biobío</option>
                     <option>La araucania</option>
                     <option>Los Rios</option>
                     <option>Los Lagos</option>
@@ -266,14 +272,13 @@ while ($cant = mysqli_fetch_row($resultado)) {
       </div>
     </section>
 
-    <!-- Listado de trabajos  -->
+    <!-- ############  Listado de trabajos  ############ -->
     
     <section class="site-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
             <?php
-            //$query = "SELECT count(idTrabajo) FROM trabajo";
             $resultado = $mysqli->query($queryc);
             while ($var = mysqli_fetch_row($resultado)) {
             ?>
@@ -284,7 +289,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
         <ul class="job-listings mb-5">
           <?php
-          //$queryb="SELECT idTrabajo, titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
           $resultado = $mysqli->query($queryb);
           while ($var = mysqli_fetch_row($resultado)) {
           ?>
@@ -320,7 +324,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <?php } ?>
               </div>
         </ul>
+
         <!-- Mostrar cantidad de trabajos  -->
+
         <div class="row pagination-wrap">
           <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
             <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
