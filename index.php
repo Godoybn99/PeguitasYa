@@ -38,7 +38,7 @@ if (!isset($_SESSION['nombre'])) {
 <!--  ############  Contador de publicaciones  ############ --->
 <?php
 $query = "SELECT count(idTrabajo) FROM trabajo";
-$resultado = $mysqli->query($queryc);
+$resultado = $mysqli->query($query);
 while ($cant = mysqli_fetch_row($resultado)) {
   $canti = $cant;
 } ?>
@@ -274,9 +274,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <div class="col-md-7 text-center">
             <?php
             $resultado = $mysqli->query($queryc);
-            while ($con = mysqli_fetch_row($resultado)) {
+            while ($var = mysqli_fetch_row($resultado)) {
             ?>
-              <h2 class="section-title mb-2"><?php echo $con[0] ?> Trabajos Encontrados</h2>
+              <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Listados</h2>
             <?php } ?>
           </div>
         </div>
@@ -307,13 +307,13 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                   <h2><?php echo $var[1] ?></h2>
 
-                  <strong><?php echo $var[2] ?></strong>
+                  <strong><?php echo $var[3] ?></strong>
                 </div>
                 <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                  <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
+                  <span class="icon-room"></span> <?php echo $var[4] ?>, <?php echo $var[5] ?>
                 </div>
                 <div class="job-listing-meta">
-                  <span class="badge badge-danger"><?php echo $var[5] ?></span>
+                  <span class="badge badge-danger"><?php echo $var[6] ?></span>
                 </div>
               <?php } ?>
               </div>
