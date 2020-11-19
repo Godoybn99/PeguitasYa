@@ -292,7 +292,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <?php
               if ($mis == true) {
               ?>
-                <a href="job-single.php?publicacion=<?php echo $var[1] ?>"></a>
+                <a href="job-single.php?publicacion=<?php echo $var[0] ?>"></a>
               <?php
               } else {
               ?>
