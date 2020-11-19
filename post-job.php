@@ -1,19 +1,21 @@
 <!--Verificacion de sesion -->
 <?php
-
+session_start();
 require "php/db.php";
 
 
-if(!isset($_SESSION)){
+if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
 }else{
   $estado= "Mi Perfil";
+  $id = $_SESSION['id'];
   $nombre = $_SESSION['nombre'];
   $ref ='miPerfil.php';
   $mis = true;
+
 }
 
 

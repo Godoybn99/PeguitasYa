@@ -2,6 +2,7 @@
 require "db.php";
 session_start();
 
+
 if(isset($_POST['publicacion'])){
     $id=$_SESSION['id'];
     $pu= $_POST['publicacion'];
@@ -14,6 +15,12 @@ if(isset($_POST['publicacion'])){
     $_SESSION['message'] = 'Se elimino la publicacion';
     $_SESSION['message_type'] = 'success';
         
+
+
+
     header("Location: ../misPublicaciones.php");
+
+    
 }
+
 ?>

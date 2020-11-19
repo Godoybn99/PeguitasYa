@@ -23,7 +23,7 @@ if(isset($_POST)){
     }
     /* aaas 
     if($ia=="Si"){
-        $ia=1;
+        $ia=1;  
     }if($ia=="No"){
         $ia=0;
     }*/

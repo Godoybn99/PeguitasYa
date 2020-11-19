@@ -73,8 +73,8 @@ if(!isset($_SESSION['nombre'])){
       <div class="site-mobile-menu-body"></div>
     </div> <!-- .site-mobile-menu -->
     
-    <!-- NAVBAR -->
-    <header class="site-navbar mt-3">
+     <!-- ############  NAVBAR   ############ -->
+     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
           <div class="site-logo col-6"><a href="index.php">PeguitasYa</a></div>
@@ -82,82 +82,67 @@ if(!isset($_SESSION['nombre'])){
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
               <li><a href="index.php" class="nav-link active">Inicio</a></li>
-              <li><a href="about.html">Sobre Nosotros</a></li>
+              <li><a href="about.php">Sobre Nosotros</a></li>
               <li class="has-children">
-                <a href="job-listings.html">Listado de trabajos</a>
+                <a href="job-listings.html">Servicios</a>
                 <ul class="dropdown">
-                  <li><a href="job-single.html">Job Single</a></li>
-                  <li><a href="post-job.html">Post a Job</a></li>
+                  <li><a href="job-single.html">Buscar un trabajador</a></li>
+                  <li><a href="post-job.php">Publicar un trabajo</a></li>
                 </ul>
-              </li>
-              <li class="has-children">
-                <a href="services.html">Paginas</a>
-                <ul class="dropdown">
-                  <li><a href="services.html">Services</a></li>
-                  <li><a href="service-single.html">Service Single</a></li>
-                  <li><a href="blog-single.html">Blog Single</a></li>
-                  <li><a href="portfolio.html">Portfolio</a></li>
-                  <li><a href="portfolio-single.html">Portfolio Single</a></li>
-                  <li><a href="testimonials.html">Testimonials</a></li>
-                  <li><a href="faq.html">Frequently Ask Questions</a></li>
-                  <li><a href="gallery.html">Gallery</a></li>
-                </ul>
-              </li>
-              <li><a href="blog.html">Blog</a></li>
-              <li><a href="contact.html">Contacto</a></li>
+              <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
           </nav>
-          
+
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
-            <?php 
-            
-            if($mis == true){
+              <?php
+
+              if ($mis == true) {
               ?>
-            <a href="post-job.html" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
-            <?php 
-                }
+                <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+              <?php
+              }
               ?>
 
-             
-            <?php 
-            
-            if($mis == true){
-              ?>
-            <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
-            <?php 
-                }else{
-              ?>
-             <button type="button" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block" data-toggle="modal" data-target="#staticBackdrop"><span class="mr-2 icon-add"></span>
-               Publicar Trabajo
-              </button>
 
-              <!-- Modal -->
-              <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar un trabajo?</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body" algin="center" >
-                      Para poder publicar un trabajo se necesita una cuenta "Registrate".          
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+              <?php
+
+              if ($mis == true) {
+              ?>
+                <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
+              <?php
+              } else {
+              ?>
+                <button type="button" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block" data-toggle="modal" data-target="#staticBackdrop"><span class="mr-2 icon-add"></span>
+                  Publicar Trabajo
+                </button>
+
+                <!-- ############  Modal  ############ -->
+                <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar o ver un trabajo?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" algin="center">
+                        Para poder publicar o ver un trabajo se necesita una cuenta "Registrate".
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <?php 
-                }
+              <?php
+              }
               ?>
-              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado?></a>
+              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado ?></a>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>
@@ -165,7 +150,6 @@ if(!isset($_SESSION['nombre'])){
         </div>
       </div>
     </header>
-
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
       <div class="container">

@@ -2,17 +2,22 @@
 <?php
 require "php/db.php";
 session_start();
-$id= $_SESSION['id'];
+
+
 if(!isset($_SESSION)){
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
 }else{
+  $id= $_SESSION['id'];
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
   $ref ='miPerfil.php';
   $mis = true;
+  setcookie("$id","$nombre",time()+ 60*60);
+
+  
 }
 
 
