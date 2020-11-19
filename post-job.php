@@ -1,8 +1,9 @@
 <!--Verificacion de sesion -->
 <?php
-require "php/db.php";
-session_start();
 
+require "php/db.php";
+
+session_start();
 
 if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
@@ -232,13 +233,13 @@ if(!isset($_SESSION['nombre'])){
               </div>
 
               <div class="form-group">
-                <label for="job-title">Correo de contacto</label>
-                <input type="text" class="form-control" name="txtNum" placeholder="ej. correo@ejemplo.com">
+                <label for="txtCorreo">Correo de contacto</label>
+                <input type="text" class="form-control" name="txtCorreo" placeholder="ej. correo@ejemplo.com">
               </div>
 
               <div class="form-group">
-                <label for="job-title">Telefono de contacto</label>
-                <input type="text" class="form-control" name="txtNum" placeholder="ej. +56987654321">
+                <label for="txtFono">Telefono de contacto</label>
+                <input type="text" class="form-control" name="txtFono" placeholder="ej. +56987654321">
               </div>
 
               <div class="form-group">
@@ -253,19 +254,19 @@ if(!isset($_SESSION['nombre'])){
               <div class="form-group">
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-              <label for="job-title">Renta minima</label>
+              <label for="rentamin">Renta minima</label>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-              <label for="job-title">Renta maxima</label>
+              <label for="rentamax">Renta maxima</label>
               </div>
               </div>
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. +56987654321">
+                <input type="text" class="form-control col-sm-10" name="rentamin" placeholder="ej. 200000">
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="txtNum" placeholder="ej. +56987654321">
+                <input type="text" class="form-control col-sm-10" name="rentamax" placeholder="ej. 500000">
                 </div>
               </div>
               </div>          
@@ -276,11 +277,17 @@ if(!isset($_SESSION['nombre'])){
                 <div class="form-group">
               </div>
 
-        <div class="row align-items-center mb-5">
-          
+              <div class="form-group">
+                <label>¿Necesita de la IA de PeguitasYa?</label><br>
+                <select class="selectpicker border rounded" name="IA" data-style="btn-black" data-width="20%" data-live-search="true">
+                  <option value="0">No</option>
+                  <option value="1">Si</option>
+                </select>
+              </div>
+
+        <div class="row align-items-center mb-5">          
           <div class="col-lg-4 ml-auto">
-            <div class="row">
-              
+            <div class="row">              
               <div class="col-6">
                 <input type="submit" class="btn btn-block btn-primary btn-md" name="btn_publicar" value="Publicar trabajo ">
               </div>

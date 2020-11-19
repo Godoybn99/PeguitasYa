@@ -158,13 +158,13 @@ if(!isset($_SESSION['nombre'])){
               <h1 class="text-white font-weight-bold">PeguitasYA</h1>
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
-            <form method="post" class="search-jobs-form">
+            <form action="php/buscar.php" method="post" class="search-jobs-form">
               <div class="row mb-5">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
+                  <input for="pBusq" type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione Region">
+                  <select for="region" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione Region">
                     <option>Tarapaca</option>
                     <option>Antofagasta</option>
                     <option>Atacama y Coquimbo</option>
@@ -182,7 +182,7 @@ if(!isset($_SESSION['nombre'])){
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
+                  <select for="tipoT" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
                     <option>Full Time</option>
                     <option>Part Time</option>
                     <option>Esporadico</option>
@@ -279,6 +279,7 @@ if(!isset($_SESSION['nombre'])){
           $resultado= $mysqli->query($query); 
           while($var=mysqli_fetch_row($resultado)){
           ?>
+<<<<<<< HEAD
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
        
             <?php
@@ -287,6 +288,13 @@ if(!isset($_SESSION['nombre'])){
               <input type="hidden" name="idTrabajo" value=<?php echo $var[0] ?>>
               <a type="hidden"> </a>
               </form>
+=======
+          <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+            <?php
+            if($mis == true){
+              ?>
+              <a href="job-single.php?publicacion=<?php echo $var[1] ?>"></a>
+>>>>>>> c516ac12324b6929ce7046992788d3b416f3859c
               <?php
             }else{
               ?>
@@ -296,7 +304,7 @@ if(!isset($_SESSION['nombre'])){
             ?>
             
             <div class="job-listing-logo">
-              <img src="images/job_logo_1.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
+              <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
