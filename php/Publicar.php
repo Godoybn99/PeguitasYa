@@ -37,11 +37,11 @@ if(isset($_POST)){
         {        
           $dir = trim($row[0]);
         }
-        $id=$_SESSION['id'];
+        
     }else{
         $_SESSION['message'] = 'No se pudo guardar la direccion ';
         $_SESSION['message_type'] = 'danger';
-        $id=$_SESSION['id'];
+        
         //echo mysqli_error($resultado);
 
     }
@@ -51,16 +51,15 @@ if(isset($_POST)){
        $_SESSION['message'] = 'Se realizo la publicacion';
        $_SESSION['message_type'] = 'success';
        //echo $ia;
-       $id=$_SESSION['id'];
+       
         
     }else{
         $_SESSION['message'] = 'No se pudo realizar la publicacion ';
         $_SESSION['message_type'] = 'danger';
         //echo $ia;
-       $id=$_SESSION['id'];
+       
     }
-    $id=$_SESSION['id'];
-    header("Location: ../index.php");
+    header("Location: ../post-job.php");
 }
 
 ?> 

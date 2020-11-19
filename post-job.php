@@ -3,23 +3,17 @@
 
 require "php/db.php";
 
-session_start();
 
-if(isset($_SESSION['nombre'])){
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
-}else if($_SESSION['nombre']=! ''){
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
-}else{
+if(!isset($_SESSION)){
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
+}else{
+  $estado= "Mi Perfil";
+  $nombre = $_SESSION['nombre'];
+  $ref ='miPerfil.php';
+  $mis = true;
 }
 
 

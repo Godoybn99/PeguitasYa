@@ -18,21 +18,16 @@ if (isset($_POST['pBusq'])) {
   //$queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
 //}
 
-if(isset($_SESSION['nombre'])){
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
-}else if($_SESSION['nombre']=! ''){
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
-}else{
+if(!isset($_SESSION)){
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
+}else{
+  $estado= "Mi Perfil";
+  $nombre = $_SESSION['nombre'];
+  $ref ='miPerfil.php';
+  $mis = true;
 }
 
 ?>

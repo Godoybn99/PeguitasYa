@@ -1,21 +1,16 @@
 <!--Verificacion de sesion -->
 <?php
 
-if(isset($_SESSION['nombre'])){
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
-}else if($_SESSION['nombre']=! ''){
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
-}else{
+if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
+}else{
+  $estado= "Mi Perfil";
+  $nombre = $_SESSION['nombre'];
+  $ref ='miPerfil.php';
+  $mis = true;
 }
 
 ?> 
