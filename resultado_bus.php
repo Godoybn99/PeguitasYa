@@ -3,18 +3,27 @@
 require "php/db.php";
 session_start();
 
-
-if(!isset($_SESSION['nombre'])){
-  $estado = "Inicio sesion";
-  $nombre = ''; 
-  $ref ='inicio.php';
-  $mis = false;
-  $publi = true;
-}else{
+if(isset($_SESSION['nombre'])){
+  $estado= "Cerrar sesion";
+  $nombre = $_SESSION['nombre'];
+  $id=$_SESSION['id'];
+  $ape=$_SESSION['ape'];
+  $con=$_SESSION['contra'];
+  $car=$_SESSION['Cargo'];
+  $dir=$_SESSION['direccion'];
+  $correo=$_SESSION['correo'];
+  $ref ='php/Cerrar.php';
+  $mis = true;
+}else if($_SESSION['nombre']=! ''){
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
   $ref ='miPerfil.php';
   $mis = true;
+}else{
+  $estado = "Inicio sesion";
+  $nombre = ''; 
+  $ref ='inicio.php';
+  $mis = false;
 }
 
 ?> 

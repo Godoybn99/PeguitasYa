@@ -4,12 +4,8 @@ require "php/db.php";
 session_start();
 
 $trabajo = $_GET['publicacion'];
-if(!isset($_SESSION['nombre'])){
-  $estado = "Inicio sesion";
-  $nombre = ''; 
-  $ref ='inicio.php';
-  $mis = false;
-}else{
+
+if(isset($_SESSION['nombre'])){
   $estado= "Cerrar sesion";
   $nombre = $_SESSION['nombre'];
   $id=$_SESSION['id'];
@@ -20,6 +16,19 @@ if(!isset($_SESSION['nombre'])){
   $correo=$_SESSION['correo'];
   $ref ='php/Cerrar.php';
   $mis = true;
+}else if($_SESSION['nombre']=! ''){
+  $estado= "Mi Perfil";
+  $nombre = $_SESSION['nombre'];
+  $ref ='miPerfil.php';
+  $mis = true;
+}else{
+  $estado = "Inicio sesion";
+  $nombre = ''; 
+  $ref ='inicio.php';
+  $mis = false;
+}
+
+ 
 
 //Busqueda del trabajo 
   $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
@@ -45,7 +54,6 @@ if(!isset($_SESSION['nombre'])){
       }
 
   }
-}
 ?> 
   <!-- Contador de publicaciones --->
   <?php

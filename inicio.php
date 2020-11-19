@@ -1,19 +1,21 @@
 <!--Verificacion de sesion -->
 <?php
 
-
-
-
-if(!isset($_SESSION['nombre'])){
-  $estado = "Inicio sesion";
-  $nombre = ''; 
-  $ref ='inicio.php';
-  $mis = false;
-}else{
+if(isset($_SESSION['nombre'])){
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
   $ref ='miPerfil.php';
   $mis = true;
+}else if($_SESSION['nombre']=! ''){
+  $estado= "Mi Perfil";
+  $nombre = $_SESSION['nombre'];
+  $ref ='miPerfil.php';
+  $mis = true;
+}else{
+  $estado = "Inicio sesion";
+  $nombre = ''; 
+  $ref ='inicio.php';
+  $mis = false;
 }
 
 ?> 
@@ -25,7 +27,7 @@ if(!isset($_SESSION['nombre'])){
   session_start();
   ?>
   <head>
-    <title>JobBoard &mdash; Website Template by Colorlib</title>
+    <title>PeguitasYa &mdash; Registro/Inicio de sesion</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     

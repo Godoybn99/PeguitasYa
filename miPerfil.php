@@ -2,15 +2,9 @@
 <?php
 
 session_start();
-
-
-if(!isset($_SESSION['nombre'])){
-  $estado = "Inicio sesion";
-  $nombre = ''; 
-  $ref ='inicio.php';
-  $mis = false;
-}else{
-  $estado= "Cerrar sesion";
+  
+  if(isset($_SESSION['nombre'])){
+    $estado= "Cerrar sesion";
   $nombre = $_SESSION['nombre'];
   $id=$_SESSION['id'];
   $ape=$_SESSION['ape'];
@@ -20,11 +14,23 @@ if(!isset($_SESSION['nombre'])){
   $correo=$_SESSION['correo'];
   $ref ='php/Cerrar.php';
   $mis = true;
+  }else if($_SESSION['nombre']=! ''){
+    $estado= "Mi Perfil";
+    $nombre = $_SESSION['nombre'];
+    $ref ='miPerfil.php';
+    $mis = true;
+  }else{
+    $estado = "Inicio sesion";
+    $nombre = ''; 
+    $ref ='inicio.php';
+    $mis = false;
+  }
+  
 
   if($car==''){
     $car="Cargo*";
   }
-}
+
 
 ?> 
 
