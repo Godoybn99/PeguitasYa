@@ -295,7 +295,7 @@ if(!isset($_SESSION['nombre'])){
           </div>
         </div>
       </div>
-      
+                    </form>
     </section>
 
 
