@@ -311,13 +311,13 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                   <h2><?php echo $var[1] ?></h2>
 
-                  <strong><?php echo $var[2] ?></strong>
+                  <strong><?php echo $var[3] ?></strong>
                 </div>
                 <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                  <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
+                  <span class="icon-room"></span> <?php echo $var[4] ?>, <?php echo $var[5] ?>
                 </div>
                 <div class="job-listing-meta">
-                  <span class="badge badge-danger"><?php echo $var[5] ?></span>
+                  <span class="badge badge-danger"><?php echo $var[6] ?></span>
                 </div>
               <?php } ?>
               </div>
