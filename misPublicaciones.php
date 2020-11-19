@@ -2,7 +2,7 @@
 <?php
 require "php/db.php";
 session_start();
-
+$id = $_SESSION['id'];
 if(isset($_SESSION['nombre'])){
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
