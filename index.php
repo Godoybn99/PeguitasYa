@@ -4,7 +4,7 @@ require "php/db.php";
 session_start();
 
 if (isset($_POST)) {
-  echo $pBusq=$_POST['pBusq'];
+  $pBusq = $_POST['pBusq'];
   $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
   $queryb = "SELECT idTrabajo, titulo, trabajo.descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
 } else {
@@ -168,7 +168,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <h1 class="text-white font-weight-bold">PeguitasYA</h1>
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
-<<<<<<< HEAD
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" name="ab"  method="post" class="search-jobs-form">
               <div class="row mb-5">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
@@ -176,15 +175,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <select for="region" name="region" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione Region">
-=======
-            <form method="post" class="search-jobs-form">
-              <div class="row mb-5">
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione Region">
->>>>>>> 45625a026ce8d57414e3ac5ab96e380006e0902f
                     <option>Tarapaca</option>
                     <option>Antofagasta</option>
                     <option>Atacama y Coquimbo</option>
@@ -202,11 +192,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-<<<<<<< HEAD
                   <select for="tipoT" name="tipoT" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
-=======
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
->>>>>>> 45625a026ce8d57414e3ac5ab96e380006e0902f
                     <option>Full Time</option>
                     <option>Part Time</option>
                     <option>Esporadico</option>
@@ -286,7 +272,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
-<<<<<<< HEAD
             <?php
             //$query = "SELECT count(idTrabajo) FROM trabajo";
             $resultado = $mysqli->query($queryc);
@@ -308,49 +293,13 @@ while ($cant = mysqli_fetch_row($resultado)) {
               if ($mis == true) {
               ?>
                 <a href="job-single.php?publicacion=<?php echo $var[1] ?>"></a>
-=======
-          <form action="job-single.php" method="POST">
-          <?php
-          $query="SELECT count(idTrabajo) FROM trabajo";
-          $resultado= $mysqli->query($query);
-          while($var=mysqli_fetch_row($resultado)){            
-          ?>
-            <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Listados</h2>
-          <?php } ?>  
-          </div>
-        </div>
-          
-        <ul  class="job-listings mb-5">
-        <?php
-          $query="SELECT idTrabajo, titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
-          $resultado= $mysqli->query($query); 
-          while($var=mysqli_fetch_row($resultado)){
-          ?>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-       
-            <?php
-            if($mis == true){
-              ?>
-              <input type="hidden" name="idTrabajo" value=<?php echo $var[0] ?>>
-              <a href="job-single.php?publicacion=<?php echo $var[0] ?>"> </a>
-              </form>
->>>>>>> 45625a026ce8d57414e3ac5ab96e380006e0902f
               <?php
               } else {
               ?>
                 <a data-toggle="modal" data-target="#staticBackdrop"></a>
               <?php
-<<<<<<< HEAD
               }
               ?>
-=======
-            }
-            ?>
-            
-            <div class="job-listing-logo">
-              <img src="images/job_logo_1.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
->>>>>>> 45625a026ce8d57414e3ac5ab96e380006e0902f
 
               <div class="job-listing-logo">
                 <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
@@ -370,12 +319,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 </div>
               <?php } ?>
               </div>
-<<<<<<< HEAD
-=======
-              <?php } ?>     
-            </div>
-                      
->>>>>>> 45625a026ce8d57414e3ac5ab96e380006e0902f
         </ul>
         <!-- Mostrar cantidad de trabajos  -->
         <div class="row pagination-wrap">
