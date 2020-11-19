@@ -317,7 +317,21 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   <span class="icon-room"></span> <?php echo $var[4] ?>, <?php echo $var[5] ?>
                 </div>
                 <div class="job-listing-meta">
-                  <span class="badge badge-danger"><?php echo $var[6] ?></span>
+                <?php
+              if ($var[6] == 'Full Time') {
+              ?>
+                <span class="badge badge-danger"><?php echo $var[6] ?></span>
+              <?php
+              } else if ($var[6] == 'Esporadico') {
+                ?>
+                  <span class="badge badge-success"><?php echo $var[6] ?></span>
+                <?php
+                } else {
+                ?>
+                  <span class="badge badge-info"><?php echo $var[6] ?></span>
+                <?php
+                }
+                ?>
                 </div>
               <?php } ?>
               </div>
