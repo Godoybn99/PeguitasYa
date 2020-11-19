@@ -38,7 +38,7 @@ if (!isset($_SESSION['nombre'])) {
 <!--  ############  Contador de publicaciones  ############ --->
 <?php
 $query = "SELECT count(idTrabajo) FROM trabajo";
-$resultado = $mysqli->query($query);
+$resultado = $mysqli->query($queryc);
 while ($cant = mysqli_fetch_row($resultado)) {
   $canti = $cant;
 } ?>
@@ -274,9 +274,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <div class="col-md-7 text-center">
             <?php
             $resultado = $mysqli->query($queryc);
-            while ($var = mysqli_fetch_row($resultado)) {
+            while ($con = mysqli_fetch_row($resultado)) {
             ?>
-              <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Listados</h2>
+              <h2 class="section-title mb-2"><?php echo $con[0] ?> Trabajos Encontrados</h2>
             <?php } ?>
           </div>
         </div>
