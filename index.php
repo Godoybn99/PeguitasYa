@@ -1,7 +1,8 @@
 <!-- ############  Verificacion de sesion ############  -->
+
 <?php
-require "php/db.php";
 session_start();
+require "php/db.php";
 
 if (isset($_POST['pBusq'])) {
   $pBusq = $_POST['pBusq'];    

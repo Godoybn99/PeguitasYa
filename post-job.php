@@ -15,7 +15,6 @@ if(!isset($_SESSION['nombre'])){
   $nombre = $_SESSION['nombre'];
   $ref ='miPerfil.php';
   $mis = true;
-
 }
 
 
@@ -94,9 +93,7 @@ if(!isset($_SESSION['nombre'])){
             <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
             <?php 
                 }
-              ?>
-
-             
+              ?>             
 <?php 
             
             if($mis == true){
@@ -136,7 +133,6 @@ if(!isset($_SESSION['nombre'])){
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>
-
         </div>
       </div>
     </header>
@@ -205,7 +201,7 @@ if(!isset($_SESSION['nombre'])){
               </div>
               <div class="form-group">
                 <label for="job-title">Titulo del trabajo</label>
-                <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero...">
+                <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero..." required>
               </div>
 
               <div class="form-group">
@@ -230,22 +226,22 @@ if(!isset($_SESSION['nombre'])){
 
               <div class="form-group">
                 <label for="job-title">Calle</label>
-                <input type="text" class="form-control" name="txtCalle" placeholder="ej. CalleEjemplo 123">
+                <input type="text" class="form-control" name="txtCalle" placeholder="ej. CalleEjemplo 123" required>
               </div>
 
               <div class="form-group">
                 <label for="txtCorreo">Correo de contacto</label>
-                <input type="text" class="form-control" name="txtCorreo" placeholder="ej. correo@ejemplo.com">
+                <input type="text" class="form-control" name="txtCorreo" placeholder="ej. correo@ejemplo.com" required>
               </div>
 
               <div class="form-group">
                 <label for="txtFono">Telefono de contacto</label>
-                <input type="text" class="form-control" name="txtFono" placeholder="ej. +56987654321">
+                <input type="text" class="form-control" name="txtFono" placeholder="ej. +56987654321" required>
               </div>
 
               <div class="form-group">
                 <label for="job-type">Tipo de trabajo</label>
-                <select class="selectpicker border rounded" name="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione tipo de trabajo">
+                <select class="selectpicker border rounded" name="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione tipo de trabajo" >
                   <option>Part Time</option>
                   <option>Full Time</option>
                   <option>Esporadico</option>
@@ -263,18 +259,18 @@ if(!isset($_SESSION['nombre'])){
               </div>
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="rentamin" placeholder="ej. 200000">
+                <input type="text" class="form-control col-sm-10" name="rentamin" placeholder="ej. 200000" required>
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="rentamax" placeholder="ej. 500000">
+                <input type="text" class="form-control col-sm-10" name="rentamax" placeholder="ej. 500000" required>
                 </div>
               </div>
               </div>          
               <div class="form-group">
                 <label for="email">Descripcion</label>
               </div>
-                <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion"></textarea>
+                <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion" required></textarea>
                 <div class="form-group">
               </div>
 

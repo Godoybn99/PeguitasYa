@@ -1,6 +1,6 @@
 <?php 
-require "db.php";
 session_start();
+require "db.php";
 if(isset($_POST)){
     $id=$_SESSION['id'];
     $titulo = $_POST['job-title'];
@@ -59,7 +59,8 @@ if(isset($_POST)){
         //echo $ia;
        
     }
-    header("Location: ../post-job.php");
+    //header("Location: ../post-job.php");
 }
+header("Location: ../post-job.php");
 
 ?> 
