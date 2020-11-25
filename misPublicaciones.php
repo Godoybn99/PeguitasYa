@@ -228,10 +228,10 @@ if(!isset($_SESSION)){
                 <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
                 <span class="badge badge-danger"><?php echo $var[5] ?></span>
               </div>
-              <form  method="post" action="php/eliminarPublicacion.php" method="POST">
+              <form  method="post" action="editarTrabajo.php" method="POST">
               <div class="job-listing-meta">
               <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <button href=<?php echo $ref ?> class="btn btn-info border-width-2 d-none d-lg-inline-block">Editar</button>
+              <button data-toggle="modal" data-target="#staticBackdrop" class="btn btn-info border-width-2 d-none d-lg-inline-block">Editar</button>
               </div>
               </form>
               <form  method="post" action="php/eliminarPublicacion.php" method="POST">
