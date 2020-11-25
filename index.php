@@ -13,10 +13,10 @@ if (isset($_POST['pBusq'])) {
   $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
 }
 //if (isset($_POST['region'])){
-  //$reg = $_POST['region'];
+ // $reg = $_POST['region'];
   //$queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE region.idRegion = '$reg' ";
 //}else{
-  //$queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
+ // $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
 //}
 
 if(!isset($_SESSION['nombre'])){
@@ -97,10 +97,21 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <li><a href="index.php" class="nav-link active">Inicio</a></li>
               <li><a href="about.php">Sobre Nosotros</a></li>
               <li class="has-children">
-                <a href="job-listings.html">Servicios</a>
+                <a>Servicios</a>
                 <ul class="dropdown">
-                  <li><a href="job-single.html">Buscar un trabajador</a></li>
-                  <li><a href="post-job.php">Publicar un trabajo</a></li>
+                <?php
+              if ($mis == true) {
+              ?>
+               <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
+                <li><a href="post-job.php">Publicar un trabajo</a></li>
+              <?php
+              } else {
+              ?>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
+              <?php
+              }
+              ?>
                 </ul>
               <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>

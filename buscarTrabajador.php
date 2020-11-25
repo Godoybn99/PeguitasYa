@@ -1,30 +1,41 @@
 <!--Verificacion de sesion -->
 <?php
-
+require "php/db.php";
 session_start();
 
-if(!isset($_SESSION['nombre'])){
+
+if(!isset($_SESSION)){
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
 }else{
+  $id= $_SESSION['id'];
   $estado= "Mi Perfil";
   $nombre = $_SESSION['nombre'];
   $ref ='miPerfil.php';
   $mis = true;
+  setcookie("$id","$nombre",time()+ 60*60);
+
+  
 }
 
-?> 
 
+?>
+ <!-- Contador de publicaciones --->
+ <?php
+          $query="SELECT count(idTrabajo) FROM trabajo where idUsuario = '$id'";
+          $resultado= $mysqli->query($query);
+          while($cant=mysqli_fetch_row($resultado)){ 
+            $canti=$cant ;          
+             } ?>  
 <!doctype html>
 <html lang="en">
   <head>
-    <title>JobBoard &mdash; Website Template by Colorlib</title>
+    <title>PeguitasYa &mdash; Publicar anuncio</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/custom-bs.css">
     <link rel="stylesheet" href="css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="css/bootstrap-select.min.css">
@@ -60,8 +71,8 @@ if(!isset($_SESSION['nombre'])){
     </div> <!-- .site-mobile-menu -->
     
 
-    <!-- NAVBAR -->
-    <header class="site-navbar mt-3">
+   <!-- NAVBAR -->
+   <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
           <div class="site-logo col-6"><a href="index.php">PeguitasYa</a></div>
@@ -137,88 +148,129 @@ if(!isset($_SESSION['nombre'])){
         </div>
       </div>
     </header>
+
+    
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Contactanos</h1>
+            <h1 class="text-white font-weight-bold">Buscar un trabajador</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">inicio</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Contactanos</strong></span>
+              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
+              <a href="#">Servicios</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Buscar un trabajador</strong></span>
             </div>
           </div>
         </div>
       </div>
     </section>
+    <!--Alerta-->
+    <?php
+              if(isset($_SESSION['message'])){  
+            ?>
+            <div class="alert alert-<?= $_SESSION['message_type'];?> alert-dismissible fade show" role="alert">
+                   <?= $_SESSION['message']; ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+            </div>
+            <?php
+            session_unset();
+              }  
+            ?> 
 
-    <section class="site-section" id="next-section">
+
+
+    <!---Lista de Mis publicaciones-->
+    <section class="site-section">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-6 mb-5 mb-lg-0">
-            <form action="#" class="">
-
-              <div class="row form-group">
-                <div class="col-md-6 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Nombre</label>
-                  <input type="text" id="fname" class="form-control">
-                </div>
-                <div class="col-md-6">
-                  <label class="text-black" for="lname">Apellidos</label>
-                  <input type="text" id="lname" class="form-control">
-                </div>
-              </div>
-
-              <div class="row form-group">
-                
-                <div class="col-md-12">
-                  <label class="text-black" for="email">Correo electronico</label> 
-                  <input type="email" id="email" class="form-control">
-                </div>
-              </div>
-
-              <div class="row form-group">
-                
-                <div class="col-md-12">
-                  <label class="text-black" for="subject">Asunto</label> 
-                  <input type="subject" id="subject" class="form-control">
-                </div>
-              </div>
-
-              <div class="row form-group">
-                <div class="col-md-12">
-                  <label class="text-black" for="message">Mensaje</label> 
-                  <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Escribe tus dudas aqui..."></textarea>
-                </div>
-              </div>
-
-              <div class="row form-group">
-                <div class="col-md-12">
-                  <input type="submit" value="Enviar Mensaje" class="btn btn-primary btn-md text-white">
-                </div>
-              </div>
-
-  
-            </form>
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+      
+            <h2 class="section-title mb-2"> Selecione un Trabajo </h2>
           </div>
-          <div class="col-lg-5 ml-auto">
-            <div class="p-4 mb-3 bg-white">
-              <p class="mb-0 font-weight-bold">Direccion</p>
-              <p class="mb-4">Baquedano 362, Los lagos , Region de los Rios, Chile</p>
+        </div>
+        
+        <ul class="job-listings mb-5">
+        <?php
+          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo,trabajo.ia FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
+          $resultado= $mysqli->query($query); 
+          while($var=mysqli_fetch_row($resultado)){
+          ?>
+         <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+            <?php
+            if($mis == true){
+              ?>
+             
+              <?php
+            }else{
+              ?>
+              <a  data-toggle="modal" data-target="#staticBackdrop" ></a>
+              <?php
+            }
+            ?>
+           
+            <div class="job-listing-logo">
+              <img src="images/job_logo_1.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
+            </div>
 
-              <p class="mb-0 font-weight-bold">Telefono</p>
-              <p class="mb-4"><a href="#">+6321234356</a></p>
+            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                <h2><?php echo $var[1] ?></h2>
+                                
+                <strong><?php echo $var[2] ?></strong>
+              </div>
+              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
+                <span class="badge badge-danger"><?php echo $var[5] ?></span>
+                <?php
+              if ($var[6] == '0') {
+              ?>
+                <span class="badge badge-dark">IA No Disponible</span>
+              <?php
+              } else if ($var[6] == '1') {
+                ?>
+                  <span class="badge badge-success">IA Disponible</span>
+                <?php
+                }
+            ?>
+              </div>
+              <form  method="post" action="php/eliminarPublicacion.php" method="POST">
+              <div class="job-listing-meta">
+              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
+              <button href=<?php echo $ref ?> class="btn btn-info border-width-2 d-none d-lg-inline-block">Buscar</button>
+              </div>
+              </form>
+              <?php } ?>     
+            </div>            
+            </ul>
 
-              <p class="mb-0 font-weight-bold">Correo electronico</p>
-              <p class="mb-0"><a href="#">Contacto@Peguitasya.com</a></p>
-
+<!-- Mostrar cantidad de trabajos  -->
+        <div class="row pagination-wrap">
+          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
+          </div>
+          <div class="col-md-6 text-center text-md-right">
+            <div class="custom-pagination ml-auto">
+              <a href="#" class="prev">Atras</a>
+              <div class="d-inline-block">
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              </div>
+              <a href="#" class="next">Siguente</a>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    
+   
+  
+
     
     <footer class="site-footer">
 
@@ -258,22 +310,16 @@ if(!isset($_SESSION['nombre'])){
           </div>
           <div class="col-6 col-md-3 mb-4 mb-md-0">
             <h3>Contact Us</h3>
-            <div class="footer-social">
-              <a href="#"><span class="icon-facebook"></span></a>
-              <a href="#"><span class="icon-twitter"></span></a>
-              <a href="#"><span class="icon-instagram"></span></a>
-              <a href="#"><span class="icon-linkedin"></span></a>
-            </div>
+            <div class="footer-social"> 
+              <a href="#"><span class="icon-facebook"></span></a> 
+              <a href="#"><span class="icon-twitter"></span></a> 
+              <a href="#"><span class="icon-instagram"></span></a> 
+              <a href="#"><span class="icon-linkedin"></span></a> 
+            </div> 
           </div>
         </div>
 
-        <div class="row text-center">
-          <div class="col-12">
-            <p class="copyright"><small>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small></p>
-          </div>
+       
         </div>
       </div>
     </footer>
@@ -287,18 +333,33 @@ if(!isset($_SESSION['nombre'])){
     <script src="js/stickyfill.min.js"></script>
     <script src="js/jquery.fancybox.min.js"></script>
     <script src="js/jquery.easing.1.3.js"></script>
-    
     <script src="js/jquery.waypoints.min.js"></script>
     <script src="js/jquery.animateNumber.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/quill.min.js"></script>
-    
-    
     <script src="js/bootstrap-select.min.js"></script>
-    
     <script src="js/custom.js"></script>
-   
-   
-     
+    <script type="text/javascript">
+	$(document).ready(function(){
+		$('#region').val(0);
+		recargarLista();
+
+		$('#region').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"php/ajax_comunas.php",
+			data:"idre=" + $('#region').val(),
+			success:function(r){
+				$('#comuna').html(r);
+			}
+		});
+	}
+</script>
   </body>
 </html>
