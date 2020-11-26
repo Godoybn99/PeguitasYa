@@ -1,4 +1,5 @@
 <?php 
+echo (var_dump($_SESSION));
 session_start();
 require "db.php";
 if(isset($_POST)){

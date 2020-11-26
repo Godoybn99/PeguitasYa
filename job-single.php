@@ -1,7 +1,7 @@
 <!--Verificacion de sesion -->
 <?php
-require "php/db.php";
 session_start();
+require "php/db.php";
 
 $trabajo = $_GET['publicacion'];
 
@@ -216,8 +216,8 @@ if(!isset($_SESSION['nombre'])){
           <div class="col-lg-4">
             <div class="row">
               <div class="col-6">
-                <a href="#" class="btn btn-block btn-primary btn-md">Postular</a>
-              </div>
+                <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Postular</a>
+              </div>              
             </div>
           </div>
         </div>
@@ -227,10 +227,9 @@ if(!isset($_SESSION['nombre'])){
               <figure class="mb-5"><img src="images/job_single_img_1.jpg" alt="Image" class="img-fluid rounded"></figure>
               <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-align-left mr-3"></span>Descripcion del trabajo</h3>
               <p><?php echo $desc ?></p>
-            </div>
+            </div>          
+          </div>   
 
-          
-          </div>
           <!---Detalles del trabajo-->
           <div class="col-lg-4">
             <div class="bg-light p-3 border rounded mb-4">
@@ -401,8 +400,92 @@ if(!isset($_SESSION['nombre'])){
           </div>
         </div>
       </div>
-    </footer>
-  
+    </footer>  
+  </div>
+
+  <div class="modal fade" id="modalPostulacion" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-tittle" id="tituloLabel">Titulo Modal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Años de Experiencia</label>
+              <div>
+                <select for="tipoT" name="trab" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una opción">
+                    <option>Sin experiencia</option>
+                    <option>1 año</option>
+                    <option>2 años</option>
+                    <option>3 o más años</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="recipiente-name" class="cik-fomr-label">Comuna</label>
+              <div>
+              <select class="selectpicker border rounded" name="comuna" id="region" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Comuna">
+                <?php
+                    $query="SELECT * FROM comuna";
+                    $resultado= $mysqli->query($query);
+                    while($var=mysqli_fetch_row($resultado)){
+                ?>
+                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
+                    <?php } ?>                    
+              </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Cant. de trabajos anteriores</label>
+              <div>
+                  <select for="tipoT" name="trab" class="selectpicker border rounded" data-style="btn-white" data-width="50%" data-live-search="true" title="Seleccione una opción">
+                    <option>Ninguno</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3 o más</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="esp" class="cik-fomr-label">Especialización</label>
+              <div>
+                  <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una orientación">
+                    <option>Back End</option>
+                    <option>Full Stack</option>
+                    <option>Front End</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="esp" class="cik-fomr-label">Nivel de Estudios</label>
+              <div>              
+                  <select  class="selectpicker border rounded" for="espec" name="esp" class="selectpicker" data-style="btn-black" data-width="50%" data-live-search="true">
+                    <option>Sin estudios universitarios</option>
+                    <option>Titulo Tecnico</option>
+                    <option>Titulo profesional</option>
+                    <option>Post Grados</option>
+                  </select>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <?php
+                    $query="SELECT * FROM usuario";
+                    $resultado= $mysqli->query($query);
+                    while($var=mysqli_fetch_row($resultado)){
+                ?>
+                      <option value= <?php echo $var[0]  ?> ><?php echo $var[7]  ?></option>
+                    <?php } ?>                    
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
   </div>
 
     <!-- SCRIPTS -->

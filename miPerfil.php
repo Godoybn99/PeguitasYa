@@ -1,7 +1,9 @@
 <!--Verificacion de sesion -->
 <?php
-
 session_start();
+echo "<pre>";
+var_dump($_SESSION);
+echo "</pre>";
 
 
 if(!isset($_SESSION['nombre'])){
@@ -175,7 +177,7 @@ if(!isset($_SESSION['nombre'])){
                    </button>
             </div>
             <?php
-            session_unset();
+            //session_unset();
               }  
             ?>
  <!--Datos Perfil-->

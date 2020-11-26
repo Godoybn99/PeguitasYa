@@ -2,7 +2,7 @@
 <?php
 session_start();
 require "php/db.php";
-
+echo (var_dump($_SESSION));
 
 if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
@@ -164,7 +164,7 @@ if(!isset($_SESSION['nombre'])){
                    </button>
             </div>
             <?php
-            session_unset();
+            //session_unset();
               }  
             ?> 
 

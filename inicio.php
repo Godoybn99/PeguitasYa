@@ -1,5 +1,8 @@
 <!--Verificacion de sesion -->
 <?php
+echo "<pre>";
+var_dump($_SESSION);
+echo "</pre>";
 
 if(!isset($_SESSION['nombre'])){
   $estado = "Inicio sesion";
@@ -164,7 +167,7 @@ if(!isset($_SESSION['nombre'])){
                    </button>
             </div>
             <?php
-            session_unset();
+            //session_unset();
               }  
             ?>
  <!--Registro-->
@@ -233,7 +236,7 @@ if(!isset($_SESSION['nombre'])){
                    </button>
             </div>
             <?php
-            session_unset();
+            //session_unset();
               }  
             ?>
 
@@ -250,7 +253,7 @@ if(!isset($_SESSION['nombre'])){
                    </button>
             </div>
             <?php
-            session_unset();
+            //session_unset();
               }  
             ?>
               <div class="row form-group">

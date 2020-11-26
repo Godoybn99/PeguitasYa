@@ -1,7 +1,9 @@
 <?php
-require "db.php";
 session_start();
-
+require "db.php";
+echo "<pre>";
+var_dump($_SESSION);
+echo "</pre>";
 if($_POST){
     $id=$_SESSION['id'];
     $ac = $_POST['txtApas'];
@@ -32,7 +34,7 @@ if($_POST){
         $id=$_SESSION['id'];
         
     }
-    header("Location: ../inicio.php");
+    header("Location: ../miPerfil.php");
 }
 
 

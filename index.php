@@ -3,6 +3,9 @@
 <?php
 session_start();
 require "php/db.php";
+echo "<pre>";
+var_dump($_SESSION);
+echo "</pre>";
 
 if (isset($_POST['pBusq'])) {
   $pBusq = $_POST['pBusq'];    
