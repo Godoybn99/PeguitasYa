@@ -2,6 +2,9 @@
 <?php
 session_start();
 require "php/db.php";
+echo "<pre>";
+var_dump($_SESSION);
+echo "</pre>";
 
 $trabajo = $_GET['publicacion'];
 
@@ -25,7 +28,7 @@ if(!isset($_SESSION['nombre'])){
 }
 
  
-
+echo $id, $ano, $com, $cantT, $esp, $est;
 //Busqueda del trabajo 
   $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
   $resultado= $mysqli->query($query); 
@@ -403,21 +406,23 @@ if(!isset($_SESSION['nombre'])){
     </footer>  
   </div>
 
+                                                        <!-- Modal del Formulario de Postulacion -->
+
   <div class="modal fade" id="modalPostulacion" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-tittle" id="tituloLabel">Titulo Modal</h5>
+        <div class="modal-header" >
+          <h5 class="modal-tittle" center id="tituloLabel">Titulo Modal</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form action="php/postula.php" method="POST" class="p-4 border rounded">
             <div class="form-group">
-              <label for="exp" class="cik-fomr-label">Años de Experiencia</label>
+              <label for="exp"  class="cik-fomr-label">Años de Experiencia</label>
               <div>
-                <select for="tipoT" name="trab" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una opción">
+                <select for="tipoT" name="anos" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una opción" required>
                     <option>Sin experiencia</option>
                     <option>1 año</option>
                     <option>2 años</option>
@@ -428,7 +433,7 @@ if(!isset($_SESSION['nombre'])){
             <div class="form-group">
               <label for="recipiente-name" class="cik-fomr-label">Comuna</label>
               <div>
-              <select class="selectpicker border rounded" name="comuna" id="region" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Comuna">
+              <select class="selectpicker border rounded" name="comuna" id="region" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Comuna" required>
                 <?php
                     $query="SELECT * FROM comuna";
                     $resultado= $mysqli->query($query);
@@ -442,7 +447,7 @@ if(!isset($_SESSION['nombre'])){
             <div class="form-group">
               <label for="exp" class="cik-fomr-label">Cant. de trabajos anteriores</label>
               <div>
-                  <select for="tipoT" name="trab" class="selectpicker border rounded" data-style="btn-white" data-width="50%" data-live-search="true" title="Seleccione una opción">
+                  <select for="tipoT" name="cantT" class="selectpicker border rounded" data-style="btn-white" data-width="50%" data-live-search="true" title="Seleccione una opción" required>
                     <option>Ninguno</option>
                     <option>1</option>
                     <option>2</option>
@@ -453,7 +458,7 @@ if(!isset($_SESSION['nombre'])){
             <div class="form-group">
               <label for="esp" class="cik-fomr-label">Especialización</label>
               <div>
-                  <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una orientación">
+                  <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="58%" data-live-search="true" title="Seleccione una orientación" required>
                     <option>Back End</option>
                     <option>Full Stack</option>
                     <option>Front End</option>
@@ -463,7 +468,7 @@ if(!isset($_SESSION['nombre'])){
             <div class="form-group">
               <label for="esp" class="cik-fomr-label">Nivel de Estudios</label>
               <div>              
-                  <select  class="selectpicker border rounded" for="espec" name="esp" class="selectpicker" data-style="btn-black" data-width="50%" data-live-search="true">
+                  <select  class="selectpicker border rounded" for="espec" name="study" class="selectpicker" data-style="btn-black" data-width="55%" data-live-search="true" required>
                     <option>Sin estudios universitarios</option>
                     <option>Titulo Tecnico</option>
                     <option>Titulo profesional</option>
@@ -471,20 +476,23 @@ if(!isset($_SESSION['nombre'])){
                   </select>
                 </div>
             </div>
-            <div class="form-group"> 
+            <div class="form-group" hidden="true"> 
                 <?php
                     $query="SELECT * FROM usuario";
                     $resultado= $mysqli->query($query);
                     while($var=mysqli_fetch_row($resultado)){
                 ?>
-                      <option value= <?php echo $var[0]  ?> ><?php echo $var[7]  ?></option>
-                    <?php } ?>                    
+                <option value= <?php echo $var[0]  ?> ><?php echo $var[7]  ?></option>
+                <?php } ?>                    
               </select>
             </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
+            </div>
           </form>
-        </div>
+        </div>        
       </div>
-
     </div>
   </div>
 
