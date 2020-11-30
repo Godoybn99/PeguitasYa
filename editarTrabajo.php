@@ -20,8 +20,37 @@ if(!isset($_SESSION['nombre'])){
   $ref ='php/Cerrar.php';
   $mis = true;
   
-  if($car==''){
-    $car="Cargo*";
+  $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, direccion.nombreCalle,ia,trabajo.idDireccion FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$publicacion'";
+  $resultado= $mysqli->query($query); 
+  while($var=mysqli_fetch_row($resultado)){
+        $titulo = $var[0];
+        $desc = $var[1];
+        $mail = $var[2];
+        $fono = $var[3];
+        $es = $var[4];
+        $reMin = $var[5];
+        $reMax = $var[6];
+        $us = $var[7];
+        $comuna = $var[8];
+        $region = $var[9];
+        $tipo = $var[10];
+        $calle = $var[11];
+        $ia = $var[12];
+        $idDire = $var[13];
+
+        if($ia == 1){
+          $ai = "Si";
+        }
+        if($ia == 0){
+          $ai = "No";
+        }
+      if($es == 1){
+        $es = "Disponible";
+      }
+      if($es == 2){
+        $es = "No Disponible";
+      }
+
   }
 }
 
@@ -154,10 +183,11 @@ if(!isset($_SESSION['nombre'])){
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Mi Perfil</h1>
+            <h1 class="text-white font-weight-bold">Actualizar Publicacion</h1>
             <div class="custom-breadcrumbs">
               <a href="index.php">Inicio</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Mi Perfil</strong></span>
+              <span class="mx-2 slash">Mis Publicaciones</span><span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Actualizar Publicacion</strong></span>
             </div>
           </div>
         </div>
@@ -177,62 +207,60 @@ if(!isset($_SESSION['nombre'])){
             session_unset();
               }  
             ?>
- <!--Datos Perfil-->
-    <section class="site-section">
+ <!--Datos de la postulacion actual-->
+ <section class="site-section">
       <div class="container"> 
         <div class="row">
           <div class="col-lg-6 mb-5">
-            <h2 class="mb-4">Datos de la publicacion</h2>
+            <h2 class="mb-4">Datos de la publicacion actual </h2>
         
-            <form action="php/Perfil.php" class="p-4 border rounded" method="POST">
+            <form action="" class="p-4 border rounded" method="POST">
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Titulo de trabajo</label>
-                  <input type="text"  name="txtNom" class="form-control" value= <?php echo $nombre ?>>
+                  <label class="text-black" for="fname">Tiulo del trabajo</label>
+                  <input type="text" readonly  name="txtNom" class="form-control" value= <?php echo $titulo ?>>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Region</label>
-                  <input type="text" name="txtApe" class="form-control" value= <?php echo $ape ?>>
+                  <input type="text" readonly  name="txtApe" class="form-control" value= <?php echo $region ?>>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Comuna</label>
-                  <input type="text" name="txtEmail" class="form-control" value= <?php echo $correo ?>>
+                  <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $comuna ?>>
                 </div>
               </div>
-              <div class="row form-group mb-4">
+              <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Calle</label>
-                  <input type="text" name="txtCar" class="form-control" placeholder= <?php echo $car ?>>
+                  <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $calle ?>>
                 </div>
               </div>
-
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Correo de contacto</label>
-                  <input type="text" name="txtDir" class="form-control" placeholder= <?php echo $dir ?>>
+                  <input type="text" readonly  name="txtCar" class="form-control" placeholder= <?php echo $correo ?>>
                 </div>
               </div>
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Telefono de contacto</label>
-                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder="puntuacion">
+                  <input type="text" readonly  name="txtDir" class="form-control" placeholder= <?php echo $fono ?>>
                 </div>
               </div>
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Tipo de trabajo</label>
-                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder="puntuacion">
+                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder=<?php echo $tipo ?>>
                 </div>
               </div>
 
-              
-              <div class="form-group">
+              <div class="row form-group mb-4">
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
               <label for="rentamin">Renta minima</label>
@@ -241,49 +269,139 @@ if(!isset($_SESSION['nombre'])){
               <label for="rentamax">Renta maxima</label>
               </div>
               </div>
-
-              <div class="row form-group">
-                <div class="col-md-12">
-                  <input type="submit" name="btn_registro" value="Guardar Datos" class="btn px-4 btn-primary text-white">
-                  <input type="reset" name="btn_registro" value="Cancelar" class="btn px-4 btn-primary text-white">
+              <div class="row mb-7">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                <input type="text" readonly  class="form-control col-sm-20" name="rentamin" placeholder=<?php echo $reMin ?> required>
                 </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+                <input type="text" readonly  class="form-control col-sm-20" name="rentamax" placeholder=<?php echo $reMax ?> required>
+                </div>
+              </div>
+              </div>
+              <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Servicio de intelgencia Artificial</label>
+                  <input type="text" readonly  name="txtDir" class="form-control" placeholder= <?php echo $ai ?>>
+                </div>
+              </div>
+
+              <div class="row form-group mb-4">
+                <label for="email">Descripcion</label>
+                <textarea name="txtDes" readonly  rows="8" cols="100" placeholder="<?php echo $desc ?>" required></textarea>
               </div>
             </form>
           </div>
             
-            <!----Cambio de Contraseña---->
+            <!----Actualizar Publicacion---->
           <div class="col-lg-6 mb-5">
-            <h2 class="mb-4">¿Quiere cambiar su contraseña?</h2>
+          <h2 class="mb-4">Datos nuevos de la publicacion </h2>
         
-            <form action="php/Cambio.php" class="p-4 border rounded" method="POST">
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Contraseña Actual</label>
-                  <input type="password"  name="txtApas" class="form-control" placeholder="Ingrese su contraseña acutal">
-                </div>
+        <form action="php/actualizarPublicacion.php" class="p-4 border rounded" method="POST">
+        <input type="hidden" name="idDire" value="<?php echo $idDire?>">
+        <input type="hidden" name="publicacion" value="<?php echo $publicacion?>">  
+          <div class="row form-group">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="fname">Tiulo del trabajo</label>
+              <input type="text"  name="Atitulo" class="form-control" value= <?php echo $nombre ?>>
+            </div>
+          </div>
+          <div class="row form-group">
+          <div class="col-md-12 mb-3 mb-md-0">
+                <label for="job-location">Region</label>
+                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
+                <?php
+                    $query="SELECT * FROM region";
+                    $resultado= $mysqli->query($query);
+                    while($var=mysqli_fetch_row($resultado)){
+                ?>
+                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
+                    <?php } ?>
+                    
+              </select>
               </div>
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Nueva Contraseña</label>
-                  <input type="password" name="txtNpas" class="form-control" placeholder="Ingrese su nueva contraseña">
-                </div>
-              </div>
-              <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Confirme su contraseña</label>
-                  <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña">
-                </div>
               </div>
 
               <div class="row form-group">
-                <div class="col-md-12">
-                  <input type="submit" name="btn_registro" value="Cambiar Contraseña" class="btn px-4 btn-primary text-white">
-                  <input type="reset" name="btn_registro" value="Cancelar" class="btn px-4 btn-primary text-white">
+              <div class="col-md-12 mb-3 mb-md-0">
+              <label for="job-location">Comunas</label>
+              <select class="form-control col-sm-12" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna" >
+              </select>
+              </div>
+              </div>
+
+          <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Calle</label>
+                  <input type="text" name="Acalle" class="form-control" placeholder= "Nombre de calle">
                 </div>
               </div>
-            </form>
+          <div class="row form-group mb-4">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="fname">Correo de contacto</label>
+              <input type="text" name="Acorreo" class="form-control" placeholder= <?php echo $car ?>>
+            </div>
           </div>
-        </div>
+
+          <div class="row form-group mb-4">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="fname">Telefono de contacto</label>
+              <input type="text" name="Atelefono" class="form-control" placeholder= <?php echo $dir ?>>
+            </div>
+          </div>
+
+          <div class="form-group">
+                <label for="job-type">Tipo de trabajo</label>
+                <select class="selectpicker border rounded" name="Atipo" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione tipo de trabajo" >
+                  <option>Part Time</option>
+                  <option>Full Time</option>
+                  <option>Esporadico</option>
+                </select>
+              </div>
+
+          <div class="row form-group mb-4">
+          <div class="row mb-7">
+          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+          <label for="rentamin">Renta minima</label>
+          </div>
+          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+          <label for="rentamax">Renta maxima</label>
+          </div>
+          </div>
+          <div class="row mb-7">
+          <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <input type="text" class="form-control col-sm-10" name="Arentamin" placeholder="ej. 200000" required>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <input type="text" class="form-control col-sm-10" name="Arentamax" placeholder="ej. 500000" required>
+            </div>
+            </div>
+            </div>
+
+            
+
+            <div class="form-group">
+                <label>¿Necesita de la IA de PeguitasYa?</label><br>
+                <select class="selectpicker border rounded" name="IA" data-style="btn-black" data-width="20%" data-live-search="true">
+                  <option value="0">No</option>
+                  <option value="1">Si</option>
+                </select>
+              </div>
+
+          <div class="row form-group mb-4">
+            <label for="email">Descripcion</label>
+            <textarea name="Ades" rows="8" cols="100" placeholder="Descripcion de la publicacion" required></textarea>
+          </div>
+          
+          <div class="row form-group">
+            <div class="col-md-12">
+              <input type="submit" name="btn_registro" value="Actualizar Datos" class="btn px-4 btn-primary text-white">
+              <input type="reset" name="btn_registro" value="Cancelar" class="btn px-4 btn-primary text-white">
+            </div>
+          </div>
+        </form>
+      </div>
       </div>
     </section>
   
@@ -355,7 +473,28 @@ if(!isset($_SESSION['nombre'])){
     <script src="js/bootstrap-select.min.js"></script>
     
     <script src="js/custom.js"></script>
-   
+    <script type="text/javascript">
+	$(document).ready(function(){
+		$('#region').val(0);
+		recargarLista();
+
+		$('#region').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"php/ajax_comunas.php",
+			data:"idre=" + $('#region').val(),
+			success:function(response){
+				$('#comuna').html(response);
+			}
+		});
+	}
+</script>
    
      
   </body>

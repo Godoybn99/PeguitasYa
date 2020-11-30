@@ -412,7 +412,7 @@ echo $id, $ano, $com, $cantT, $esp, $est;
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" >
-          <h5 class="modal-tittle" center id="tituloLabel">Titulo Modal</h5>
+          <h5 class="modal-tittle" center id="tituloLabel">Formulario de postulacion</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -487,13 +487,14 @@ echo $id, $ano, $com, $cantT, $esp, $est;
               </select>
             </div>
             <div class="modal-footer">
-              <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
+              <button type="reset" class="btn btn-secondary">Cancelar</button>
+              <button type="submit" class="btn btn-success">Guardar</button>
             </div>
-          </form>
+          
         </div>        
       </div>
     </div>
+    </form>
   </div>
 
     <!-- SCRIPTS -->

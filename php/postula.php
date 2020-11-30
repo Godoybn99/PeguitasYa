@@ -82,6 +82,6 @@ if($_POST){
         $id=$_SESSION['id'];
         
     }    
-    header("Location: ../job-single.php");
+    header("Location: ../misPublicaciones.php");
 }
 ?>
