@@ -4,7 +4,7 @@ session_start();
 
 
 if(isset($_POST['publicacion'])){
-    $id=$_SESSION['id'];
+    $id=session_id();
     $pu= $_POST['publicacion'];
     $query ="DELETE FROM trabajo where idTrabajo='$pu'";
     $resultado = $mysqli->query($query);

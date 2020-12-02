@@ -4,8 +4,6 @@
 session_start();
 require "php/db.php";
 
-
-
 if (isset($_POST['pBusq'])) {
   $pBusq = $_POST['pBusq'];    
   $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
@@ -21,16 +19,22 @@ if (isset($_POST['pBusq'])) {
  // $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
 //}
 
-if(!isset($_SESSION['nombre'])){
+if(is_numeric(session_id())){
+  $us= session_id();
+  $estado= "Mi Perfil";
+  $query = "SELECT nombre FROM usuario where idUsuario ='$us'";
+  $resultado = $mysqli->query($query);
+  while ($var = mysqli_fetch_row($resultado)) {
+    $nombre = $var[0];
+  }
+  $ref ='miPerfil.php';
+  $mis = true;
+  
+}else{
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
-}else{
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
 }
 
 ?>

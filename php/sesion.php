@@ -1,7 +1,7 @@
 
 <?php
+
 require "db.php";
-session_start();
 if($_POST){
     $us= $_POST['txtUs'];
     $con= $_POST['txtCon'];
@@ -15,13 +15,11 @@ if($_POST){
          $row = $resultado->fetch_assoc();
          $contra_bd = $row['contra']; 
         if($contra_bd == $con){
-            $_SESSION['id'] = $row['idUsuario'];
+            $id =$row['idUsuario'];
+            session_id($id);
+            session_start();
+            $_SESSION['id']= $row['idUsuario'];
             $_SESSION['nombre'] = $row['nombre'];
-            $_SESSION['ape'] = $row['apellidos'];
-            $_SESSION['contra'] = $row['apellidos'];
-            $_SESSION['Cargo'] = $row['trabajo'];
-            $_SESSION['direccion'] = $row['direccion'];
-            $_SESSION['correo'] = $row['correo'];
             header("Location: ../index.php");
         }else{
             $_SESSION['message'] = 'Contraseña incorrecta';

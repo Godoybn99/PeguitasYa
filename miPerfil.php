@@ -1,41 +1,36 @@
 <!--Verificacion de sesion -->
 <?php
+require "php/db.php";
 session_start();
-echo "<pre>";
-var_dump($_SESSION);
-echo "</pre>";
 
-
-if(!isset($_SESSION['nombre'])){
+if(is_numeric(session_id())){
+  $us= session_id();
+  $estado= "Cerrar sesion";
+  $query = "SELECT nombre,apellidos,correo,direccion,valoracion,trabajo FROM usuario where idUsuario ='$us'";
+  $resultado = $mysqli->query($query);
+  while ($var = mysqli_fetch_row($resultado)) {
+    $nombre = $var[0];
+    $ape = $var[1];
+    $correo = $var[2];
+    $dir = $var[3];
+    $valo = $var[4];
+    $car = $var[5];
+  }
+  $ref ='php/Cerrar.php';
+  $mis = true;
+  
+}else{
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
-}else{
-  $estado= "Cerrar sesion";
-  $nombre = $_SESSION['nombre'];
-  $id=$_SESSION['id'];
-  $ape=$_SESSION['ape'];
-  $con=$_SESSION['contra'];
-  $car=$_SESSION['Cargo'];
-  $dir=$_SESSION['direccion'];
-  $correo=$_SESSION['correo'];
-  $ref ='php/Cerrar.php';
-  $mis = true;
-
-  if($car==''){
-    $car="Cargo*";
-  }
 }
+
 
 ?> 
 
 <!doctype html>
 <html lang="en">
-  <?php 
-  require "php/db.php";
-
-  ?>
   <head>
     <title>PeguitasYa &mdash; Mi Perfil</title>
     <meta charset="utf-8">
@@ -223,7 +218,7 @@ if(!isset($_SESSION['nombre'])){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Valoracion</label>
-                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder="puntuacion">
+                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder=<?php echo $valo ?>>
                 </div>
               </div>
 

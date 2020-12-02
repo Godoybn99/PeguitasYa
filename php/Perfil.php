@@ -2,7 +2,7 @@
 require "db.php";
 session_start();
 if($_POST){
-   $id=$_SESSION['id'];
+   $id=session_id();
    $nom = $_POST['txtNom'];
    $ape = $_POST['txtApe'];
    $email = $_POST['txtEmail'];

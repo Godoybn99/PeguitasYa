@@ -3,16 +3,17 @@
 
 session_start();
 
-if(!isset($_SESSION['nombre'])){
+if(is_numeric(session_id())){
+  $us= session_id();
+  $estado= "Mi Perfil";
+  $ref ='miPerfil.php';
+  $mis = true;
+  
+}else{
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
-}else{
-  $estado= "Mi Perfil";
-  $nombre = $_SESSION['nombre'];
-  $ref ='miPerfil.php';
-  $mis = true;
 }
 
 ?> 

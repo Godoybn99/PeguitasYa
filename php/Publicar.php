@@ -1,9 +1,8 @@
 <?php 
-echo (var_dump($_SESSION));
 session_start();
 require "db.php";
 if(isset($_POST)){
-    $id=$_SESSION['id'];
+    $id=session_id();
     $titulo = $_POST['job-title'];
     $comuna = $_POST['comuna'];
     $tipo = $_POST['job-type'];

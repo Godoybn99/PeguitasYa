@@ -2,29 +2,24 @@
 <?php
 session_start();
 require "php/db.php";
-echo "<pre>";
-var_dump($_SESSION);
-echo "</pre>";
-
 $trabajo = $_GET['publicacion'];
 
-if(!isset($_SESSION['nombre'])){
+if(is_numeric(session_id())){
+  $us= session_id();
+  $estado= "Mi Perfil";
+  $query = "SELECT nombre FROM usuario where idUsuario ='$us'";
+  $resultado = $mysqli->query($query);
+  while ($var = mysqli_fetch_row($resultado)) {
+    $nombre = $var[0];
+  }
+  $ref ='miPerfil.php';
+  $mis = true;
+  
+}else{
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
-}else{
-  $estado= "Cerrar sesion";
-  $nombre = $_SESSION['nombre'];
-  $id=$_SESSION['id'];
-  $ape=$_SESSION['ape'];
-  $con=$_SESSION['contra'];
-  $car=$_SESSION['Cargo'];
-  $dir=$_SESSION['direccion'];
-  $correo=$_SESSION['correo'];
-  $ref ='php/Cerrar.php';
-  $mis = true;
-
 }
 
  
@@ -251,84 +246,7 @@ if(!isset($_SESSION['nombre'])){
       </div>
     </section>
 
-    <section class="site-section">
-      <div class="container">
-        <div class="row mb-5 justify-content-center">
-          <div class="col-md-7 text-center">
-          <form action="job-single.php" method="POST">
-          <?php
-          $query="SELECT count(idTrabajo) FROM trabajo";
-          $resultado= $mysqli->query($query);
-          while($var=mysqli_fetch_row($resultado)){            
-          ?>
-            <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Listados</h2>
-          <?php } ?>  
-          </div>
-        </div>
-          
-        <ul  class="job-listings mb-5">
-        <?php
-          $query="SELECT idTrabajo, titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
-          $resultado= $mysqli->query($query); 
-          while($var=mysqli_fetch_row($resultado)){
-          ?>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-       
-            <?php
-            if($mis == true){
-              ?>
-              <input type="hidden" name="idTrabajo" value=<?php echo $var[0] ?>>
-              <a href="job-single.php?datos=<?php echo $var[0] ?>"> </a>
-              </form>
-              <?php
-            }else{
-              ?>
-              <a  data-toggle="modal" data-target="#staticBackdrop" ></a>
-              <?php
-            }
-            ?>
-            
-            <div class="job-listing-logo">
-              <img src="images/job_logo_1.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2><?php echo $var[1] ?></h2>
-                                
-                <strong><?php echo $var[2] ?></strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-danger"><?php echo $var[5] ?></span>
-              </div>
-              <?php } ?>     
-            </div>
-                      
-        </ul>
-<!-- Mostrar cantidad de trabajos  -->
-        <div class="row pagination-wrap">
-          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
-          </div>
-          <div class="col-md-6 text-center text-md-right">
-            <div class="custom-pagination ml-auto">
-              <a href="#" class="prev">Atras</a>
-              <div class="d-inline-block">
-              <a href="#" class="active">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              </div>
-              <a href="#" class="next">Siguente</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
+  
 
     <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');">
       <div class="container">
@@ -392,15 +310,7 @@ if(!isset($_SESSION['nombre'])){
             </div>
           </div>
         </div>
-
-        <div class="row text-center">
-          <div class="col-12">
-            <p class="copyright"><small>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small></p>
-          </div>
-        </div>
+>
       </div>
     </footer>  
   </div>
@@ -419,7 +329,7 @@ if(!isset($_SESSION['nombre'])){
         <div class="modal-body">
           <form action="php/postula.php" method="POST" class="p-4 border rounded">
             <div class="form-group">
-              <label for="exp"  class="cik-fomr-label">Años de Experiencia</label>
+              <label for="exp" class="cik-fomr-label">Años de Experiencia</label>
               <div>
                 <select for="tipoT" name="anos" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una opción" required>
                     <option>Sin experiencia</option>
@@ -430,19 +340,28 @@ if(!isset($_SESSION['nombre'])){
               </div>
             </div>
             <div class="form-group">
-              <label for="recipiente-name" class="cik-fomr-label">Comuna</label>
               <div>
-              <select class="selectpicker border rounded" name="comuna" id="region" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Comuna" required>
+                <label for="">Region</label>
+                <div>
+                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Region">
                 <?php
-                    $query="SELECT * FROM comuna";
+                    $query="SELECT * FROM region";
                     $resultado= $mysqli->query($query);
                     while($var=mysqli_fetch_row($resultado)){
                 ?>
                       <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
-                    <?php } ?>                    
+                    <?php } ?>
+                    
               </select>
               </div>
-            </div>
+              </div>
+              <div class="form-group">
+              <label for="job-location">Comunas</label>
+              <div>
+              <select class="form-control col-sm-6" name="comuna" id="comuna" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Comuna" >
+              </select>
+              </div>
+              </div>
             <div class="form-group">
               <label for="exp" class="cik-fomr-label">Cant. de trabajos anteriores</label>
               <div>
@@ -511,7 +430,28 @@ if(!isset($_SESSION['nombre'])){
     <script src="js/bootstrap-select.min.js"></script>
     
     <script src="js/custom.js"></script>
+       <script type="text/javascript">
+	$(document).ready(function(){
+		$('#region').val(0);
+		recargarLista();
 
+		$('#region').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"php/ajax_comunas.php",
+			data:"idre=" + $('#region').val(),
+			success:function(response){
+				$('#comuna').html(response);
+			}
+		});
+	}
+</script>               
      
   </body>
 </html>

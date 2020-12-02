@@ -3,22 +3,22 @@
 require "php/db.php";
 session_start();
 
-if(!isset($_SESSION['nombre'])){
+if(is_numeric(session_id())){
+  $us= session_id();
+  $estado= "Mi Perfil";
+  $query = "SELECT nombre FROM usuario where idUsuario ='$us'";
+  $resultado = $mysqli->query($query);
+  while ($var = mysqli_fetch_row($resultado)) {
+    $nombre = $var[0];
+  }
+  $ref ='miPerfil.php';
+  $mis = true;
+  
+}else{
   $estado = "Inicio sesion";
   $nombre = ''; 
   $ref ='inicio.php';
   $mis = false;
-}else{
-  $estado= "Cerrar sesion";
-  $nombre = $_SESSION['nombre'];
-  $id=$_SESSION['id'];
-  $ape=$_SESSION['ape'];
-  $con=$_SESSION['contra'];
-  $car=$_SESSION['Cargo'];
-  $dir=$_SESSION['direccion'];
-  $correo=$_SESSION['correo'];
-  $ref ='php/Cerrar.php';
-  $mis = true;
 }
 ?> 
 
