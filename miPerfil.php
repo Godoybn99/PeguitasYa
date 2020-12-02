@@ -5,13 +5,18 @@ session_start();
 
 if(is_numeric(session_id())){
   $us= session_id();
-  $estado= "Mi Perfil";
-  $query = "SELECT nombre FROM usuario where idUsuario ='$us'";
+  $estado= "Cerrar sesion";
+  $query = "SELECT nombre,apellidos,correo,direccion,valoracion,trabajo FROM usuario where idUsuario ='$us'";
   $resultado = $mysqli->query($query);
   while ($var = mysqli_fetch_row($resultado)) {
     $nombre = $var[0];
+    $ape = $var[1];
+    $correo = $var[2];
+    $dir = $var[3];
+    $valo = $var[4];
+    $car = $var[5];
   }
-  $ref ='miPerfil.php';
+  $ref ='php/Cerrar.php';
   $mis = true;
   
 }else{
@@ -213,7 +218,7 @@ if(is_numeric(session_id())){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Valoracion</label>
-                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder="puntuacion">
+                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder=<?php echo $valo ?>>
                 </div>
               </div>
 

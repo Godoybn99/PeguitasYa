@@ -4,9 +4,6 @@
 session_start();
 require "php/db.php";
 
-echo session_id();
-
-
 if (isset($_POST['pBusq'])) {
   $pBusq = $_POST['pBusq'];    
   $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
