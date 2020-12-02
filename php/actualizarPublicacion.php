@@ -3,7 +3,7 @@ require "db.php";
 session_start();
 
 if($_POST){
-    $id=$_SESSION['id'];
+    $id=session_id();
     $titulo = $_POST['Atitulo'];
     $comuna = $_POST['comuna'];
     $tipo = $_POST['Atipo'];

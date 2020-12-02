@@ -3,21 +3,15 @@
 require "php/db.php";
 session_start();
 $publicacion = $_POST['publicacion'];
-if(!isset($_SESSION['nombre'])){
-  $estado = "Inicio sesion";
-  $nombre = ''; 
-  $ref ='inicio.php';
-  $mis = false;
-}else{
-  $estado= "Cerrar sesion";
-  $nombre = $_SESSION['nombre'];
-  $id=$_SESSION['id'];
-  $ape=$_SESSION['ape'];
-  $con=$_SESSION['contra'];
-  $car=$_SESSION['Cargo'];
-  $dir=$_SESSION['direccion'];
-  $correo=$_SESSION['correo'];
-  $ref ='php/Cerrar.php';
+if(is_numeric(session_id())){
+  $us= session_id();
+  $estado= "Mi Perfil";
+  $query = "SELECT nombre FROM usuario where idUsuario ='$us'";
+  $resultado = $mysqli->query($query);
+  while ($var = mysqli_fetch_row($resultado)) {
+    $nombre = $var[0];
+  }
+  $ref ='miPerfil.php';
   $mis = true;
   
   $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, direccion.nombreCalle,ia,trabajo.idDireccion FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$publicacion'";
@@ -52,7 +46,14 @@ if(!isset($_SESSION['nombre'])){
       }
 
   }
+
+}else{
+  $estado = "Inicio sesion";
+  $nombre = ''; 
+  $ref ='inicio.php';
+  $mis = false;
 }
+
 
 ?> 
 

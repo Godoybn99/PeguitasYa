@@ -5,7 +5,7 @@ echo "<pre>";
 var_dump($_SESSION);
 echo "</pre>";
 if($_POST){
-    $id=$_SESSION['id'];
+    $id=session_id();
     $ac = $_POST['txtApas'];
     $nc = $_POST['txtNpas'];
     $cc = $_POST['txtCpas'];

@@ -1,10 +1,6 @@
 <?php
 session_start();
 require "db.php";
-echo "<pre>";
-var_dump($_SESSION);
-
-echo "</pre>";
 
 $trabajo = $_GET['publicacion'];
 
@@ -16,7 +12,7 @@ $queryC ="SELECT idDireccion FROM `trabajo` WHERE idTrabajo = $id";
 $direcT = mysqli_fetch_row($queryC);
 
 if($_POST){
-    $id=$_SESSION['id'];
+    $id= session_id();
     $ano = $_POST['anos'];
     $com = $_POST['comuna'];
     $cantT = $_POST['cantT'];
