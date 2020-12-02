@@ -328,6 +328,7 @@ if(is_numeric(session_id())){
         </div>
         <div class="modal-body">
           <form action="php/postula.php" method="POST" class="p-4 border rounded">
+          <input name='idTrabajo' type="hidden" value= <?php echo $trabajo ?>></input>
             <div class="form-group">
               <label for="exp" class="cik-fomr-label">Años de Experiencia</label>
               <div>

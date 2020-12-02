@@ -1,24 +1,19 @@
 <?php
 session_start();
 require "db.php";
-require '../php/class/postulante.php';
-echo "<pre>";
-var_dump($_SESSION);
+//require '../php/class/postulante.php';
 
-echo "</pre>";
-
-$trabajo = $_GET['publicacion'];
-
-$queryV ="SELECT valoracion FROM `usuario` WHERE idUsuario = $id";
+$trabajo = $_POST['idTrabajo'];
+$id=session_id();
+$queryV ="SELECT valoracion FROM `usuario` WHERE idUsuario = '$id'";
 //$valoracion = $mysqli->query($queryV);
 $var = mysqli_fetch_row($queryV);
 
-$queryC ="SELECT idDireccion FROM `trabajo` WHERE idTrabajo = $id";
+$queryC ="SELECT idDireccion FROM `trabajo` WHERE idTrabajo = '$trabajo'";
 $direcT = mysqli_fetch_row($queryC);
 
-if($_POST){
+if($_POST){       
    
-    $id=session_id();
     $ano = $_POST['anos'];
     $com = $_POST['comuna'];
     $cantT = $_POST['cantT'];
