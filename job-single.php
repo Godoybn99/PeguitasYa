@@ -24,7 +24,7 @@ if(is_numeric(session_id())){
 
  
 //Busqueda del trabajo 
-  $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
+  $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo,trabajo.idUsuario FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
   $resultado= $mysqli->query($query); 
   while($var=mysqli_fetch_row($resultado)){
         $titulo = $var[0];
@@ -38,7 +38,8 @@ if(is_numeric(session_id())){
         $comuna = $var[8];
         $region = $var[9];
         $tipo = $var[10];
-
+        $usuario = $var[11];
+        
       if($es == 1){
         $es = "Disponible";
       }
@@ -47,6 +48,21 @@ if(is_numeric(session_id())){
       }
 
   }
+  $query2="SELECT * FROM usuario where idUsuario ='$usuario'";
+  $resultado2= $mysqli->query($query2);
+  while($var2=mysqli_fetch_row($resultado2)){
+       $uNombre = $var2[1];
+       $uApellido = $var2[2];
+       $uCorreo = $var2[3];
+       $uDireccion = $var2[4];
+       $uCargo = $var2[6];
+       $uValoracion = $var2[7];         
+  } 
+  if($uCargo == ''){
+    $uCargo = "Cargo no definido";
+  }
+
+//Busqueda del publicador
 ?> 
   <!-- Contador de publicaciones --->
   <?php
@@ -237,8 +253,9 @@ if(is_numeric(session_id())){
                 <li class="mb-2"><strong class="text-black">Tipo de trabajo: </strong> <?php echo $tipo ?></li>
                 <li class="mb-2"><strong class="text-black">Direccion del trabajo:</strong> <?php echo $region ?>-<?php echo $comuna ?></li>
                 <li class="mb-2"><strong class="text-black">Renta: </strong> $<?php echo $reMin ?> - $<?php echo $reMax ?></li>
-                <li class="mb-2"><strong class="text-black">Correo de contacto: </strong><?php echo $correo ?></li>
+                <li class="mb-2"><strong class="text-black">Correo de contacto: </strong><?php echo $mail ?></li>
                 <li class="mb-2"><strong class="text-black">Fono de contacto: </strong> <?php echo $fono ?></li>
+                <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalDatos">Datos del Ofertante</a>
               </ul>
             </div>
           </div>
@@ -310,7 +327,6 @@ if(is_numeric(session_id())){
             </div>
           </div>
         </div>
->
       </div>
     </footer>  
   </div>
@@ -414,6 +430,68 @@ if(is_numeric(session_id())){
       </div>
     </div>
     </form>
+  </div>
+  </div>
+
+
+  
+
+                                                        <!-- Modal de los datos del publicador -->
+
+   <div class="modal fade" id="modalDatos" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" >
+          <h5 class="modal-tittle" center id="tituloLabel">Datos del Ofertante</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Nombre</label>
+              <div>
+              <input type="text" readonly name="txtNom" class="form-control" value= <?php echo $uNombre ?>>
+              </div>
+            </div>
+            <div class="form-group">
+              <div>
+                <label for="">Apellidos</label>
+                <div>
+                <input type="text" readonly name="txtNom" class="form-control" value= <?php echo $uApellido ?>>
+                </div>
+              </div>
+              <div class="form-group">
+              <label for="job-location">Direccion</label>
+              <div>
+                <input type="text" readonly name="txtNom" class="form-control" value= <?php echo $uDireccion ?>>
+              </div>
+              </div>
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Correo</label>
+              <div>
+              <input type="text" readonly name="txtNom" class="form-control" value= <?php echo $uCorreo ?>>
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="esp" class="cik-fomr-label">Especialización</label>
+              <div>
+              <input type="text" readonly name="txtNom" class="form-control" value= <?php echo $uCargo ?>>
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="esp" class="cik-fomr-label">Valoracion</label>
+              <div>              
+              <input type="text" readonly name="txtNom" class="form-control" value= <?php echo $uValoracion ?>>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          
+        </div>        
+      </div>
+    </div>
   </div>
 
     <!-- SCRIPTS -->
