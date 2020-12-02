@@ -1,24 +1,26 @@
 <?php
 session_start();
 require "db.php";
+//require '../php/class/postulante.php';
 
-$trabajo = $_GET['publicacion'];
-
-$queryV ="SELECT valoracion FROM `usuario` WHERE idUsuario = $id";
+$trabajo = $_POST['idTrabajo'];
+$id=session_id();
+$queryV ="SELECT valoracion FROM `usuario` WHERE idUsuario = '$id'";
 //$valoracion = $mysqli->query($queryV);
 $var = mysqli_fetch_row($queryV);
 
-$queryC ="SELECT idDireccion FROM `trabajo` WHERE idTrabajo = $id";
+$queryC ="SELECT idDireccion FROM `trabajo` WHERE idTrabajo = '$trabajo'";
 $direcT = mysqli_fetch_row($queryC);
 
-if($_POST){
-    $id= session_id();
+if($_POST){       
+   
     $ano = $_POST['anos'];
     $com = $_POST['comuna'];
     $cantT = $_POST['cantT'];
     $esp = $_POST['esp'];
     $est = $_POST['study'];
     echo $id, $ano, $com, $cantT, $esp, $est;
+
     if($ano == 'Sin Experiencia'){
         $ano = 1;
     }else if($ano == '1 año'){
@@ -63,9 +65,12 @@ if($_POST){
         $est = 4;
     }
 
+    //$postulante = new Postulante($trabajo, $id, $ano, $com, $cantT, $esp, $est, $var[0] );
+    //$insert = $postulante->insertarPostulante($trabajo, $id, $ano, $com, $cantT, $esp, $est, $var[0]);
 
 
-    $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score) VALUES ('$trabajo', $id, $ano, $com, $cantT, $esp, $est, $id, $var[0] )";
+
+    $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp', '$est', '$var[0]' )";
     $resultado = $mysqli->query($query);
 
     if($resultado){

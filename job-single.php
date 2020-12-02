@@ -22,6 +22,7 @@ if(is_numeric(session_id())){
   $mis = false;
 }
 
+ 
 //Busqueda del trabajo 
   $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo,trabajo.idUsuario FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
   $resultado= $mysqli->query($query); 
@@ -343,6 +344,7 @@ if(is_numeric(session_id())){
         </div>
         <div class="modal-body">
           <form action="php/postula.php" method="POST" class="p-4 border rounded">
+          <input name='idTrabajo' type="hidden" value= <?php echo $trabajo ?>></input>
             <div class="form-group">
               <label for="exp" class="cik-fomr-label">Años de Experiencia</label>
               <div>
