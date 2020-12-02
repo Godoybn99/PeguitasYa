@@ -4,9 +4,9 @@ require "php/db.php";
 session_start();
 
 if(is_numeric(session_id())){
-  $us= session_id();
+  $id= session_id();
   $estado= "Mi Perfil";
-  $query = "SELECT nombre FROM usuario where idUsuario ='$us'";
+  $query = "SELECT nombre FROM usuario where idUsuario ='$id'";
   $resultado = $mysqli->query($query);
   while ($var = mysqli_fetch_row($resultado)) {
     $nombre = $var[0];
