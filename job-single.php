@@ -28,7 +28,6 @@ if(!isset($_SESSION['nombre'])){
 }
 
  
-echo $id, $ano, $com, $cantT, $esp, $est;
 //Busqueda del trabajo 
   $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
   $resultado= $mysqli->query($query); 
