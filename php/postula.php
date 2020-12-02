@@ -1,16 +1,20 @@
 <?php
 session_start();
 require "db.php";
-//require '../php/class/postulante.php';
 
 $trabajo = $_POST['idTrabajo'];
 $id=session_id();
 $queryV ="SELECT valoracion FROM `usuario` WHERE idUsuario = '$id'";
-//$valoracion = $mysqli->query($queryV);
-$var = mysqli_fetch_row($queryV);
+$var = $mysqli->query($queryV);
+if($res=mysqli_fetch_row($var)){
+    $valor = $res[0];
+}
 
-$queryC ="SELECT idDireccion FROM `trabajo` WHERE idTrabajo = '$trabajo'";
-$direcT = mysqli_fetch_row($queryC);
+$queryC ="SELECT idComuna FROM direccion INNER JOIN trabajo ON direccion.idDireccion = trabajo.idDireccion WHERE trabajo.idTrabajo = '$trabajo'";
+$direcT = $mysqli->query($queryC);
+if($resu=mysqli_fetch_row($direcT)){
+    $dirT = $resu[0];
+}
 
 if($_POST){       
    
@@ -19,22 +23,22 @@ if($_POST){
     $cantT = $_POST['cantT'];
     $esp = $_POST['esp'];
     $est = $_POST['study'];
-    echo $id, $ano, $com, $cantT, $esp, $est;
 
-    if($ano == 'Sin Experiencia'){
+    if($_POST['anos'] == 'Sin experiencia'){
         $ano = 1;
-    }else if($ano == '1 año'){
+    }else if($_POST['anos'] == '1 año'){
         $ano = 2;
-    }else if($ano == '2 años'){
+    }else if($_POST['anos'] == '2 años'){
         $ano = 3;
-    }else{
+    }else if($_POST['anos'] == '3 o más años'){
         $ano = 4;
     }
+    
 
-    if($direcT[0] == $com){
-        $direcT = 2;
-    }else{
-        $direcT = 1;
+    if($dirT == $_POST['comuna']){
+        $com = 2;
+    }elseif($dirT != $_POST['comuna']){
+        $com = 1;
     }
 
     if($cantT == 'Ninguno'){
@@ -43,34 +47,31 @@ if($_POST){
         $cantT = 2;
     }else if($cantT == '2'){
         $cantT = 3;
-    }else{
+    }else if($cantT == '3 o más'){
         $cantT = 4;
     }
 
-    if($esp == 'Full Stack'){
+    if($_POST['esp'] == 'Full Stack'){
         $esp = 2;
-    }else if($esp == 'Front End'){
+    }else if($_POST['esp'] == 'Front End'){
         $esp = 1;
-    }else if($esp == 'Back End'){
+    }else if($_POST['esp'] == 'Back End'){
         $esp = 3;
     }
 
-    if($est == 'Sin estudios'){
+    if($_POST['study'] == 'Sin estudios universitarios'){
         $est = 1;
-    }else if($est == 'Titulo Tecnico'){
+    }else if($_POST['study'] == 'Titulo Tecnico'){
         $est = 2;
-    }else if($est == 'Titulo Profesional'){
+    }else if($_POST['study'] == 'Titulo profesional'){
         $est = 3;
-    }else if($est == 'Post Grados'){
+    }else if($_POST['study'] == 'Post Grados'){
         $est = 4;
     }
 
-    //$postulante = new Postulante($trabajo, $id, $ano, $com, $cantT, $esp, $est, $var[0] );
-    //$insert = $postulante->insertarPostulante($trabajo, $id, $ano, $com, $cantT, $esp, $est, $var[0]);
+   
 
-
-
-    $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp', '$est', '$var[0]' )";
+    $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp', '$est', '$valor' )";
     $resultado = $mysqli->query($query);
 
     if($resultado){
