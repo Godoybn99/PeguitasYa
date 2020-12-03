@@ -213,7 +213,7 @@ if(is_numeric(session_id())){
           <div class="col-lg-4">
             <div class="row">
               <div class="col-6">
-                <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Postular</a>
+                <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">CLASIFICAR</a>
               </div>              
             </div>
           </div>
@@ -244,6 +244,107 @@ if(is_numeric(session_id())){
           </div>
         </div>
       </div>
+    </section>
+
+
+
+    <!---   ##############################################     Detalles Postulantes    ##############################################     -->
+
+
+       
+    <section class="site-section">
+    <?php
+    echo "<table align=center width=80%>";
+    echo "<tr>";
+    echo "<th>Nombre</th>";
+    echo "<th>Apellido</th>";
+    echo "<th>Correo</th>";
+    echo "<th>Anos de Exp</th>";
+    echo "<th>¿Es de la misma comuna?</th>";
+    echo "<th>Cantidad de Trabajos</th>";
+    echo "<th>Especialidad</th>";
+    echo "<th>Nivel de Estudios</th>";
+    echo "<th>Valoracion</th>";
+    
+    $queryIA="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+    $resultadoIA= $mysqli->query($queryIA);
+    //fopen('datosIA.txt','a');
+    //$file - 'datosIA.txt';
+    if(mysqli_num_rows($resultadoIA)){
+      $jump = "\r\n";
+      $separator = "\t";
+      $fp = fopen('datosIA/publicacion'.$trabajo.'.csv', 'w');
+      while($var=mysqli_fetch_row($resultadoIA)){
+        $registro = array($var[9], $var[3] ,  $var[4], $var[5], $var[6], $var[7], $var[8]);
+        fputcsv($fp,$registro);
+      }  
+    }
+    fclose($fp);
+    chmod('datosIA/publicacion'.$trabajo.'.csv', 0777);
+
+    $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+    $resultado= $mysqli->query($query);
+    while($var=mysqli_fetch_row($resultado)){
+
+        if($var[3] == 1){
+            $ano = 'Sin experiencia';
+        }else if($var[3] == 2){
+            $ano = '1 año';
+        }else if($var[3] == 3){
+            $ano = '2 años';
+        }else if($var[3] == 4){
+            $ano = '3 o más años';
+        }
+        
+    
+        if($var[4] == 2){
+            $comu = 'Si';
+        }else{
+            $comu = "No";
+        }
+    
+        if($var[5] == 1){
+            $cantT = 'Ninguno';
+        }else if($var[5] == 2){
+            $cantT = 1;
+        }else if($var[5] == 3){
+            $cantT = 2;
+        }else if($var[5] == 4){
+            $cantT = '3 o más';
+        }
+    
+        if($var[6] == 2){
+            $esp = 'Full Stack';
+        }else if($var[6] == 1){
+            $esp = 'Front End';
+        }else if($var[6] == 3){
+            $esp = 'Back End';
+        }
+    
+        if($var[7] == 2){
+            $estud = 'Titulo Tecnico';
+        }else if($var[7] == 3){
+            $estud = 'Titulo profesional';
+        }else if($var[7] == 4){
+            $estud = 'Post Grados';
+        }else{
+            $estud = 'Sin estudios universitarios';
+        }
+
+        
+        echo "<tr>";
+        echo "<td>".$var[0]."</td>";
+        echo "<td>".$var[1],"</td>";
+        echo "<td>".$var[2],"</td>";
+        echo "<td>".$ano,"</td>";
+        echo "<td>".$comu,"</td>";
+        echo "<td>".$cantT,"</td>";
+        echo "<td>".$esp,"</td>";
+        echo "<td>".$estud,"</td>";
+        echo "<td>".$var[8],"</td>";
+        echo "<tr>";
+    }
+    echo "</table>" ?>    
     </section>
 
   

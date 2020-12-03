@@ -200,7 +200,7 @@ if(is_numeric(session_id())){
         
         <ul class="job-listings mb-5">
         <?php
-          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
+          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.ia FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
           $resultado= $mysqli->query($query); 
           while($var=mysqli_fetch_row($resultado)){
           ?>
@@ -208,7 +208,7 @@ if(is_numeric(session_id())){
             <?php
             if($mis == true){
               ?>
-             
+              <a href="miPublicacion.php?publicacion=<?php echo $var[0] ?>"></a>             
               <?php
             }else{
               ?>
@@ -218,7 +218,7 @@ if(is_numeric(session_id())){
             ?>
             
             <div class="job-listing-logo">
-              <img src="images/job_logo_1.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
+              <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
@@ -230,6 +230,16 @@ if(is_numeric(session_id())){
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                 <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
                 <span class="badge badge-danger"><?php echo $var[5] ?></span>
+                <?php 
+                if ($var[6] == '0') { ?>
+                  <span class="badge badge-dark">IA No Disponible</span>
+                <?php
+                } else if ($var[6] == '1') {
+                ?>
+                  <span class="badge badge-success">IA Disponible</span>
+                <?php
+                }
+                ?>
               </div>
               <form  method="post" action="editarTrabajo.php" method="POST">
               <div class="job-listing-meta">
