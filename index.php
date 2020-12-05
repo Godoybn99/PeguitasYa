@@ -4,13 +4,41 @@
 session_start();
 require "php/db.php";
 
-if (isset($_POST['pBusq'])) {
-  $pBusq = $_POST['pBusq'];    
-  $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
-  $queryb = "SELECT idTrabajo, titulo,descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
+
+if (isset($_POST['buscar'])){
+
+  $pBusq = $_POST['pBusq'];
+  $pRegion = $_POST['region'];
+  $pTipo = $_POST['tipoT'];
+  $where = "";
+
+  if(!empty($pBusq)){
+    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
+  }else{
+    $where = "WHERE region.idRegion = '$pRegion'";
+  }
+
+  if(empty($pBusq) && empty($pRegion)){
+    $where = "WHERE trabajo.idTipo = '$pTipo'";
+  }
+
+  if(!empty($pBusq) && !empty($pRegion)){
+    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%' AND region.idRegion = '$pRegion'";
+  }
+
+  if(!empty($pBusq) && !empty($pTipo)){
+    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%' AND trabajo.idTipo = '$pTipo'";
+  }
+
+  if(!empty($pRegion) && !empty($pTipo)){
+    $where = "WHERE region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo'";
+  }
+
+  $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
+  $queryb = "SELECT idTrabajo, titulo,descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
 } else {
-  $queryc = "SELECT count(idTrabajo) FROM trabajo";
-  $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
+  $queryc = "SELECT count(idTrabajo) FROM trabajo where idEstado = 1";
+  $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idEstado = 1";
 }
 //if (isset($_POST['region'])){
  // $reg = $_POST['region'];
@@ -210,13 +238,13 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <select for="tipoT" name="tipoT" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
-                    <option>Full Time</option>
-                    <option>Part Time</option>
-                    <option>Esporadico</option>
+                    <option value="1">Full Time</option>
+                    <option value="2">Part Time</option>
+                    <option value="3">Esporadico</option>
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Buscar trabajo</button>
+                  <button type="submit" name="buscar" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Buscar trabajo</button>
                 </div>
               </div>
               <div class="row">

@@ -200,15 +200,24 @@ if(is_numeric(session_id())){
         
         <ul class="job-listings mb-5">
         <?php
-          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.ia FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
+          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.ia,trabajo.idEstado FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
           $resultado= $mysqli->query($query); 
           while($var=mysqli_fetch_row($resultado)){
+            $dis = $var[7];
+            if($dis == "1"){
+              $dis = "Disponible";
+              $mensaje = "badge badge-success";
+            }
+            if($dis == "2"){
+              $dis = "No Disponible";
+              $mensaje = "badge badge-danger";
+            }
           ?>
          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <?php
             if($mis == true){
               ?>
-              <a href="miPublicacion.php?publicacion=<?php echo $var[0] ?>"></a>             
+                          
               <?php
             }else{
               ?>
@@ -218,7 +227,7 @@ if(is_numeric(session_id())){
             ?>
             
             <div class="job-listing-logo">
-              <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
+              <img src="images/logo1_PeguitasYa.jpg" class="img-fluid">
             </div>
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
@@ -230,8 +239,9 @@ if(is_numeric(session_id())){
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                 <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
                 <span class="badge badge-danger"><?php echo $var[5] ?></span>
+                <span class="<?php echo $mensaje ?>"><?php echo $dis ?></span>
                 <?php 
-                if ($var[6] == '0') { ?>
+                if ($var[6] == '2') { ?>
                   <span class="badge badge-dark">IA No Disponible</span>
                 <?php
                 } else if ($var[6] == '1') {
@@ -244,13 +254,20 @@ if(is_numeric(session_id())){
               <form  method="post" action="editarTrabajo.php" method="POST">
               <div class="job-listing-meta">
               <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <button data-toggle="modal" data-target="#staticBackdrop" class="btn btn-info border-width-2 d-none d-lg-inline-block">Editar</button>
+              <button data-toggle="modal" style="margin: 10px" data-target="#staticBackdrop" class="btn btn-info border-width-2 d-none d-lg-inline-block">Editar</button>
               </div>
               </form>
               <form  method="post" action="php/eliminarPublicacion.php" method="POST">
               <div class="job-listing-meta">
               <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <button type="submit" class="btn btn-danger border-width-2 d-none d-lg-inline-block">Eliminar</button>
+              <button type="submit" style="margin: 10px" class="btn btn-danger border-width-2 d-none d-lg-inline-block">Eliminar</button>
+              </div>
+              </form>
+              <form  method="post" action="php/cambiarEstado.php" method="POST">
+              <div class="job-listing-meta">
+              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
+              <input type="hidden" name="estado" value="<?php echo $var[7]?>">
+              <button type="submit" style="margin: 10px" class="btn btn-primary border-width-2 d-none d-lg-inline-block ">CambiarEstado</button>
               </div>
               </form>
               <?php } ?>     
