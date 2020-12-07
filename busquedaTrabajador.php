@@ -3,7 +3,6 @@
 require "php/db.php";
 session_start();
 
-
 if(is_numeric(session_id())){
   $id= session_id();
   $estado= "Mi Perfil";
@@ -24,10 +23,16 @@ if(is_numeric(session_id())){
 
 
 
+if(!isset($_POST['idTrabajo'])){
+  $publicacion = $_SESSION['publicacion'];
+}else{
+  $publicacion= $_POST['idTrabajo'];
+}
+
 ?>
- <!-- Contador de publicaciones --->
+ <!-- Contador de Postulantes --->
  <?php
-          $query="SELECT count(idTrabajo) FROM trabajo where idUsuario = '$id'";
+          $query="SELECT count(idPostulacion) FROM postulacion  where idTrabajo = '$publicacion'";
           $resultado= $mysqli->query($query);
           while($cant=mysqli_fetch_row($resultado)){ 
             $canti=$cant ;          
@@ -47,7 +52,8 @@ if(is_numeric(session_id())){
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/quill.snow.css">
-    
+    <link rel="stylesheet" href="css/rating.css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">    
@@ -158,10 +164,11 @@ if(is_numeric(session_id())){
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Mis Publicaciones</h1>
+            <h1 class="text-white font-weight-bold">Buscar un trabajador</h1>
             <div class="custom-breadcrumbs">
               <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Mis Publicaciones</strong></span>
+              <a href="#">Servicios</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Buscar un trabajador</strong></span>
             </div>
           </div>
         </div>
@@ -183,24 +190,21 @@ if(is_numeric(session_id())){
             ?> 
 
 
+
     <!---Lista de Mis publicaciones-->
     <section class="site-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
-          <?php
-          $query="SELECT count(idTrabajo) FROM trabajo where idUsuario = '$id'";
-          $resultado= $mysqli->query($query);
-          while($var=mysqli_fetch_row($resultado)){            
-          ?>
-            <h2 class="section-title mb-2"> Mis Trabajos <?php echo $var[0] ?></h2>
-          <?php } ?>  
+      
+            <h2 class="section-title mb-2"> Publicacion Selecionada </h2>
+            
           </div>
         </div>
-        
+    <!---Publicacion Selecionada-->
         <ul class="job-listings mb-5">
         <?php
-          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.ia,trabajo.idEstado FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
+          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo,trabajo.ia FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$publicacion'";
           $resultado= $mysqli->query($query); 
           while($var=mysqli_fetch_row($resultado)){
             if ($var[5] == 'Full Time') {
@@ -210,21 +214,12 @@ if(is_numeric(session_id())){
               } else {
                 $estilo = 'info';
               }
-            $dis = $var[7];
-            if($dis == "1"){
-              $dis = "Disponible";
-              $mensaje = "badge badge-success";
-            }
-            if($dis == "2"){
-              $dis = "No Disponible";
-              $mensaje = "badge badge-danger";
-            }
           ?>
          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <?php
             if($mis == true){
               ?>
-                          
+             
               <?php
             }else{
               ?>
@@ -232,11 +227,11 @@ if(is_numeric(session_id())){
               <?php
             }
             ?>
-            
+           
             <div class="job-listing-logo">
-              <img src="images/logo1_PeguitasYa.jpg" class="img-fluid">
+              <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
-
+            
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
               <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                 <h2><?php echo $var[1] ?></h2>
@@ -245,46 +240,205 @@ if(is_numeric(session_id())){
               </div>
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                 <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
-                <span class="badge badge-<?php echo $estilo?>"><?php echo $var[5] ?></span>
-                <span class="<?php echo $mensaje ?>"><?php echo $dis ?></span>
-                <?php 
-                if ($var[6] == '0') { ?>
-                  <span class="badge badge-dark">IA No Disponible</span>
+                <span class="badge badge-<?php echo $estilo ?>"><?php echo $var[5] ?></span>
                 <?php
-                } else if ($var[6] == '1') {
+              if ($var[6] == '0') {
+              ?>
+                <span class="badge badge-dark">IA No Disponible</span>
+              <?php
+              } else if ($var[6] == '1') {
                 ?>
                   <span class="badge badge-success">IA Disponible</span>
                 <?php
                 }
-                ?>
-              </div>
-              <form  method="post" action="editarTrabajo.php" method="POST">
+            ?>
+              </div>            
               <div class="job-listing-meta">
-              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <button data-toggle="modal" style="margin: 10px" data-target="#staticBackdrop" class="btn btn-info border-width-2 d-none d-lg-inline-block">Editar</button>
+              <button role="button" class="btn btn-info ">Buscar Postulante con IA</button>
+
               </div>
-              </form>
-              <form  method="post" action="php/eliminarPublicacion.php" method="POST">
-              <div class="job-listing-meta">
-              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <button type="submit" style="margin: 10px" class="btn btn-danger border-width-2 d-none d-lg-inline-block">Eliminar</button>
-              </div>
-              </form>
-              <form  method="post" action="php/cambiarEstado.php" method="POST">
-              <div class="job-listing-meta">
-              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <input type="hidden" name="estado" value="<?php echo $var[7]?>">
-              <button type="submit" style="margin: 10px" class="btn btn-primary border-width-2 d-none d-lg-inline-block ">CambiarEstado</button>
-              </div>
-              </form>
               <?php } ?>     
             </div>            
             </ul>
+      </div>
+      <!---Lista de postulantes -->
+      <div class="row mb-3 justify-content-center">
+          <div class="col-md-7 text-center">
+            <h2 class="section-title mb-2"> Lista de Postulantes </h2>
+          </div>
+        </div>
+        <ul class="job-listings mb-5">
+        <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+        <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+        <table class="table table-striped" width:400px >
+        <thead class="thead-dark">
+            <tr align="center">
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo</th>
+            <th>Años de Exp</th>
+            <th>¿Es de la misma comuna?</th>
+            <th>Cantidad de Trabajos</th>
+            <th>Especialidad</th>
+            <th>Nivel de Estudios</th>
+            <th>Valoracion</th>
+            <th>Datos del Postulante</th>
+            <th>Puntuar usuario</th>
+            </tr>
+         </thead>
+  <tbody>
+    <?php
+  $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$publicacion'";
+  $resultado= $mysqli->query($query);
+  while($var=mysqli_fetch_row($resultado)){
 
-<!-- Mostrar cantidad de trabajos  -->
+    $idTrabajo= $var[9];
+    $idUsuario = $var[10];
+    $idPostulacion = $var[11];
+    $query2= "SELECT * FROM usuario where idUsuario = '$idUsuario'";
+    $resultado2 = $mysqli->query($query2);
+    while($dato= mysqli_fetch_row($resultado2)){
+      $uNombre = $dato[1];
+      $uApellido = $dato[2];
+      $uCorreo = $dato[3];
+      $uDire = $dato[4];
+      $uCargo = $dato[6];
+      $uValo = $dato[7];
+    }
+
+    if($uCargo == null || $uCargo == ''){
+      $uCargo =  'Cargo no definido';
+    }
+
+
+
+      if($var[3] == 1){
+          $ano = 'Sin experiencia';
+      }else if($var[3] == 2){
+          $ano = '1 año';
+      }else if($var[3] == 3){
+          $ano = '2 años';
+      }else if($var[3] == 4){
+          $ano = '3 o más años';
+      }
+      
+  
+      if($var[4] == 2){
+          $comu = 'Si';
+      }else{
+          $comu = "No";
+      }
+  
+      if($var[5] == 1){
+          $cantT = 'Ninguno';
+      }else if($var[5] == 2){
+          $cantT = 1;
+      }else if($var[5] == 3){
+          $cantT = 2;
+      }else if($var[5] == 4){
+          $cantT = '3 o más';
+      }
+  
+      if($var[6] == 2){
+          $esp = 'Full Stack';
+      }else if($var[6] == 1){
+          $esp = 'Front End';
+      }else if($var[6] == 3){
+          $esp = 'Back End';
+      }
+  
+      if($var[7] == 2){
+          $estud = 'Titulo Tecnico';
+      }else if($var[7] == 3){
+          $estud = 'Titulo profesional';
+      }else if($var[7] == 4){
+          $estud = 'Post Grados';
+      }else{
+          $estud = 'Sin estudios universitarios';
+      }
+      ?>
+      <tr align="center">
+      <td><?php echo$var[0]?></td>
+      <td><?php echo$var[1]?></td>
+      <td><?php echo$var[2]?></td>
+      <td><?php echo$ano?></td>
+      <td><?php echo$comu?></td>
+      <td><?php echo$cantT?></td>
+      <td><?php echo$esp?></td>
+      <td><?php echo$estud?></td>
+      <td><?php echo$var[8]?></td>
+      <td><button class="btn btn-primary"   data-toggle="modal" data-target="#<?php echo $uCorreo ?>">Ver Perfil</button></td>
+      <td><button class="btn btn-primary " data-toggle="modal" data-target="#modalValo">Puntuar</button></td>
+      <tr>
+
+      <div class="modal fade" id=<?php echo $uCorreo ?> tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" >
+          <h5 class="modal-tittle" center id="tituloLabel">Datos del Ofertante</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Nombre</label>
+              <div>
+              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uNombre ?>>
+              </div>
+            </div>
+            <div class="form-group">
+              <div>
+                <label for="">Apellido</label>
+                <div>
+                <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uApellido ?>>
+              </div>
+              </div>
+              <div class="form-group">
+              <label for="job-location">Correo electronico</label>
+              <div>
+              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uCorreo ?>>
+              </select>
+              </div>
+              </div>
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Cargo</label>
+              <div>
+              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uCargo ?>>
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="esp" class="cik-fomr-label">Direccion</label>
+              <div>
+              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uDire ?>>
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="esp" class="cik-fomr-label">Valoracion</label>
+              <div>              
+              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uValo ?>>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+            </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+    <?php } ?>
+
+    
+  </tbody>
+</table>
+        </div>
+        </li>
+        </ul>
+            <!-- Mostrar cantidad de Postulantes  -->
         <div class="row pagination-wrap">
           <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
+            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> Postulantes</span>
           </div>
           <div class="col-md-6 text-center text-md-right">
             <div class="custom-pagination ml-auto">
@@ -299,10 +453,10 @@ if(is_numeric(session_id())){
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
+  </body>
    
   
 
@@ -358,6 +512,52 @@ if(is_numeric(session_id())){
         </div>
       </div>
     </footer>
+
+
+
+
+         <!-- Modal de puntiacion -->
+
+         <div class="modal fade" id="modalValo" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" >
+          <h5 class="modal-tittle" center id="tituloLabel">Puntuar al postulante</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <form method="POST" action="php/ajax_puntuar.php">
+          <input name='idUsuario' type="hidden" value= <?php echo $idUsuario?>></input>
+          <input name='publicacion' type="hidden" value= <?php echo $publicacion?>></input>
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Nombre</label>
+              <div>
+              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo "'$uNombre' '$uApellido'"?>>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="exp" class="cik-fomr-label">Puntuacion</label>
+              <div class="valores">
+                <input type="radio" name="example" class="rating" value="1" />
+                <input type="radio" name="example" class="rating" value="2" />
+                <input type="radio" name="example" class="rating" value="3" />
+                <input type="radio" name="example" class="rating" value="4" />
+                <input type="radio" name="example" class="rating" value="5" />
+            </div>
+            </div>
+            <span class="info"></span>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Puntuar</button>
+            </form>
+              <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+            </div>
+        </div>        
+      </div>
+    </div>
+  </div>
   
   </div>
 
@@ -374,6 +574,8 @@ if(is_numeric(session_id())){
     <script src="js/quill.min.js"></script>
     <script src="js/bootstrap-select.min.js"></script>
     <script src="js/custom.js"></script>
+    <script src="js/rating.js"></script>
+    <!---Java Lista------>
     <script type="text/javascript">
 	$(document).ready(function(){
 		$('#region').val(0);
@@ -396,5 +598,20 @@ if(is_numeric(session_id())){
 		});
 	}
 </script>
+<!---Java Estrellas------>
+<script>
+  $('.valores').rating(function(vote, event){
+    $.ajax({
+      method:"POST",
+      url:"php/ajax_puntuar.php",
+      data: {vote:vote,idUsuario:$idUsuario}
+    }).done(function(info){
+      $('.info').html("Tamo")
+    })
+  })
+   
+</script>
+  
+
   </body>
 </html>

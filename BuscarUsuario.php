@@ -34,11 +34,11 @@ if (isset($_POST['buscar'])){
     $where = "WHERE region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo'";
   }
 
-  $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
-  $queryb = "SELECT idTrabajo, titulo,descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
+  $queryc = "SELECT count(idUsuario) FROM  $where";
+  $queryb = "SELECT * from usuario $where";
 } else {
-  $queryc = "SELECT count(idTrabajo) FROM trabajo where idEstado = 1";
-  $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idEstado = 1";
+  $queryc = "SELECT count(idUsuario) FROM usuario";
+  $queryb = "SELECT * from usuario";
 }
 
 if(is_numeric(session_id())){
@@ -132,7 +132,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
               ?>
                <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
                 <li><a href="post-job.php">Publicar un trabajo</a></li>
-                <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
+                <li><a href="buscarTrabajador.php">Buscar un usuario</a></li>
               <?php
               } else {
               ?>
@@ -205,7 +205,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
     </header>
 
     <!-- ############  HOME  ############ -->
-    <section class="home-section section-hero overlay bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+    <section class="home-section section-hero overlay bg-image" style="background-image: url('images/fondo_personas.jpg');" id="home-section">
 
       <div class="container">
         <div class="row align-items-center justify-content-center">
@@ -239,17 +239,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <button type="submit" name="buscar" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Buscar trabajo</button>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12 popular-keywords">
-                  <h3>Busquedas mas populares:</h3>
-                  <ul class="keywords list-unstyled m-0 p-0">
-                    <li><a href="#" class="">Diseñador de UI</a></li>
-                    <li><a href="#" class="">Python</a></li>
-                    <li><a href="#" class="">Desarollador</a></li>
-                  </ul>
+                  <button type="submit" name="buscar" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Buscar persona</button>
                 </div>
               </div>
             </form>
@@ -263,48 +253,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
     </section>
 
-    <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('images/hero_1.jpg');">
-      <div class="container">
-        <div class="row mb-5 justify-content-center">
-          <div class="col-md-7 text-center">
-            <h2 class="section-title mb-2 text-white">Tabla de trabajos registrados</h2>
-            <p class="lead text-white">En PeguitasYA se busca que todos tengas las mejores oportunidades.</p>
-          </div>
-        </div>
-        <div class="row pb-0 block__19738 section-counter">
 
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="1930">0</strong>
-            </div>
-            <span class="caption">Candidatos</span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="54">0</strong>
-            </div>
-            <span class="caption">Trabajos publicados disponibles</span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="120">0</strong>
-            </div>
-            <span class="caption">Trabajos publicados no disponibles </span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="550">0</strong>
-            </div>
-            <span class="caption">Compañias</span>
-          </div>
-
-
-        </div>
-      </div>
-    </section>
 
     <!-- ############  Listado de trabajos  ############ -->
     
@@ -316,7 +265,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
             $resultado = $mysqli->query($queryc);
             while ($var = mysqli_fetch_row($resultado)) {
             ?>
-              <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Listados</h2>
+              <h2 class="section-title mb-2"><?php echo $var[0] ?> Personas Listadas</h2>
             <?php } ?>
           </div>
         </div>
@@ -330,7 +279,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <?php
               if ($mis == true) {
               ?>
-                <a href="job-single.php?publicacion=<?php echo $var[0] ?>"></a>
+                <a href="Perfil.php?Perfil=<?php echo $var[0] ?>"></a>
               <?php
               } else {
               ?>
@@ -393,20 +342,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-8">
-            <h2 class="text-white">¿Buscas un trabajo?</h2>
-            <p class="mb-0 text-white lead">Registrate en nuestra pagina web .</p>
-          </div>
-          <div class="col-md-3 ml-auto">
-            <a href="inicio.php" class="btn btn-warning btn-block btn-lg">Registrate</a>
-          </div>
-        </div>
       </div>
     </section>
 

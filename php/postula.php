@@ -3,6 +3,7 @@ session_start();
 require "db.php";
 
 $trabajo = $_POST['idTrabajo'];
+$_SESSION['publicacion'] = $trabajo;
 $id=session_id();
 $queryV ="SELECT valoracion FROM `usuario` WHERE idUsuario = '$id'";
 $var = $mysqli->query($queryV);
@@ -84,6 +85,6 @@ if($_POST){
         $id=$_SESSION['id'];
         
     }    
-    header("Location: ../misPublicaciones.php");
+    header("Location: ../job-single.php");
 }
 ?>

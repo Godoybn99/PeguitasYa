@@ -2,7 +2,14 @@
 <?php
 session_start();
 require "php/db.php";
-$trabajo = $_GET['publicacion'];
+
+
+if(!isset($_GET['publicacion'])){
+  $trabajo = $_SESSION['publicacion'];
+}else{
+  $trabajo = $_GET['publicacion'];
+}
+
 
 if(is_numeric(session_id())){
   $us= session_id();
@@ -53,6 +60,7 @@ if(is_numeric(session_id())){
     $query2= "SELECT * FROM usuario where idUsuario = '$usuario'";
     $resultado2 = $mysqli->query($query2);
     while($dato= mysqli_fetch_row($resultado2)){
+      $uId = $dato[0];
       $uNombre = $dato[1];
       $uApellido = $dato[2];
       $uCorreo = $dato[3];
@@ -264,7 +272,10 @@ if(is_numeric(session_id())){
                 <li class="mb-2"><strong class="text-black">Renta: </strong> $<?php echo $reMin ?> - $<?php echo $reMax ?></li>
                 <li class="mb-2"><strong class="text-black">Correo de contacto: </strong><?php echo $mail ?></li>
                 <li class="mb-2"><strong class="text-black">Fono de contacto: </strong> <?php echo $fono ?></li>
-                <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalDatos">Datos del Ofertante</a>
+                <form action="Perfil.php" method="POST">
+                <input name='idUs' type="hidden" value= <?php echo $uId ?>></input>
+                <button type="submit" class="btn btn-block btn-primary btn-md">Datos del Ofertante</button>
+                </form>
               </ul>
             </div>
           </div>
@@ -432,7 +443,7 @@ if(is_numeric(session_id())){
               </select>
             </div>
             <div class="modal-footer">
-              <button type="reset" class="btn btn-secondary">Cancelar</button>
+              <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
               <button type="submit" class="btn btn-success">Guardar</button>
             </div>
           
@@ -494,7 +505,7 @@ if(is_numeric(session_id())){
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="reset" class="btn btn-secondary">Cerrar</button>
+              <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
             </div>
         </div>        

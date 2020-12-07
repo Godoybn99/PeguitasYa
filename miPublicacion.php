@@ -286,6 +286,21 @@ if(is_numeric(session_id())){
     $resultado= $mysqli->query($query);
     while($var=mysqli_fetch_row($resultado)){
 
+      $query2= "SELECT * FROM usuario where idUsuario = '$usuario'";
+    $resultado2 = $mysqli->query($query2);
+    while($dato= mysqli_fetch_row($resultado2)){
+      $uNombre = $dato[1];
+      $uApellido = $dato[2];
+      $uCorreo = $dato[3];
+      $uDire = $dato[4];
+      $uCargo = $dato[6];
+      $uValo = $dato[7];
+    }
+
+    if($uCargo == null || $uCargo == ''){
+      $uCargo =  'Cargo no definido';
+    }
+
         if($var[3] == 1){
             $ano = 'Sin experiencia';
         }else if($var[3] == 2){
