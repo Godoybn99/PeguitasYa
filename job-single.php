@@ -208,7 +208,7 @@ if(is_numeric(session_id())){
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold"><?php echo $titulo ?></h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
+              <a href="index.php">Inicio</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Publicacion</strong></span>
             </div>
           </div>
