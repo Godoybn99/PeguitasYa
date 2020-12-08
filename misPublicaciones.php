@@ -87,7 +87,7 @@ if(is_numeric(session_id())){
               <li class="has-children">
                 <a href="job-listings.html">Servicios</a>
                 <ul class="dropdown">
-                  <li><a href="job-single.html">Buscar un trabajador</a></li>
+                  <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
                   <li><a href="post-job.php">Publicar un trabajo</a></li>
                 </ul>
               <li><a href="contact.php">Contacto</a></li>

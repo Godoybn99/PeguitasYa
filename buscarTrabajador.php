@@ -246,7 +246,7 @@ if(is_numeric(session_id())){
               </div>            
               <div class="job-listing-meta">
               <form action="busquedaTrabajador.php" name="ab"  method="POST">
-              <input name="idTrabajo" type="hidden" value=<?php echo $var[0] ?>></input>
+              <input name="idTrabajo" type="text" value=<?php echo $var[0] ?>></input>
               <button type="submit" class="btn btn-primary ">Buscar</button>
               </form>
               <?php } ?> 

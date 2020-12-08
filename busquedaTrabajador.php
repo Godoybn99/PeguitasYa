@@ -270,10 +270,10 @@ if(is_numeric(session_id())){
     while($var=mysqli_fetch_row($resultadoIA)){
       $registro = array($var[9], $var[3] ,  $var[4], $var[5], $var[6], $var[7], $var[8]);
       fputcsv($fp,$registro);
-    }  
+    }
+    fclose($fp);  
+    chmod('datosIA/publicacion'.$trabajo.'.csv', 0777);
   }
-  fclose($fp);
-  chmod('datosIA/publicacion'.$trabajo.'.csv', 0777);
   ?>
       
       <!---Lista de postulantes -->
@@ -428,10 +428,7 @@ if(is_numeric(session_id())){
 
     
     <footer class="site-footer">
-
-      <a href="#top" class="smoothscroll scroll-top">
-        <span class="icon-keyboard_arrow_up"></span>
-      </a>
+      <a href="#top" class="smoothscroll scroll-top"><span class="icon-keyboard_arrow_up"></span></a>
 
       <div class="container">
         <div class="row mb-5">
@@ -473,9 +470,6 @@ if(is_numeric(session_id())){
             </div> 
           </div>
         </div>
-
-       
-        </div>
       </div>
     </footer>
 
@@ -499,7 +493,8 @@ if(is_numeric(session_id())){
               <label for="exp" class="cik-fomr-label">Postulantes recomendados por PeguitasIA</label>
               <div>
                 <?php
-                //$salida= array(); //recogerá los datos que nos muestre el script de Python             
+                //$salida= array(); //recogerá los datos que nos muestre el script de Python 
+                echo $trabajo;         
                 
                 //$command = 'python datosIA/peguitaia.py';
                 $p = exec("python datosIA/peguitaia.py $trabajo");
@@ -521,7 +516,6 @@ if(is_numeric(session_id())){
                   }
                 }
 
-                #####################################################
     ?>
     <section class="site-section">
     <?php
@@ -535,8 +529,7 @@ if(is_numeric(session_id())){
       
       $queryX="SELECT usuario.nombre, usuario.apellidos, usuario.correo FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE postulacion.idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
       $resultadoX= $mysqli->query($queryX);
-      while($varX=mysqli_fetch_row($resultadoX)){
-        
+      while($varX=mysqli_fetch_row($resultadoX)){        
 
         echo "<tr>";
         echo "<td>".$varX[0]."</td>";
@@ -547,13 +540,9 @@ if(is_numeric(session_id())){
     }        
   }    
     echo "</table>"  ?>    
-    </section>
-    
-                <?php########################  #############################?>
-                
+    </section>                
               </div>
-            </div>           
-            
+            </div>   
             <div class="modal-footer">
               <button type="reset" class="btn btn-secondary">Cancelar</button>
               <button type="submit" class="btn btn-success">Guardar</button>
