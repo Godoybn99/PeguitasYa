@@ -276,7 +276,7 @@ if(is_numeric(session_id())){
       $separator = "\t";
       $fp = fopen('datosIA/publicacion'.$trabajo.'.csv', 'w');
       while($var=mysqli_fetch_row($resultadoIA)){
-        $registro = array($var[9], $var[3] ,  $var[4], $var[5], $var[6], $var[7], $var[8]);
+        $registro = array($var[9], $var[3] , $var[4], $var[5], $var[6], $var[7], $var[8]);
         fputcsv($fp,$registro);
       }  
     }

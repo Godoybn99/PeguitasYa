@@ -14,7 +14,7 @@ import pandas as pd
 import numpy as np
 
 clf = joblib.load('datosIA/modelo_entrenado_ING.pkl')
-public = sys.argv[1]
+public = '75' #sys.argv[1]
 data = pd.read_csv('datosIA/publicacion'+public+'.csv', header = None)
 
 data.columns = ['id', 'years', 'city', 'works', 'speciality', 'study', 'score']

@@ -192,7 +192,7 @@ if(is_numeric(session_id())){
             <h2 class="section-title mb-2"> Selecione un Trabajo </h2>
           </div>
         </div>
-        <form action="busquedaTrabajador.php" name="ab"  method="post" class="search-jobs-form">
+        
         <ul class="job-listings mb-5">
         <?php
           $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo,trabajo.ia FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id' and trabajo.ia = 1";
@@ -245,11 +245,12 @@ if(is_numeric(session_id())){
             ?>
               </div>            
               <div class="job-listing-meta">
-              <input name='idTrabajo' type="hidden" value= <?php echo $var[0] ?>></input>
-              <button role="button" class="btn btn-primary ">Buscar</button>
+              <form action="busquedaTrabajador.php" name="ab"  method="POST">
+              <input name="idTrabajo" type="hidden" value=<?php echo $var[0] ?>></input>
+              <button type="submit" class="btn btn-primary ">Buscar</button>
               </form>
-              </div>
-              <?php } ?>     
+              <?php } ?> 
+              </div>   
             </div>            
             </ul>
 
