@@ -14,7 +14,7 @@ $resultado= $mysqli->query($query);
 $num = $resultado->num_rows;
 if($num>0){
 
-    $query = "UPDATE valoracion set valor = '$valor' where idTrabajo = '$publi' and idUsuario = '$us'";
+    $query = "UPDATE valoracion set valor = '$valor' where idTrabajo = '$publi' and idUsuario = '$id'";
     $resultado2=mysqli_query($conexion,$query);
     echo "Se realizo la actualizacion";
 
@@ -35,9 +35,6 @@ while ($ver=mysqli_fetch_row($result)){
 
 
 $total = $suma;
-
-    $total =1;
-
 
 
 $query3="SELECT count(idValoracion) FROM valoracion where idUsuario = '$id'";
