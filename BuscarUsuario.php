@@ -13,7 +13,7 @@ if (isset($_POST['buscar'])){
   $where = "";
 
   if(!empty($pBusq)){
-    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
+    $where = "WHERE nombre LIKE '%$pBusq%' OR apellidos LIKE '%$pBusq%' OR trabajo LIKE'%$pBusq%'";
   }else{
     $where = "WHERE region.idRegion = '$pRegion'";
   }
@@ -34,7 +34,7 @@ if (isset($_POST['buscar'])){
     $where = "WHERE region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo'";
   }
 
-  $queryc = "SELECT count(idUsuario) FROM  $where";
+  $queryc = "SELECT count(idUsuario) FROM usuario $where";
   $queryb = "SELECT * from usuario $where";
 } else {
   $queryc = "SELECT count(idUsuario) FROM usuario";
@@ -211,7 +211,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
         <div class="row align-items-center justify-content-center">
           <div class="col-md-12">
             <div class="mb-5 text-center">
-              <h1 class="text-white font-weight-bold">PeguitasYA</h1>
+              <h1 class="text-white font-weight-bold">PeguitasYA (Personas)</h1>
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" name="ab"  method="post" class="search-jobs-form">
@@ -295,11 +295,19 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
                 <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                   <h2><?php echo $var[1] ?></h2>
+                  <?php
+                  if($var[6]==null || $var==''){
+                    $cargo  = "Profesion no definida";
+                  }else{
+                    $cargo= $var[6];
+                  }
 
-                  <strong><?php echo $var[3] ?></strong>
+
+                  ?>
+                  <strong><?php echo $cargo ?></strong>
                 </div>
                 <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                  <span class="icon-room"></span> <?php echo $var[4] ?>, <?php echo $var[5] ?>
+                  <span class="icon-room"></span> <?php echo $var[4] ?>
                 </div>
                 <div class="job-listing-meta">
                 <?php

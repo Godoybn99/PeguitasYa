@@ -209,7 +209,7 @@ if(is_numeric(session_id())){
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Cargo</label>
+                  <label class="text-black" for="fname">Profesion</label>
                   <input type="text" readonly name="txtCar" class="form-control" placeholder= <?php echo $car ?>>
                 </div>
               </div>
