@@ -200,9 +200,30 @@ if(is_numeric(session_id())){
                   <input type="text" name="txtEmail" class="form-control" placeholder="Ingrese su correo">
                 </div>
               </div>
+
+              <div class="form-group">
+                <label for="job-location">Region</label>
+                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
+                <?php
+                    $query="SELECT * FROM region";
+                    $resultado= $mysqli->query($query);
+                    while($var=mysqli_fetch_row($resultado)){
+                ?>
+                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
+                    <?php } ?>
+                    
+              </select>
+              </div>
+
+              <div class="form-group">
+              <label for="job-location">Comunas</label>
+              <select class="form-control col-sm-12" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna">
+              </select>
+              </div>
+
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Direccion</label>
+                  <label class="text-black" for="fname">Calle</label>
                   <input type="text" name="txtDir" class="form-control" placeholder="Ingrese su direccion">
                 </div>
               </div>
@@ -353,7 +374,28 @@ if(is_numeric(session_id())){
     <script src="js/bootstrap-select.min.js"></script>
     
     <script src="js/custom.js"></script>
-   
+    <script type="text/javascript">
+	$(document).ready(function(){
+		$('#region').val(0);
+		recargarLista();
+
+		$('#region').change(function(){
+			recargarLista();
+		});
+	})
+</script>
+<script type="text/javascript">
+	function recargarLista(){
+		$.ajax({
+			type:"POST",
+			url:"php/ajax_comunas.php",
+			data:"idre=" + $('#region').val(),
+			success:function(response){
+				$('#comuna').html(response);
+			}
+		});
+	}
+</script>
    
      
   </body>
