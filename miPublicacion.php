@@ -453,9 +453,6 @@ if(is_numeric(session_id())){
               <label for="exp" class="cik-fomr-label">Postulantes recomendados por PeguitasIA</label>
               <div>
                 <?php
-                //$salida= array(); //recogerá los datos que nos muestre el script de Python             
-                
-                //$command = 'python datosIA/peguitaia.py';
                 $p = exec("python datosIA/peguitaia.py $trabajo ");
                 echo $p;
                 $arrayId = [];
