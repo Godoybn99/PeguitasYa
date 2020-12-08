@@ -129,19 +129,19 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 <ul class="dropdown">
                 <?php
               if ($mis == true) {
-              ?>
-               <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
+                ?>
+                <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
                 <li><a href="post-job.php">Publicar un trabajo</a></li>
                 <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
-              <?php
+                <?php
               } else {
-              ?>
+                ?>
                 <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
                 <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
               <?php
               }
               ?>
-                </ul>
+              </ul>
               <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
@@ -151,7 +151,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
               <?php
-
+              
               if ($mis == true) {
               ?>
                 <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
@@ -161,7 +161,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
 
               <?php
-
               if ($mis == true) {
               ?>
                 <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
