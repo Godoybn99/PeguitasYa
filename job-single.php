@@ -364,7 +364,7 @@ if(is_numeric(session_id())){
           </button>
         </div>
         <div class="modal-body">
-          <form action="php/postula.php" method="POST" class="p-4 border rounded">
+          <form action="php/postula.php" method="POST" class="p-4 border rounded" enctype="multipart/form-data">
           <input name='idTrabajo' type="hidden" value= <?php echo $trabajo ?>></input>
             <div class="form-group">
               <label for="exp" class="cik-fomr-label">Años de Experiencia</label>
@@ -441,6 +441,9 @@ if(is_numeric(session_id())){
                 <option value= <?php echo $var[0]  ?> ><?php echo $var[7]  ?></option>
                 <?php } ?>                    
               </select>
+            </div>
+            <div>
+              <input type="file" name="curriculum" class="form__file" required>
             </div>
             <div class="modal-footer">
               <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

@@ -265,6 +265,7 @@ if(is_numeric(session_id())){
     echo "<th>Especialidad</th>";
     echo "<th>Nivel de Estudios</th>";
     echo "<th>Valoracion</th>";
+    echo "<th>Curriculum</th>";
     
     $queryIA="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
     $resultadoIA= $mysqli->query($queryIA);
@@ -282,7 +283,7 @@ if(is_numeric(session_id())){
     fclose($fp);
     chmod('datosIA/publicacion'.$trabajo.'.csv', 0777);
 
-    $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+    $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score, curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
     $resultado= $mysqli->query($query);
     while($var=mysqli_fetch_row($resultado)){
 
@@ -356,10 +357,14 @@ if(is_numeric(session_id())){
         echo "<td>".$cantT,"</td>";
         echo "<td>".$esp,"</td>";
         echo "<td>".$estud,"</td>";
-        echo "<td>".$var[8],"</td>";
+        echo "<td>".$var[8],"</td>";        
+        if($var[9]){
+          echo "<td><a href=peguitasYA/$var[9] download = ".$var[0]."".$var[1]."> Curriculum </a></td>";
+        }else{
+        }
         echo "<tr>";
     }
-    echo "</table>" ?>    
+    echo "</table>" ?>
     </section>
 
   
@@ -426,7 +431,6 @@ if(is_numeric(session_id())){
             </div>
           </div>
         </div>
->
       </div>
     </footer>  
   </div>
@@ -437,7 +441,7 @@ if(is_numeric(session_id())){
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" >
-          <h5 class="modal-tittle" center id="tituloLabel">Formulario de postulacion</h5>
+          <h5 class="modal-tittle" center id="tituloLabel">Resultado de PeguitasIA</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -446,81 +450,64 @@ if(is_numeric(session_id())){
           <form action="php/postula.php" method="POST" class="p-4 border rounded">
           <input name='idTrabajo' type="hidden" value= <?php echo $trabajo ?>></input>
             <div class="form-group">
-              <label for="exp" class="cik-fomr-label">Años de Experiencia</label>
+              <label for="exp" class="cik-fomr-label">Postulantes recomendados por PeguitasIA</label>
               <div>
-                <select for="tipoT" name="anos" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una opción" required>
-                    <option>Sin experiencia</option>
-                    <option>1 año</option>
-                    <option>2 años</option>
-                    <option>3 o más años</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <div>
-                <label for="">Region</label>
-                <div>
-                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Region">
                 <?php
-                    $query="SELECT * FROM region";
-                    $resultado= $mysqli->query($query);
-                    while($var=mysqli_fetch_row($resultado)){
-                ?>
-                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
-                    <?php } ?>
-                    
-              </select>
+                //$salida= array(); //recogerá los datos que nos muestre el script de Python             
+                
+                //$command = 'python datosIA/peguitaia.py';
+                $p = exec("python datosIA/peguitaia.py $trabajo ");
+                echo $p;
+                $arrayId = [];
+                $count = 0;
+                $idList = '';
+                for($i=0; $i < strlen($p); $i++){
+                  if(is_numeric($p[$i])){
+                    $count++;
+                    $idList = intval($idList.$p[$i]);
+                  }
+                  else{
+                    if($count > 0){
+                      array_push($arrayId, $idList);
+                      $count = 0;
+                      $idList= '';
+                    }
+                  }
+                }
+
+                #####################################################
+    ?>
+    <section class="site-section">
+    <?php
+    echo "<table align=center width=80%>";
+    echo "<tr>";
+    echo "<th>Nombre</th>";
+    echo "<th>Apellido</th>";
+    echo "<th>Correo</th>";  
+
+    foreach ($arrayId as $val) {
+      
+      $queryX="SELECT usuario.nombre, usuario.apellidos, usuario.correo FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE postulacion.idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
+      $resultadoX= $mysqli->query($queryX);
+      while($varX=mysqli_fetch_row($resultadoX)){
+        
+
+        echo "<tr>";
+        echo "<td>".$varX[0]."</td>";
+        echo "<td>".$varX[1],"</td>";
+        echo "<td>".$varX[2],"</td>";
+        echo "<tr>";
+
+    }        
+  }    
+    echo "</table>"  ?>    
+    </section>
+    
+                <?php########################  #############################?>
+                
               </div>
-              </div>
-              <div class="form-group">
-              <label for="job-location">Comunas</label>
-              <div>
-              <select class="form-control col-sm-6" name="comuna" id="comuna" data-style="btn-black" data-width="50%" data-live-search="true" title="Selecione Comuna" >
-              </select>
-              </div>
-              </div>
-            <div class="form-group">
-              <label for="exp" class="cik-fomr-label">Cant. de trabajos anteriores</label>
-              <div>
-                  <select for="tipoT" name="cantT" class="selectpicker border rounded" data-style="btn-white" data-width="50%" data-live-search="true" title="Seleccione una opción" required>
-                    <option>Ninguno</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3 o más</option>
-                  </select>
-                </div>
-            </div>
-            <div class="form-group">
-              <label for="esp" class="cik-fomr-label">Especialización</label>
-              <div>
-                  <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="58%" data-live-search="true" title="Seleccione una orientación" required>
-                    <option>Back End</option>
-                    <option>Full Stack</option>
-                    <option>Front End</option>
-                  </select>
-                </div>
-            </div>
-            <div class="form-group">
-              <label for="esp" class="cik-fomr-label">Nivel de Estudios</label>
-              <div>              
-                  <select  class="selectpicker border rounded" for="espec" name="study" class="selectpicker" data-style="btn-black" data-width="55%" data-live-search="true" required>
-                    <option>Sin estudios universitarios</option>
-                    <option>Titulo Tecnico</option>
-                    <option>Titulo profesional</option>
-                    <option>Post Grados</option>
-                  </select>
-                </div>
-            </div>
-            <div class="form-group" hidden="true"> 
-                <?php
-                    $query="SELECT * FROM usuario";
-                    $resultado= $mysqli->query($query);
-                    while($var=mysqli_fetch_row($resultado)){
-                ?>
-                <option value= <?php echo $var[0]  ?> ><?php echo $var[7]  ?></option>
-                <?php } ?>                    
-              </select>
-            </div>
+            </div>           
+            
             <div class="modal-footer">
               <button type="reset" class="btn btn-secondary">Cancelar</button>
               <button type="submit" class="btn btn-success">Guardar</button>
