@@ -283,35 +283,19 @@ if(!isset($_POST['idTrabajo'])){
             <th>Nivel de Estudios</th>
             <th>Valoracion</th>
             <th>Datos del Postulante</th>
-            <th>Puntuar usuario</th>
+            <th>Ver Curriculum</th>
             </tr>
          </thead>
   <tbody>
     <?php
-  $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$publicacion'";
+  $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$publicacion'";
   $resultado= $mysqli->query($query);
   while($var=mysqli_fetch_row($resultado)){
 
     $idTrabajo= $var[9];
     $idUsuario = $var[10];
     $idPostulacion = $var[11];
-    $query2= "SELECT * FROM usuario where idUsuario = '$idUsuario'";
-    $resultado2 = $mysqli->query($query2);
-    while($dato= mysqli_fetch_row($resultado2)){
-      $uNombre = $dato[1];
-      $uApellido = $dato[2];
-      $uCorreo = $dato[3];
-      $uDire = $dato[4];
-      $uCargo = $dato[6];
-      $uValo = $dato[7];
-    }
-
-    if($uCargo == null || $uCargo == ''){
-      $uCargo =  'Cargo no definido';
-    }
-
-
-
+    
       if($var[3] == 1){
           $ano = 'Sin experiencia';
       }else if($var[3] == 2){
@@ -356,6 +340,18 @@ if(!isset($_POST['idTrabajo'])){
       }else{
           $estud = 'Sin estudios universitarios';
       }
+
+      $uNombre = $var[0];
+      $uApellido = $var[1];
+      $uCorreo = $var[2];
+      $uDire = $var[12];
+      $uCargo = $var[13];
+      $uValo = $var[8];
+
+      if($uCargo == null || $uCargo == ''){
+        $uCargo =  'Cargo no definido';
+      }
+
       ?>
       <tr align="center">
       <td><?php echo$var[0]?></td>
@@ -367,68 +363,17 @@ if(!isset($_POST['idTrabajo'])){
       <td><?php echo$esp?></td>
       <td><?php echo$estud?></td>
       <td><?php echo$var[8]?></td>
-      <td><button class="btn btn-primary"   data-toggle="modal" data-target="#<?php echo $uCorreo ?>">Ver Perfil</button></td>
-      <td><button class="btn btn-primary " data-toggle="modal" data-target="#modalValo">Puntuar</button></td>
+      <form method="post" action="Perfil.php"> 
+      <input name='idUs' type="hidden" value= <?php echo $idUsuario?>></input>
+      <input name='publicacion' type="hidden" value= <?php echo $publicacion?>></input>
+      <td><button class="btn btn-primary" type="submit">Ver Perfil</button></td>
+      </form>
+      <td><button class="btn btn-primary " data-toggle="modal" data-target="#modalValo">Ver Curriculum</button></td>
       <tr>
-
-      <div class="modal fade" id=<?php echo $uCorreo ?> tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header" >
-          <h5 class="modal-tittle" center id="tituloLabel">Datos del Ofertante</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-              <label for="exp" class="cik-fomr-label">Nombre</label>
-              <div>
-              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uNombre ?>>
-              </div>
-            </div>
-            <div class="form-group">
-              <div>
-                <label for="">Apellido</label>
-                <div>
-                <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uApellido ?>>
-              </div>
-              </div>
-              <div class="form-group">
-              <label for="job-location">Correo electronico</label>
-              <div>
-              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uCorreo ?>>
-              </select>
-              </div>
-              </div>
-            <div class="form-group">
-              <label for="exp" class="cik-fomr-label">Cargo</label>
-              <div>
-              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uCargo ?>>
-                </div>
-            </div>
-            <div class="form-group">
-              <label for="esp" class="cik-fomr-label">Direccion</label>
-              <div>
-              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uDire ?>>
-                </div>
-            </div>
-            <div class="form-group">
-              <label for="esp" class="cik-fomr-label">Valoracion</label>
-              <div>              
-              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $uValo ?>>
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-            </div>
-        </div>        
-      </div>
-    </div>
-  </div>
+      
     <?php } ?>
-
+      </tr>
+      
     
   </tbody>
 </table>
@@ -518,7 +463,7 @@ if(!isset($_POST['idTrabajo'])){
 
          <!-- Modal de puntiacion -->
 
-         <div class="modal fade" id="modalValo" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
+  <div class="modal fade" id="modalValo" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" >

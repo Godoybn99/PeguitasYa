@@ -2,23 +2,25 @@
 <?php
 require "php/db.php";
 session_start();
-
+$id = session_id();
 if(is_numeric(session_id())){
   if(!isset($_POST['idUs'])){ 
   $us=$_GET['Perfil'];
   }else{
     $us=$_POST['idUs'];
+    $publicacion=$_POST['publicacion'];
   }
   $estado= "Cerrar sesion";
-  $query = "SELECT nombre,apellidos,correo,direccion,valoracion,trabajo FROM usuario where idUsuario ='$us'";
+  $query = "SELECT nombre,apellidos,correo,direccion,valoracion,trabajo,idUsuario FROM usuario where idUsuario ='$us'";
   $resultado = $mysqli->query($query);
-  while ($var = mysqli_fetch_row($resultado)) {
+  while ($var = mysqli_fetch_row($resultado)){
     $nombre = $var[0];
     $ape = $var[1];
     $correo = $var[2];
     $dir = $var[3];
     $valo = $var[4];
     $car = $var[5];
+    $idUsuario =$var[6];
   }
   $ref ='php/Cerrar.php';
   $mis = true;
@@ -40,7 +42,7 @@ if(is_numeric(session_id())){
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/custom-bs.css">
     <link rel="stylesheet" href="css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="css/bootstrap-select.min.css">
@@ -49,7 +51,8 @@ if(is_numeric(session_id())){
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/quill.snow.css">
-
+    <link rel="stylesheet" href="css/rating.css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/style.css">    
   </head>
@@ -238,14 +241,12 @@ if(is_numeric(session_id())){
           </div>
         </div>
       </div>
-   
+  </body>
   
     <footer class="site-footer">
 
 
  
-
-
 
       <a href="#top" class="smoothscroll scroll-top">
         <span class="icon-keyboard_arrow_up"></span>
@@ -292,10 +293,11 @@ if(is_numeric(session_id())){
           </div>
         </div>
       </div>
+      
     </footer>
   <!-- Modal de puntiacion -->
 
- <div class="modal fade" id="modalValo" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
+  <div class="modal fade" id="modalValo" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" >
@@ -311,7 +313,7 @@ if(is_numeric(session_id())){
             <div class="form-group">
               <label for="exp" class="cik-fomr-label">Nombre</label>
               <div>
-              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo "'$uNombre' '$uApellido'"?>>
+              <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo "'$nombre' '$ape'"?>>
               </div>
             </div>
             <div class="form-group">
@@ -333,7 +335,9 @@ if(is_numeric(session_id())){
             </div>
         </div>        
       </div>
+      
   </div>
+  
 
     <!-- SCRIPTS -->
     <script src="js/jquery.min.js"></script>
@@ -342,18 +346,15 @@ if(is_numeric(session_id())){
     <script src="js/stickyfill.min.js"></script>
     <script src="js/jquery.fancybox.min.js"></script>
     <script src="js/jquery.easing.1.3.js"></script>
-    
     <script src="js/jquery.waypoints.min.js"></script>
     <script src="js/jquery.animateNumber.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/quill.min.js"></script>
-    
-    
     <script src="js/bootstrap-select.min.js"></script>
-    
     <script src="js/custom.js"></script>
+    <script src="js/rating.js"></script>
    <!---Java Estrellas------>
-<script>
+   <script>
   $('.valores').rating(function(vote, event){
     $.ajax({
       method:"POST",
@@ -365,6 +366,7 @@ if(is_numeric(session_id())){
   })
    
 </script>
+
    
      
   </body>
