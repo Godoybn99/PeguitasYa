@@ -18,15 +18,15 @@ if(is_numeric(session_id())){
     
   
   }
-  if(isset($_GET['Perfil'])){
-    $us=$_GET['Perfil'];
+  if(isset($_GET['Dato'])){
+    $us=$_GET['Dato'];
     $publicacion=0;
     $_SESSION['usuario'] = $us;
     $dire="2";
   }
 
-  if(!isset($_POST['idUs']) && !isset($_GET['Perfil'])){
-    $us =  $_SESSION['usuario'];
+  if(!isset($_POST['idUs']) && !isset($_GET['Dato'])){
+    $us = $_SESSION['usuario'];
     $dire="2";
   }
 

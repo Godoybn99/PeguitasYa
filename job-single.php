@@ -13,7 +13,10 @@ if(isset($_POST['publicacion'])){
   $_SESSION['publicacion'] = $_GET['publicacion'];
 }
 
-echo $trabajo;
+if(!isset($_GET['publicacion']) && !isset($_POST['publicacion'])){
+  $trabajo = $_SESSION['publicacion'];
+}
+
 
 if(is_numeric(session_id())){
   $usu= session_id();

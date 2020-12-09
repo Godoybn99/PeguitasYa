@@ -230,7 +230,7 @@ if(is_numeric(session_id())){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Cargo</label>
-                  <input type="text" name="txtCar" class="form-control" pattern="[a-zA-Z]{1,15}" placeholder= <?php echo $car ?>>
+                  <input type="text" name="txtCar" class="form-control" pattern="[a-zA-Z]{1,15}" value= <?php echo $car ?>>
                 </div>
               </div>
               

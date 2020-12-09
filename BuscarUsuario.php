@@ -273,7 +273,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 <?php
                 }else{
                   ?>
-                  <a href="Perfil.php?<?php echo $var[0] ?>"></a>
+                  <a href="Perfil.php?Dato=<?php echo $var[0] ?>"></a>
                   <?php
                 }              
               } else {
