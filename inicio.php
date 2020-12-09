@@ -1,6 +1,6 @@
 <!--Verificacion de sesion -->
 <?php
-
+session_start();
 if(is_numeric(session_id())){
   $us= session_id();
   $estado= "Mi Perfil";
@@ -26,7 +26,7 @@ if(is_numeric(session_id())){
 <html lang="en">
   <?php 
   require "php/db.php";
-  session_start();
+  
   ?>
   <head>
     <title>PeguitasYa &mdash; Registro/Inicio de sesion</title>
@@ -185,25 +185,25 @@ if(is_numeric(session_id())){
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Nombre</label>
-                  <input type="text" name="txtNom" class="form-control" placeholder="Ingrese su nombre">
+                  <input type="text" name="txtNom" class="form-control" placeholder="Ingrese su nombre" pattern="[a-zA-Z0-9''' ']{3,30}" required>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Apellidos</label>
-                  <input type="text" name="txtApe" class="form-control" placeholder="Ingrese sus apellidos">
+                  <input type="text" name="txtApe" class="form-control" placeholder="Ingrese sus apellidos" pattern="[a-zA-Z0-9''' ']{3,30}" required>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Correo</label>
-                  <input type="text" name="txtEmail" class="form-control" placeholder="Ingrese su correo">
+                  <input type="email" name="txtEmail" class="form-control" placeholder="Ingrese su correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="job-location">Region</label>
-                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
+                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region" required>
                 <?php
                     $query="SELECT * FROM region";
                     $resultado= $mysqli->query($query);
@@ -217,31 +217,31 @@ if(is_numeric(session_id())){
 
               <div class="form-group">
               <label for="job-location">Comunas</label>
-              <select class="form-control col-sm-12" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna">
+              <select class="form-control col-sm-12" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna" required>
               </select>
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Calle</label>
-                  <input type="text" name="txtDir" class="form-control" placeholder="Ingrese su direccion">
+                  <input type="text" name="txtDir" class="form-control" placeholder="Ingrese su direccion" pattern="[a-zA-Z0-9''' ']{3,20}" required>
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Contraseña</label>
-                  <input type="password" name="txtPas" class="form-control" placeholder="Ingrese su contraseña">
+                  <input type="password" name="txtPas" class="form-control" placeholder="Ingrese su contraseña" pattern="[a-zA-Z0-9._%+-]{6,16}" required>
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Confirme su contraseña</label>
-                  <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña">
+                  <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña" pattern="[a-zA-Z0-9._%+-]{6,16}" required>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12">
-                  <input type="submit" name="btn_registro" value="Registro" class="btn px-4 btn-primary text-white">
+                  <input type="submit" name="btn_registro" value="Registro" class="btn px-4 btn-primary text-white" required>
                 </div>
               </div>
 
@@ -284,13 +284,13 @@ if(is_numeric(session_id())){
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Correo electronico</label>
-                  <input type="text" name="txtUs" id="fname" class="form-control" placeholder="ejemplo@correo.com">
+                  <input type="email" name="txtUs" id="fname" class="form-control" placeholder="ejemplo@correo.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Contraseña</label>
-                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="Contraseña">
+                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="Contraseña" pattern="[a-zA-Z0-9._%+-]{6,16}" required>
                 </div>
               </div>
 

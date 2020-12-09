@@ -209,7 +209,7 @@ if(is_numeric(session_id())){
               </div>
               <div class="form-group">
                 <label for="job-title">Titulo del trabajo</label>
-                <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero..." required>
+                <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero..." pattern="[a-zA-Z0-9''' ']{3,30}" required>
               </div>
 
               <div class="form-group">
@@ -234,17 +234,17 @@ if(is_numeric(session_id())){
 
               <div class="form-group">
                 <label for="job-title">Calle</label>
-                <input type="text" class="form-control" name="txtCalle" placeholder="ej. CalleEjemplo 123" required>
+                <input type="text" class="form-control" name="txtCalle" placeholder="ej. CalleEjemplo 123" pattern="[a-zA-Z0-9''' ']{3,20}" required>
               </div>
 
               <div class="form-group">
                 <label for="txtCorreo">Correo de contacto</label>
-                <input type="text" class="form-control" name="txtCorreo" placeholder="ej. correo@ejemplo.com" required>
+                <input type="email" class="form-control" name="txtCorreo" placeholder="ej. correo@ejemplo.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
               </div>
 
               <div class="form-group">
                 <label for="txtFono">Telefono de contacto</label>
-                <input type="text" class="form-control" name="txtFono" placeholder="ej. +56987654321" required>
+                <input type="text" class="form-control" name="txtFono" placeholder="ej. +56987654321" pattern="[0-9+]{9,12}" required>
               </div>
 
               <div class="form-group">
@@ -267,18 +267,18 @@ if(is_numeric(session_id())){
               </div>
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="rentamin" placeholder="ej. 200000" required>
+                <input type="number" class="form-control col-sm-10" name="rentamin" placeholder="ej. 200000" min='1' required>
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" class="form-control col-sm-10" name="rentamax" placeholder="ej. 500000" required>
+                <input type="number" class="form-control col-sm-10" name="rentamax" placeholder="ej. 500000" min='1' required>
                 </div>
               </div>
               </div>          
               <div class="form-group">
                 <label for="email">Descripcion</label>
               </div>
-                <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion" required></textarea>
+                <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion" maxlength="200" required></textarea>
                 <div class="form-group">
               </div>
 

@@ -219,7 +219,7 @@ if(is_numeric(session_id())){
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Tiulo del trabajo</label>
-                  <input type="text" readonly  name="txtNom" class="form-control" value= <?php echo $titulo ?>>
+                  <input type="text" readonly  name="txtNom" class="form-control" value= "<?php echo $titulo ?>">
                 </div>
               </div>
               <div class="row form-group">
@@ -237,13 +237,13 @@ if(is_numeric(session_id())){
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Calle</label>
-                  <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $calle ?>>
+                  <input type="text" readonly  name="txtEmail" class="form-control" value= "<?php echo $calle ?>">
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Correo de contacto</label>
-                  <input type="text" readonly  name="txtCar" class="form-control" placeholder= <?php echo $correo ?>>
+                  <input type="text" readonly  name="txtCar" class="form-control" placeholder= <?php echo $mail ?>>
                 </div>
               </div>
 
@@ -257,7 +257,7 @@ if(is_numeric(session_id())){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Tipo de trabajo</label>
-                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder=<?php echo $tipo ?>>
+                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder=<?php echo $tipo ?> required>
                 </div>
               </div>
 
@@ -272,11 +272,11 @@ if(is_numeric(session_id())){
               </div>
               <div class="row mb-7">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" readonly  class="form-control col-sm-20" name="rentamin" placeholder=<?php echo $reMin ?> required>
+                <input type="text" readonly  class="form-control col-sm-20" name="rentamin" placeholder=<?php echo $reMin ?>>
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <input type="text" readonly  class="form-control col-sm-20" name="rentamax" placeholder=<?php echo $reMax ?> required>
+                <input type="text" readonly  class="form-control col-sm-20" name="rentamax" placeholder=<?php echo $reMax ?>>
                 </div>
               </div>
               </div>
@@ -289,7 +289,7 @@ if(is_numeric(session_id())){
 
               <div class="row form-group mb-4">
                 <label for="email">Descripcion</label>
-                <textarea name="txtDes" readonly  rows="8" cols="100" placeholder="<?php echo $desc ?>" required></textarea>
+                <textarea name="txtDes" readonly  rows="8" cols="100" placeholder="<?php echo $desc ?>" ></textarea>
               </div>
             </form>
           </div>
@@ -304,29 +304,37 @@ if(is_numeric(session_id())){
           <div class="row form-group">
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="text-black" for="fname">Tiulo del trabajo</label>
-              <input type="text"  name="Atitulo" class="form-control" value= <?php echo $nombre ?>>
+              <input type="text"  name="Atitulo" class="form-control" value="<?php echo $titulo ?>" pattern="[a-zA-Z0-9''' ']{3,30}" required>
             </div>
           </div>
           <div class="row form-group">
           <div class="col-md-12 mb-3 mb-md-0">
                 <label for="job-location">Region</label>
-                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region">
-                <?php
+                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Region" required>
+                  <?php
                     $query="SELECT * FROM region";
                     $resultado= $mysqli->query($query);
                     while($var=mysqli_fetch_row($resultado)){
-                ?>
-                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
-                    <?php } ?>
-                    
-              </select>
+                      if($region == ($var[1])){
+                        ?><option selected value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>                        
+                      <?php
+                      }else{
+                        ?>
+                        <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
+                      <?php
+                      }
+                      ?>                                         
+                    <?php
+                    }                       
+                    ?>
+                </select>
               </div>
               </div>
 
               <div class="row form-group">
               <div class="col-md-12 mb-3 mb-md-0">
               <label for="job-location">Comunas</label>
-              <select class="form-control col-sm-12" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna" >
+              <select class="form-control col-sm-12" name="comuna" id="comuna" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione Comuna" required>
               </select>
               </div>
               </div>
@@ -334,29 +342,54 @@ if(is_numeric(session_id())){
           <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Calle</label>
-                  <input type="text" name="Acalle" class="form-control" placeholder= "Nombre de calle">
+                  <input type="text" name="Acalle" class="form-control" value= "<?php echo $calle ?>"  pattern="[a-zA-Z0-9' ']{3,20}" required>
                 </div>
               </div>
           <div class="row form-group mb-4">
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="text-black" for="fname">Correo de contacto</label>
-              <input type="text" name="Acorreo" class="form-control" placeholder= <?php echo $car ?>>
+              <?php if($mail == ''){
+                  ?><input type="email" name="Acorreo" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                  <?php
+                } else { ?>
+                  <input type="email" name="Acorreo" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value= <?php echo $mail ?>>
+                  <?php
+                } ?>              
             </div>
           </div>
 
           <div class="row form-group mb-4">
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="text-black" for="fname">Telefono de contacto</label>
-              <input type="text" name="Atelefono" class="form-control" placeholder= <?php echo $dir ?>>
+              <input type="text" name="Atelefono" class="form-control" value= <?php echo $fono ?> pattern="[0-9+]{9,12}" required>
             </div>
           </div>
 
           <div class="form-group">
                 <label for="job-type">Tipo de trabajo</label>
-                <select class="selectpicker border rounded" name="Atipo" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione tipo de trabajo" >
-                  <option>Part Time</option>
+                <select class="selectpicker border rounded" name="Atipo" data-style="btn-black" data-width="100%" data-live-search="true" title="Selecione tipo de trabajo" required>
+                <?php 
+                if($tipo == 'Full Time'){
+                  ?>
+                  <option selected>Full Time</option>
+                  <option>Part Time</option> 
+                  <option>Esporadico</option>
+                <?php
+                } else
+                if($tipo == 'Part Time') {
+                  ?>
+                  <option selected>Part Time</option>
                   <option>Full Time</option>
                   <option>Esporadico</option>
+                <?php 
+                } else
+                if($tipo == 'Esporadico'){?>
+                  <option selected>Esporadico</option>     
+                  <option>Part Time</option>
+                  <option>Full Time</option>                  
+                <?php 
+                }
+                ?>
                 </select>
               </div>
 
@@ -371,11 +404,11 @@ if(is_numeric(session_id())){
           </div>
           <div class="row mb-7">
           <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <input type="text" class="form-control col-sm-10" name="Arentamin" placeholder="ej. 200000" required>
+            <input type="text" class="form-control col-sm-10" name="Arentamin" value=<?php echo $reMin?> min='1' required>
             </div>
 
             <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-            <input type="text" class="form-control col-sm-10" name="Arentamax" placeholder="ej. 500000" required>
+            <input type="text" class="form-control col-sm-10" name="Arentamax" value=<?php echo $reMax ?> min='1' required>
             </div>
             </div>
             </div>
@@ -385,14 +418,23 @@ if(is_numeric(session_id())){
             <div class="form-group">
                 <label>¿Necesita de la IA de PeguitasYa?</label><br>
                 <select class="selectpicker border rounded" name="IA" data-style="btn-black" data-width="20%" data-live-search="true">
-                  <option value="0">No</option>
-                  <option value="1">Si</option>
+                  <?php if($ia == '1'){
+                    ?>
+                    <option value="1" selected>Si</option>
+                    <option value="0">No</option>
+                  <?php
+                  } else {
+                    ?>                    
+                    <option selected value="0">No</option>
+                    <option value="1">Si</option>
+                    <?php 
+                } ?>                  
                 </select>
               </div>
 
           <div class="row form-group mb-4">
             <label for="email">Descripcion</label>
-            <textarea name="Ades" rows="8" cols="100" placeholder="Descripcion de la publicacion" required></textarea>
+            <textarea name="Ades" rows="8" cols="100"  required><?php echo $desc ?></textarea>
           </div>
           
           <div class="row form-group">

@@ -1,6 +1,5 @@
 
 <?php
-
 require "db.php";
 if($_POST){
     $us= $_POST['txtUs'];
@@ -22,16 +21,12 @@ if($_POST){
             $_SESSION['nombre'] = $row['nombre'];
             header("Location: ../index.php");
         }else{
-            $_SESSION['message'] = 'Contraseña incorrecta';
+            session_start();
+            $_SESSION['message'] = 'Contraseña incorrecta o el usuario no existe';
             $_SESSION['message_type'] = 'danger';
             header("Location: ../inicio.php");
         }
 
-    }else{
-        $_SESSION['message'] = 'El usuario no existe';
-        $_SESSION['message_type'] = 'danger';
-        header("Location: ../inicio.php");
     }
 }
-
 ?>

@@ -186,32 +186,32 @@ if(is_numeric(session_id())){
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Nombre</label>
-                  <input type="text"  name="txtNom" class="form-control" value= <?php echo $nombre ?>>
+                  <input type="text"  name="txtNom" class="form-control" pattern="[a-zA-Z]{2,15}" value= <?php echo $nombre ?> required>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Apellidos</label>
-                  <input type="text" name="txtApe" class="form-control" value= <?php echo $ape ?>>
+                  <input type="text" name="txtApe" class="form-control" pattern="[a-zA-Z]{2,15}" value= <?php echo $ape ?> required>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Correo Electronico</label>
-                  <input type="text" name="txtEmail" class="form-control" value= <?php echo $correo ?>>
+                  <input type="email" name="txtEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  value= <?php echo $correo ?> required>
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Cargo</label>
-                  <input type="text" name="txtCar" class="form-control" placeholder= <?php echo $car ?>>
+                  <input type="text" name="txtCar" class="form-control" pattern="[a-zA-Z]{1,15}" placeholder= <?php echo $car ?>>
                 </div>
               </div>
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Direccion</label>
-                  <input type="text" name="txtDir" class="form-control" placeholder= <?php echo $dir ?>>
+                  <input type="text" name="txtDir" class="form-control" pattern="[a-zA-Z]{2,15}" placeholder= <?php echo $dir ?> >
                 </div>
               </div>
 
@@ -239,19 +239,19 @@ if(is_numeric(session_id())){
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Contraseña Actual</label>
-                  <input type="password"  name="txtApas" class="form-control" placeholder="Ingrese su contraseña acutal">
+                  <input type="password"  name="txtApas" class="form-control" placeholder="Ingrese su contraseña acutal" pattern="[a-zA-Z0-9._%+-]{6,16}" required>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Nueva Contraseña</label>
-                  <input type="password" name="txtNpas" class="form-control" placeholder="Ingrese su nueva contraseña">
+                  <input type="password" name="txtNpas" class="form-control" placeholder="Ingrese su nueva contraseña" pattern="[a-zA-Z0-9._%+-]{6,16}" required>
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Confirme su contraseña</label>
-                  <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña">
+                  <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña" >
                 </div>
               </div>
 

@@ -13,32 +13,37 @@ if (isset($_POST['buscar'])){
   $where = "";
 
   if(!empty($pBusq)){
-    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%'";
+    $where = "WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND idEstado = 1";
   }else{
-    $where = "WHERE region.idRegion = '$pRegion'";
+    $where = "WHERE region.idRegion = '$pRegion' AND idEstado = 1";
   }
 
   if(empty($pBusq) && empty($pRegion)){
-    $where = "WHERE trabajo.idTipo = '$pTipo'";
+    $where = "WHERE trabajo.idTipo = '$pTipo' AND idEstado = 1";
   }
 
   if(!empty($pBusq) && !empty($pRegion)){
-    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%' AND region.idRegion = '$pRegion'";
+    $where = "WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND region.idRegion = '$pRegion' AND idEstado = 1";
   }
 
   if(!empty($pBusq) && !empty($pTipo)){
-    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%' AND trabajo.idTipo = '$pTipo'";
+    $where = "WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND trabajo.idTipo = '$pTipo' AND idEstado = 1";
+  }
+  
+  if(!empty($pRegion) && !empty($pTipo)){
+    $where = "WHERE region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo' AND idEstado = 1";
   }
 
-  if(!empty($pRegion) && !empty($pTipo)){
-    $where = "WHERE region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo'";
+  if(empty($pRegion) && empty($pTipo) && empty($pBusq)){
+    $where = "WHERE idEstado = 1";
   }
 
   $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
   $queryb = "SELECT idTrabajo, titulo,descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
-} else {
+} 
+else {
   $queryc = "SELECT count(idTrabajo) FROM trabajo where idEstado = 1";
-  $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idEstado = 1";
+  $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE idEstado = 1";
 }
 
 if(is_numeric(session_id())){
@@ -375,8 +380,17 @@ while ($cant = mysqli_fetch_row($resultado)) {
         <!-- Mostrar cantidad de trabajos  -->
 
         <div class="row pagination-wrap">
-          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
+          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">            
+            <?php 
+            $resultado = $mysqli->query($queryc);
+            while ($var = mysqli_fetch_row($resultado)) { 
+              if(sizeof($var) > 1){?>
+              <span>Mostrando 1- <?php echo $var[0] ?> de <?php echo $var[0] ?> trabajos</span>
+              <?php } 
+            else { ?>
+              <span>No hay trabajos que mostrar</span>
+            <?php }
+            } ?>
           </div>
           <div class="col-md-6 text-center text-md-right">
             <div class="custom-pagination ml-auto">
