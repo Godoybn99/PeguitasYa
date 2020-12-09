@@ -2,7 +2,16 @@
 <?php
 require "php/db.php";
 session_start();
+
+
+if(isset($_POST['idTrabajo'])){
+
 echo $trabajo = $_POST['idTrabajo'];
+$_SESSION['publi'] = $_POST['idTrabajo'];
+}else{
+  $trabajo= $_SESSION['publi'];
+}
+
 if(is_numeric(session_id())){
   $id= session_id();
   $estado= "Mi Perfil";
@@ -20,8 +29,11 @@ if(is_numeric(session_id())){
   $ref ='inicio.php';
   $mis = false;
 }
-
+  $v=0;
   
+if(isset($_POST['busquedaIA'])){
+  $v=$_POST['valor'];
+}
 
 
 ?>
@@ -88,63 +100,74 @@ if(is_numeric(session_id())){
               <li class="has-children">
                 <a>Servicios</a>
                 <ul class="dropdown">
-                  <li><a href="job-single.html">Buscar un trabajador</a></li>
-                  <li><a href="post-job.php">Publicar un trabajo</a></li>
-                </ul>
+                <?php
+              if ($mis == true) {
+                ?>
+                <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
+                <li><a href="post-job.php">Publicar un trabajo</a></li>
+                <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
+                <?php
+              } else {
+                ?>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
+              <?php
+              }
+              ?>
+              </ul>
               <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
           </nav>
-          
+
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
-            <?php 
-            
-            if($mis == true){
+              <?php
+              
+              if ($mis == true) {
               ?>
-            <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
-            <?php 
-                }
+                <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+              <?php
+              }
               ?>
 
-             
-<?php 
-            
-            if($mis == true){
-              ?>
-            <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
-            <?php 
-                }else{
-              ?>
-             <button type="button" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block" data-toggle="modal" data-target="#staticBackdrop"><span class="mr-2 icon-add"></span>
-               Publicar Trabajo
-              </button>
 
-              <!-- Modal -->
-              <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar un trabajo?</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body" algin="center" >
-                      Para poder publicar un trabajo se necesita una cuenta "Registrate".          
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+              <?php
+              if ($mis == true) {
+              ?>
+                <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
+              <?php
+              } else {
+              ?>
+                <button type="button" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block" data-toggle="modal" data-target="#staticBackdrop"><span class="mr-2 icon-add"></span>
+                  Publicar Trabajo
+                </button>
+
+                <!-- ############  Modal  ############ -->
+                <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar o ver un trabajo?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" algin="center">
+                        Para poder publicar o ver un trabajo se necesita una cuenta "Registrate".
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <?php 
-                }
+              <?php
+              }
               ?>
-              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado?></a>
+              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado ?></a>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>
@@ -249,7 +272,16 @@ if(is_numeric(session_id())){
             ?>
               </div>            
               <div class="job-listing-meta">
-              <button role="button" class="btn btn-info" data-toggle="modal" data-target="#modalPostulacion">Buscar Postulante con IA</button>
+
+              <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" name="ab"  method="post" class="search-jobs-form">
+              <?php if($v == 1){ ?>
+              <input name='valor' type="hidden" value= <?php echo $v=0 ?>></input>
+              <button role="button" class="btn btn-primary" name="busquedaIA">Ver Lista de todos Postulante</button>
+              <?php }else{ ?>
+              <input name='valor' type="hidden" value= <?php echo $v=1 ?>></input>
+              <button role="button" class="btn btn-info" name="busquedaIA">Buscar Postulante con IA</button>
+              <?php } ?>
+              </form>
 
               </div>
               <?php } ?>     
@@ -279,7 +311,14 @@ if(is_numeric(session_id())){
       <!---Lista de postulantes -->
       <div class="row mb-3 justify-content-center">
           <div class="col-md-7 text-center">
+            <?php if(isset($_POST['busquedaIA'])){
+            ?>
+            <h2 class="section-title mb-2"> Lista de recomendados por "PeguitasIA" </h2>
+            <?php
+            }else{
+              ?>
             <h2 class="section-title mb-2"> Lista de Postulantes </h2>
+         <?php } ?>
           </div>
         </div>
         <ul class="job-listings mb-5">
@@ -303,7 +342,121 @@ if(is_numeric(session_id())){
          </thead>
   <tbody>
     <?php
-  $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+    if($v == 0){
+          
+      $p = exec("python datosIA/peguitaia.py $trabajo");
+                $arrayId = [];
+                $count = 0;
+                $idList = '';
+                for($i=0; $i < strlen($p); $i++){
+                  if(is_numeric($p[$i])){
+                    $count++;
+                    $idList = intval($idList.$p[$i]);
+                  }
+                  else{
+                    if($count > 0){
+                      array_push($arrayId, $idList);
+                      $count = 0;
+                      $idList= '';
+                    }
+                  }
+                }
+  //Busqueda con IA   
+    foreach ($arrayId as $val) {
+    $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
+    $resultado= $mysqli->query($query);
+    while($var=mysqli_fetch_row($resultado)){    
+    $idTrabajo= $var[9];
+    $idUsuario = $var[10];
+    $idPostulacion = $var[11];
+    
+      if($var[3] == 1){
+          $ano = 'Sin experiencia';
+      }else if($var[3] == 2){
+          $ano = '1 año';
+      }else if($var[3] == 3){
+          $ano = '2 años';
+      }else if($var[3] == 4){
+          $ano = '3 o más años';
+      }
+      
+  
+      if($var[4] == 2){
+          $comu = 'Si';
+      }else{
+          $comu = "No";
+      }
+  
+      if($var[5] == 1){
+          $cantT = 'Ninguno';
+      }else if($var[5] == 2){
+          $cantT = 1;
+      }else if($var[5] == 3){
+          $cantT = 2;
+      }else if($var[5] == 4){
+          $cantT = '3 o más';
+      }
+  
+      if($var[6] == 2){
+          $esp = 'Full Stack';
+      }else if($var[6] == 1){
+          $esp = 'Front End';
+      }else if($var[6] == 3){
+          $esp = 'Back End';
+      }
+  
+      if($var[7] == 2){
+          $estud = 'Titulo Tecnico';
+      }else if($var[7] == 3){
+          $estud = 'Titulo profesional';
+      }else if($var[7] == 4){
+          $estud = 'Post Grados';
+      }else{
+          $estud = 'Sin estudios universitarios';
+      }
+
+      $uNombre = $var[0];
+      $uApellido = $var[1];
+      $uCorreo = $var[2];
+      $uDire = $var[12];
+      $uCargo = $var[13];
+      $uValo = $var[8];
+
+      if($uCargo == null || $uCargo == ''){
+        $uCargo =  'Cargo no definido';
+      }
+
+      ?>
+      <tr align="center">
+      <td><?php echo$var[0]?></td>
+      <td><?php echo$var[1]?></td>
+      <td><?php echo$var[2]?></td>
+      <td><?php echo$ano?></td>
+      <td><?php echo$comu?></td>
+      <td><?php echo$cantT?></td>
+      <td><?php echo$esp?></td>
+      <td><?php echo$estud?></td>
+      <td><?php echo$var[8]?></td>
+      <form method="post" action="Perfil.php"> 
+      <input name='idUs' type="hidden" value= <?php echo $idUsuario?>></input>
+      <input name='publicacion' type="hidden" value= <?php echo $trabajo?>></input>
+      <td><button class="btn btn-primary" type="submit">Ver Perfil</button></td>
+      </form>
+      <?php
+      if($var[14]){
+          echo "<td><button class= 'btn btn-info' href=peguitasYA/$var[14] download = ".$var[0]."".$var[1]."> Descargar Curriculum </button></td>";
+        }else{
+        }
+      ?>
+      
+      <tr>
+      
+    <?php }
+    }
+                
+    }else{
+    //Busqueda normal
+  $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
   $resultado= $mysqli->query($query);
   while($var=mysqli_fetch_row($resultado)){
 
@@ -385,14 +538,15 @@ if(is_numeric(session_id())){
       </form>
       <?php
       if($var[14]){
-          echo "<td><a href=peguitasYA/$var[14] download = ".$var[0]."".$var[1]."> Curriculum </a></td>";
+          echo "<td><button class= 'btn btn-info' href=peguitasYA/$var[14] download = ".$var[0]."".$var[1]."> Descargar Curriculum </button></td>";
         }else{
         }
       ?>
       
       <tr>
       
-    <?php } ?>
+    <?php }
+    } ?>
       </tr>
       
     

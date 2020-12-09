@@ -8,9 +8,8 @@ if($_POST){
     $query ="SELECT * FROM usuario where correo = '$us'";
 
     $resultado = $mysqli->query($query);
-    $num = $resultado->num_rows;
 
-    if($num>0){
+    if($resultado){
          $row = $resultado->fetch_assoc();
          $contra_bd = $row['contra']; 
         if($contra_bd == $con){
@@ -26,7 +25,6 @@ if($_POST){
             $_SESSION['message_type'] = 'danger';
             header("Location: ../inicio.php");
         }
-
     }
 }
 ?>

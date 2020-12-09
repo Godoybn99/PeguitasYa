@@ -4,12 +4,26 @@ require "php/db.php";
 session_start();
 $id = session_id();
 if(is_numeric(session_id())){
-  if(!isset($_POST['idUs'])){ 
-  $us=$_GET['Perfil'];
-  }else{
+  if(isset($_POST['idUs'])){ 
     $us=$_POST['idUs'];
     $publicacion=$_POST['publicacion'];
+    $_SESSION['publi'] = $publicacion;
+    $_SESSION['usuario'] = $us;
+    $dire="1";
+  
   }
+  if(isset($_GET['Perfil'])){
+    $us=$_GET['Perfil'];
+    $publicacion=0;
+    $_SESSION['usuario'] = $us;
+    $dire="2";
+  }
+
+  if(!isset($_POST['idUs']) && !isset($_GET['Perfil'])){
+    $us =  $_SESSION['usuario'];
+    $dire="2";
+  }
+
   $estado= "Cerrar sesion";
   $query = "SELECT nombre,apellidos,correo,direccion,valoracion,trabajo,idUsuario FROM usuario where idUsuario ='$us'";
   $resultado = $mysqli->query($query);
@@ -20,6 +34,9 @@ if(is_numeric(session_id())){
     $dir = $var[3];
     $valo = $var[4];
     $car = $var[5];
+    if($car == '' || $car == null){
+      $car = 'Cargo o profesión no definida';
+    }
     $idUsuario =$var[6];
   }
   $ref ='php/Cerrar.php';
@@ -210,7 +227,7 @@ if(is_numeric(session_id())){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Profesion</label>
-                  <input type="text" readonly name="txtCar" class="form-control" placeholder= <?php echo $car ?>>
+                  <input type="text" readonly name="txtCar" class="form-control" placeholder= "<?php echo $car ?>">
                 </div>
               </div>
 
@@ -224,7 +241,7 @@ if(is_numeric(session_id())){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Valoracion</label>
-                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder=<?php echo $valo ?>>
+                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder="<?php echo $valo ?>">
                 </div>
               </div>
 
@@ -310,6 +327,7 @@ if(is_numeric(session_id())){
         <form method="POST" action="php/ajax_puntuar.php">
           <input name='idUsuario' type="hidden" value= <?php echo $idUsuario?>></input>
           <input name='publicacion' type="hidden" value= <?php echo $publicacion?>></input>
+          <input name='dire' type="hidden" value= <?php echo $dire?>></input>
             <div class="form-group">
               <label for="exp" class="cik-fomr-label">Nombre</label>
               <div>
