@@ -18,32 +18,31 @@ if(is_numeric(session_id())){
     
   
   }
-  if(isset($_GET['Perfil'])){
-    $idUsuario=$_GET['Perfil'];
+  if(isset($_GET['Dato'])){
+    $us=$_GET['Dato'];
     $publicacion=0;
     $_SESSION['usuario'] = $idUsuario;
     $dire="2";
   }
 
-  if(!isset($_POST['idUs']) && !isset($_GET['Perfil'])){
-    $idUsuario =  $_SESSION['usuario'];
+  if(!isset($_POST['idUs']) && !isset($_GET['Dato'])){
+    $us = $_SESSION['usuario'];
     $dire="2";
   }
 
   $estado= "Cerrar sesion";
-  $query = "SELECT nombre,apellidos,correo,direccion,valoracion,trabajo,idUsuario FROM usuario where idUsuario ='$idUsuario'";
+  $query = "SELECT nombre,apellidos,correo,valoracion,trabajo,idUsuario FROM usuario where idUsuario ='$us'";
   $resultado = $mysqli->query($query);
   while ($var = mysqli_fetch_row($resultado)){
     $nombre = $var[0];
     $ape = $var[1];
     $correo = $var[2];
-    $dir = $var[3];
-    $valo = $var[4];
-    $car = $var[5];
+    $valo = $var[3];
+    $car = $var[4];
     if($car == '' || $car == null){
       $car = 'Cargo o profesión no definida';
     }
-    $idUsuario =$var[6];
+    $idUsuario =$var[5];
   }
   $ref ='php/Cerrar.php';
   $mis = true;
@@ -247,14 +246,7 @@ if(is_numeric(session_id())){
                   <input type="text" readonly name="txtCar" class="form-control" placeholder= "<?php echo $car ?>">
                 </div>
               </div>
-
-              <div class="row form-group mb-4">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Direccion</label>
-                  <input type="text" readonly name="txtDir" class="form-control" placeholder= <?php echo $dir ?>>
-                </div>
-              </div>
-
+              
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Valoracion</label>

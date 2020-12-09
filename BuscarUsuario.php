@@ -6,6 +6,7 @@ require "php/db.php";
 
 
 if (isset($_POST['buscar'])){
+  $us= session_id();
 
   $pBusq = $_POST['pBusq'];
   $pRegion = $_POST['region'];
@@ -13,11 +14,11 @@ if (isset($_POST['buscar'])){
 
   if(!empty($pBusq)){
     $where = "WHERE nombre LIKE '%$pBusq%' OR apellidos LIKE '%$pBusq%' OR trabajo LIKE'%$pBusq%'";
-  }else{
+  }else if(empty($pBusq) && !empty($pRegion)){
     $where = "WHERE region.idRegion = '$pRegion'";
-  }
-
-  if(empty($pRegion) && empty($pBusq)){
+  }else if(!empty($pBusq) && !empty($pRegion)){
+    $where = "WHERE (nombre LIKE '%$pBusq%' OR apellidos LIKE '%$pBusq%' OR trabajo LIKE'%$pBusq%') AND region.idRegion = '$pRegion'";
+  }else if(empty($pRegion) && empty($pBusq)){
     $where = "";
   }
 
@@ -52,8 +53,8 @@ if(is_numeric(session_id())){
 <html lang="en">
 <!--  ############  Contador de publicaciones  ############ --->
 <?php
-$query = "SELECT count(idUsuario) FROM usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where ";
-$resultado = $mysqli->query($query);
+//$query = "SELECT count(idUsuario) FROM usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where ";
+$resultado = $mysqli->query($queryc);
 while ($cant = mysqli_fetch_row($resultado)) {
   $canti = $cant;
 } ?>
@@ -235,7 +236,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
 
 
-    <!-- ############  Listado de trabajos  ############ -->
+    <!-- ############  Listado de usuarios  ############ -->
     
     <section class="site-section">
       <div class="container">
@@ -243,24 +244,38 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <div class="col-md-7 text-center">
             <?php
             $resultado = $mysqli->query($queryc);
-            while ($var = mysqli_fetch_row($resultado)) {
+            if($resultado != NULL){
+              while ($var = mysqli_fetch_row($resultado)) {
+              ?>
+                <h2 class="section-title mb-2"><?php echo $var[0] ?> Personas Listadas</h2>
+              <?php 
+              } 
+            }else{
+              ?>
+              <h2 class="section-title mb-2"> No hay personas para listar</h2>
+            <?php 
+            } 
             ?>
-              <h2 class="section-title mb-2"><?php echo $var[0] ?> Personas Listadas</h2>
-            <?php } ?>
           </div>
         </div>
 
         <ul class="job-listings mb-5">
           <?php
           $resultado = $mysqli->query($queryb);
-          while ($var = mysqli_fetch_row($resultado)) {
-          ?>
-            <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+            while ($var = mysqli_fetch_row($resultado)) {
+              ?>
+                 <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
               <?php
               if ($mis == true) {
-              ?>
-                <a href="Perfil.php?Perfil=<?php echo $var[0] ?>"></a>
-              <?php
+                if($us == $var[0]){
+                  ?>
+                  <a href="miPerfil.php"></a>
+                <?php
+                }else{
+                  ?>
+                  <a href="Perfil.php?Dato=<?php echo $var[0] ?>"></a>
+                  <?php
+                }              
               } else {
               ?>
                 <a data-toggle="modal" data-target="#staticBackdrop"></a>
@@ -275,25 +290,21 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
                 <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                   <h2><?php echo $var[1] ?></h2>
-                  <?php
-                  if($var[2]==null || $var==''){
-                    $cargo  = "Profesion no definida";
-                  }else{
-                    $cargo= $var[2];
-                  }
 
-
-                  ?>
-                  <strong><?php echo $cargo ?></strong>
+                  <strong><?php echo $var[2] ?></strong>
                 </div>
                 <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                   <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
                 </div>
+             
               <?php } ?>
               </div>
         </ul>
+              <?php  ?>
+              </div>
+        </ul>
 
-        <!-- Mostrar cantidad de trabajos  -->
+        <!-- Mostrar cantidad de usuarios  -->
 
         <div class="row pagination-wrap">
           <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">

@@ -6,15 +6,24 @@ session_start();
 if(is_numeric(session_id())){
   $us= session_id();
   $estado= "Cerrar sesion";
-  $query = "SELECT nombre,apellidos,correo,direccion,valoracion,trabajo FROM usuario where idUsuario ='$us'";
+  $query = "SELECT nombre, apellidos, correo, valoracion, trabajo, fono FROM usuario where idUsuario ='$us'";
   $resultado = $mysqli->query($query);
   while ($var = mysqli_fetch_row($resultado)) {
     $nombre = $var[0];
     $ape = $var[1];
     $correo = $var[2];
-    $dir = $var[3];
-    $valo = $var[4];
-    $car = $var[5];
+    $valo = $var[3];    
+    if($var[4] != ''){
+      $car = $var[4];
+    } else{
+      $car = '';
+    }
+    if($var[5] != ''){
+      $fono = $var[5];
+    } else{
+      $fono = '';
+    }
+    
   }
   $ref ='php/Cerrar.php';
   $mis = true;
@@ -212,20 +221,19 @@ if(is_numeric(session_id())){
                   <input type="email" name="txtEmail" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  value= <?php echo $correo ?> required>
                 </div>
               </div>
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label for="txtFono">Telefono de contacto</label>
+                  <input type="text" class="form-control" name="txtFono"  pattern="[0-9+]{9,12}" value= "<?php echo $fono ?>" required>
+                </div>
+              </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Cargo</label>
-                  <input type="text" name="txtCar" class="form-control" pattern="[a-zA-Z]{1,15}" placeholder= <?php echo $car ?>>
+                  <input type="text" name="txtCar" class="form-control" pattern="[a-zA-Z]{1,15}" value= <?php echo $car ?>>
                 </div>
               </div>
-
-              <div class="row form-group mb-4">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Direccion</label>
-                  <input type="text" name="txtDir" class="form-control" pattern="[a-zA-Z]{2,15}" placeholder= <?php echo $dir ?> >
-                </div>
-              </div>
-
+              
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Valoracion</label>

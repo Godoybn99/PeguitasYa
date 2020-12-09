@@ -14,7 +14,7 @@ if(is_numeric(session_id())){
   $ref ='miPerfil.php';
   $mis = true;
   
-  $query="SELECT titulo,descripcion,trabajo.correo,fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, direccion.nombreCalle,ia,trabajo.idDireccion FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$publicacion'";
+  $query="SELECT titulo,descripcion,trabajo.correo,trabajo.fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, direccion.nombreCalle,ia,trabajo.idDireccion FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$publicacion'";
   $resultado= $mysqli->query($query); 
   while($var=mysqli_fetch_row($resultado)){
         $titulo = $var[0];
@@ -236,13 +236,13 @@ if(is_numeric(session_id())){
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Region</label>
-                  <input type="text" readonly  name="txtApe" class="form-control" value= <?php echo $region ?>>
+                  <input type="text" readonly  name="txtApe" class="form-control" value= "<?php echo $region ?>">
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Comuna</label>
-                  <input type="text" readonly  name="txtEmail" class="form-control" value= <?php echo $comuna ?>>
+                  <input type="text" readonly  name="txtEmail" class="form-control" value= "<?php echo $comuna ?>">
                 </div>
               </div>
               <div class="row form-group">
@@ -254,7 +254,7 @@ if(is_numeric(session_id())){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Correo de contacto</label>
-                  <input type="text" readonly  name="txtCar" class="form-control" placeholder= <?php echo $mail ?>>
+                  <input type="text" readonly  name="txtCar" class="form-control" placeholder= "<?php echo $mail ?>">
                 </div>
               </div>
 
@@ -315,7 +315,7 @@ if(is_numeric(session_id())){
           <div class="row form-group">
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="text-black" for="fname">Tiulo del trabajo</label>
-              <input type="text"  name="Atitulo" class="form-control" value="<?php echo $titulo ?>" pattern="[a-zA-Z0-9''' ']{3,30}" required>
+              <input type="text"  name="Atitulo" class="form-control" value="<?php echo $titulo ?>" pattern="[a-zA-Z0-9''' ']{3,50}" required>
             </div>
           </div>
           <div class="row form-group">
@@ -353,7 +353,7 @@ if(is_numeric(session_id())){
           <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Calle</label>
-                  <input type="text" name="Acalle" class="form-control" value= "<?php echo $calle ?>"  pattern="[a-zA-Z0-9' ']{3,20}" required>
+                  <input type="text" name="Acalle" class="form-control" value= "<?php echo $calle ?>"  pattern="[a-zA-Z0-9' ']{3,30}" required>
                 </div>
               </div>
           <div class="row form-group mb-4">

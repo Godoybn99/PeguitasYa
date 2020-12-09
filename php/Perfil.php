@@ -8,8 +8,9 @@ if($_POST){
    $email = $_POST['txtEmail'];
    $dir = $_POST['txtDir'];
    $car = $_POST['txtCar'];
+   $fon = $_POST['txtFono'];
 
-   $query ="UPDATE usuario SET nombre = '$nom',apellidos ='$ape',correo='$email',direccion='$dir',trabajo='$car' where idUsuario = '$id'";
+   $query ="UPDATE usuario SET nombre = '$nom',apellidos ='$ape',correo='$email',direccion='$dir',trabajo='$car', fono='$fon' where idUsuario = '$id'";
    $resultado = $mysqli->query($query);
    if($resultado){
       $_SESSION['message'] = 'Se modifico el usuario';
