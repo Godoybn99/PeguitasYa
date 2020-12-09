@@ -4,12 +4,16 @@ session_start();
 require "php/db.php";
 
 
-if(!isset($_GET['publicacion'])){
-  $trabajo = $_SESSION['publicacion'];
-}else{
+if(isset($_GET['publicacion'])){
   $trabajo = $_GET['publicacion'];
+  $_SESSION['publicacion'] = $_GET['publicacion'] ;
+}
+if(isset($_POST['publicacion'])){
+  $trabajo = $_POST['publicacion'];
+  $_SESSION['publicacion'] = $_GET['publicacion'];
 }
 
+echo $trabajo;
 
 if(is_numeric(session_id())){
   $usu= session_id();

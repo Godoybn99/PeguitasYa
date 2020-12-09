@@ -267,9 +267,15 @@ while ($cant = mysqli_fetch_row($resultado)) {
                  <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
               <?php
               if ($mis == true) {
-              ?>
-                <a href="job-single.php?publicacion=<?php echo $var[0] ?>"></a>
-              <?php
+                if($us == $var[0]){
+                  ?>
+                  <a href="miPerfil.php"></a>
+                <?php
+                }else{
+                  ?>
+                  <a href="Perfil.php?<?php echo $var[0] ?>"></a>
+                  <?php
+                }              
               } else {
               ?>
                 <a data-toggle="modal" data-target="#staticBackdrop"></a>
