@@ -53,7 +53,7 @@ if(is_numeric(session_id())){
 <html lang="en">
 <!--  ############  Contador de publicaciones  ############ --->
 <?php
-#$query = "SELECT count(idUsuario) FROM usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where ";
+//$query = "SELECT count(idUsuario) FROM usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where ";
 $resultado = $mysqli->query($queryc);
 while ($cant = mysqli_fetch_row($resultado)) {
   $canti = $cant;
@@ -262,84 +262,39 @@ while ($cant = mysqli_fetch_row($resultado)) {
         <ul class="job-listings mb-5">
           <?php
           $resultado = $mysqli->query($queryb);
-          if($resultado != NULL){
             while ($var = mysqli_fetch_row($resultado)) {
               ?>
-                <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-                  <?php
-                  if ($mis == true) {
-                    if($us == $var[0]){
-                      ?>
-                      <a href="miPerfil.php"></a>
-                    <?php
-                    }else{
-                      ?>
-                      <a href="Perfil.php?Perfil=<?php echo $var[0] ?>"></a>
-                      <?php
-                    }
-                    
-                  } else {
-                  ?>
-                    <a data-toggle="modal" data-target="#staticBackdrop"></a>
-                  <?php
-                  if($var[2]==null || $var==''){
-                    $cargo  = "Profesion no definida";
-                  }else{
-                    $cargo= $var[2];
-                  }
-                  ?>
-    
-                  <div class="job-listing-logo">
-                    <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
-                  </div>
-    
-                  <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-                    <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                      <h2><?php echo $var[1] ?></h2>
-                      <?php
-                      if($var[6]==null || $var==''){
-                        $cargo  = "Profesion no definida";
-                      }else{
-                        $cargo= $var[6];
-                      }
-    
-    
-                      ?>
-                      <strong><?php echo $cargo ?></strong>
-                    </div>
-                    <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                      <span class="icon-room"></span> <?php echo $var[4] ?>
-                    </div>
-                    <div class="job-listing-meta">
-                    <?php
-                  if ($var[6] == 'Full Time') {
-                  ?>
-                    <span class="badge badge-danger"><?php echo $var[6] ?></span>
-                  <?php
-                  } else if ($var[6] == 'Esporadico') {
-                    ?>
-                      <span class="badge badge-success"><?php echo $var[6] ?></span>
-                    <?php
-                    } else {
-                    ?>
-                      <span class="badge badge-info"><?php echo $var[6] ?></span>
-                    <?php
-                    }
-                    ?>
-                    </div>
-                  <?php }
-            } 
+                 <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+              <?php
+              if ($mis == true) {
+              ?>
+                <a href="job-single.php?publicacion=<?php echo $var[0] ?>"></a>
+              <?php
+              } else {
+              ?>
+                <a data-toggle="modal" data-target="#staticBackdrop"></a>
+              <?php
+              }
+              ?>
 
-          }else{
-            echo ("No hay usuarios que mostrar");                       
+              <div class="job-listing-logo">
+                <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
+              </div>
 
-                  ?>
-                  <strong><?php echo $cargo ?></strong>
+              <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+                <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                  <h2><?php echo $var[1] ?></h2>
+
+                  <strong><?php echo $var[2] ?></strong>
                 </div>
                 <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                   <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
                 </div>
+             
               <?php } ?>
+              </div>
+        </ul>
+              <?php  ?>
               </div>
         </ul>
 
