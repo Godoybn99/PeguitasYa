@@ -6,10 +6,16 @@ $id = session_id();
 if(is_numeric(session_id())){
   if(isset($_POST['idUs'])){ 
     $us=$_POST['idUs'];
+    if(isset($_POST['publicacion'])){
     $publicacion=$_POST['publicacion'];
     $_SESSION['publi'] = $publicacion;
-    $_SESSION['usuario'] = $us;
     $dire="1";
+    }else{
+    $_SESSION['usuario'] = $us;
+    $publicacion=0;
+    $dire="2";
+    }
+    
   
   }
   if(isset($_GET['Perfil'])){
