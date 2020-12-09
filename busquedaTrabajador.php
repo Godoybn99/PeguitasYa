@@ -279,7 +279,7 @@ if(isset($_POST['busquedaIA'])){
               <button role="button" class="btn btn-primary" name="busquedaIA">Ver Lista de todos Postulante</button>
               <?php }else{ ?>
               <input name='valor' type="hidden" value= <?php echo $v=1 ?>></input>
-              <button role="button" class="btn btn-info" name="busquedaIA">Buscar Postulante con IA</button>
+              <button role="button" class="btn btn-info" data-toggle="modal" data-target="#modalPostulacion" name="busquedaIA">Buscar Postulante con IA</button>
               <?php } ?>
               </form>
 
@@ -311,7 +311,7 @@ if(isset($_POST['busquedaIA'])){
       <!---Lista de postulantes -->
       <div class="row mb-3 justify-content-center">
           <div class="col-md-7 text-center">
-            <?php if(isset($_POST['busquedaIA'])){
+            <?php if(isset($_POST['busquedaIA']) && $v==0){
             ?>
             <h2 class="section-title mb-2"> Lista de recomendados por "PeguitasIA" </h2>
             <?php
@@ -361,6 +361,7 @@ if(isset($_POST['busquedaIA'])){
                     }
                   }
                 }
+                #echo var_dump($arrayId);
   //Busqueda con IA   
     foreach ($arrayId as $val) {
     $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
@@ -631,7 +632,7 @@ if(isset($_POST['busquedaIA'])){
 
                                                       <!-- Modal del Formulario de Postulacion -->
 
-   <div class="modal fade" id="modalPostulacion" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
+   <div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="ejemploMOdal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" >
@@ -651,8 +652,7 @@ if(isset($_POST['busquedaIA'])){
                 echo $trabajo;         
                 
                 //$command = 'python datosIA/peguitaia.py';
-                $p = exec("python datosIA/peguitaia.py $trabajo");
-                echo $p;
+                $p = exec("python datosIA/peguitaia.py $trabajo");                
                 $arrayId = [];
                 $count = 0;
                 $idList = '';
@@ -668,7 +668,7 @@ if(isset($_POST['busquedaIA'])){
                       $idList= '';
                     }
                   }
-                }
+                } echo($idList);
 
     ?>
     <section class="site-section">
