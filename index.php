@@ -38,6 +38,10 @@ if (isset($_POST['buscar'])){
     $where = "WHERE idEstado = 1";
   }
 
+  if(!empty($pRegion) && !empty($pTipo) && !empty($pBusq)){
+    $where ="WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo' AND idEstado = 1";
+  }
+
   $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
   $queryb = "SELECT idTrabajo, titulo,descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
 } 

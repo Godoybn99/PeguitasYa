@@ -10,10 +10,16 @@ if(isset($_POST)){
     $cor = $_POST['txtCorreo'];
     $tel = $_POST['txtFono'];
     $des = $_POST['txtDes'];
-    $rentMin = $_POST['rentamin'];
-    $rentMax = $_POST['rentamax'];
+    
     $ia = $_POST['IA'];
     
+    if($_POST['rentamin'] > $_POST['rentamax']){
+        $rentMin = $_POST['rentamax'];
+        $rentMax = $_POST['rentamin'];
+    }else{
+        $rentMin = $_POST['rentamin'];
+        $rentMax = $_POST['rentamax'];
+    }
     if($tipo=="Full Time"){
         $tipo="1";
     }else if($tipo=="Part Time"){

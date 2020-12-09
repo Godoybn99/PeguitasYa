@@ -87,63 +87,74 @@ if(is_numeric(session_id())){
               <li class="has-children">
                 <a>Servicios</a>
                 <ul class="dropdown">
-                  <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
-                  <li><a href="post-job.php">Publicar un trabajo</a></li>
-                </ul>
+                <?php
+              if ($mis == true) {
+                ?>
+                <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
+                <li><a href="post-job.php">Publicar un trabajo</a></li>
+                <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
+                <?php
+              } else {
+                ?>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
+              <?php
+              }
+              ?>
+              </ul>
               <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
           </nav>
-          
+
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
-            <?php 
-            
-            if($mis == true){
+              <?php
+              
+              if ($mis == true) {
               ?>
-            <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
-            <?php 
-                }
+                <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
+              <?php
+              }
               ?>
 
-             
-<?php 
-            
-            if($mis == true){
-              ?>
-            <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
-            <?php 
-                }else{
-              ?>
-             <button type="button" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block" data-toggle="modal" data-target="#staticBackdrop"><span class="mr-2 icon-add"></span>
-               Publicar Trabajo
-              </button>
 
-              <!-- Modal -->
-              <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar un trabajo?</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body" algin="center" >
-                      Para poder publicar un trabajo se necesita una cuenta "Registrate".          
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+              <?php
+              if ($mis == true) {
+              ?>
+                <a href="post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Publicar Trabajo</a>
+              <?php
+              } else {
+              ?>
+                <button type="button" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block" data-toggle="modal" data-target="#staticBackdrop"><span class="mr-2 icon-add"></span>
+                  Publicar Trabajo
+                </button>
+
+                <!-- ############  Modal  ############ -->
+                <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar o ver un trabajo?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" algin="center">
+                        Para poder publicar o ver un trabajo se necesita una cuenta "Registrate".
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <?php 
-                }
+              <?php
+              }
               ?>
-              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado?></a>
+              <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span><?php echo $estado ?></a>
             </div>
             <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
           </div>

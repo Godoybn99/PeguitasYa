@@ -209,7 +209,7 @@ if(is_numeric(session_id())){
               </div>
               <div class="form-group">
                 <label for="job-title">Titulo del trabajo</label>
-                <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero..." pattern="[a-zA-Z0-9''' ']{3,30}" required>
+                <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero..." pattern="[a-zA-Z0-9''' ']{3,50}" required>
               </div>
 
               <div class="form-group">
@@ -234,7 +234,7 @@ if(is_numeric(session_id())){
 
               <div class="form-group">
                 <label for="job-title">Calle</label>
-                <input type="text" class="form-control" name="txtCalle" placeholder="ej. CalleEjemplo 123" pattern="[a-zA-Z0-9''' ']{3,20}" required>
+                <input type="text" class="form-control" name="txtCalle" placeholder="ej. CalleEjemplo 123" pattern="[a-zA-Z0-9''' ']{3,50}" required>
               </div>
 
               <div class="form-group">

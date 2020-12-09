@@ -1,0 +1,29 @@
+1.- INTRODUCCIÓN
+
+2.- DESCRIPCIÓN DE LA PROBLEMÁTICA
+
+3.- PROPUESTA DE SOLUCIÓN
+
+4.- OBJETIVO GENERAL Y ESPECÍFICOS
+
+5.- EVALUACIÓN DE FACTIBILIDAD
+
+6- METODOLOGÍA DE DESARROLLO SOFTWARE
+
+7.- PLANIFICACIÓN
+
+8.- DISEÑO (Diagrama Arquitectura, Casos de uso , MER,BPM, etc)
+
+10.- DEMOSTRACIÓN del sistema
+
+11.- CONCLUSIONES
+
+12.- TRABAJOS FUTUROS
+
+
+
+
+## Colores de pagina.
+## Conclusion: origen del porque apuntamos al proyecto
+## que explica modelo implementaate
+## modelo de negocio?
