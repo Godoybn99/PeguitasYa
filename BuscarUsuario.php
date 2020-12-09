@@ -6,39 +6,27 @@ require "php/db.php";
 
 
 if (isset($_POST['buscar'])){
+  $us= session_id();
 
   $pBusq = $_POST['pBusq'];
   $pRegion = $_POST['region'];
-  $pTipo = $_POST['tipoT'];
   $where = "";
 
   if(!empty($pBusq)){
     $where = "WHERE nombre LIKE '%$pBusq%' OR apellidos LIKE '%$pBusq%' OR trabajo LIKE'%$pBusq%'";
-  }else{
+  }else if(empty($pBusq) && !empty($pRegion)){
     $where = "WHERE region.idRegion = '$pRegion'";
+  }else if(!empty($pBusq) && !empty($pRegion)){
+    $where = "WHERE (nombre LIKE '%$pBusq%' OR apellidos LIKE '%$pBusq%' OR trabajo LIKE'%$pBusq%') AND region.idRegion = '$pRegion'";
+  }else if(empty($pRegion) && empty($pBusq)){
+    $where = "";
   }
 
-  if(empty($pBusq) && empty($pRegion)){
-    $where = "WHERE trabajo.idTipo = '$pTipo'";
-  }
-
-  if(!empty($pBusq) && !empty($pRegion)){
-    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%' AND region.idRegion = '$pRegion'";
-  }
-
-  if(!empty($pBusq) && !empty($pTipo)){
-    $where = "WHERE titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%' AND trabajo.idTipo = '$pTipo'";
-  }
-
-  if(!empty($pRegion) && !empty($pTipo)){
-    $where = "WHERE region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo'";
-  }
-
-  $queryc = "SELECT count(idUsuario) FROM usuario $where";
-  $queryb = "SELECT * from usuario $where";
+  $queryc = "SELECT count(idUsuario) FROM usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where ";
+  $queryb = "SELECT usuario.idUsuario,usuario.nombre,usuario.trabajo,comuna.nombreComuna,region.nombreRegion from usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
 } else {
   $queryc = "SELECT count(idUsuario) FROM usuario";
-  $queryb = "SELECT * from usuario";
+  $queryb = "SELECT usuario.idUsuario,usuario.nombre,usuario.trabajo,comuna.nombreComuna,region.nombreRegion from usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
 }
 
 if(is_numeric(session_id())){
@@ -65,8 +53,8 @@ if(is_numeric(session_id())){
 <html lang="en">
 <!--  ############  Contador de publicaciones  ############ --->
 <?php
-$query = "SELECT count(idTrabajo) FROM trabajo";
-$resultado = $mysqli->query($query);
+#$query = "SELECT count(idUsuario) FROM usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where ";
+$resultado = $mysqli->query($queryc);
 while ($cant = mysqli_fetch_row($resultado)) {
   $canti = $cant;
 } ?>
@@ -215,9 +203,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" name="ab"  method="post" class="search-jobs-form">
-              <div class="row mb-5">
+              <div class="row mb-5 align-items-center justify-content-center">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input for="pBusq" name="pBusq" type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
+                  <input for="pBusq" name="pBusq" type="text" class="form-control form-control-lg" placeholder="Nombre, Trabajo...">
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                 <select class="selectpicker border rounded" name="region" id="region" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Selecione Region">
@@ -230,13 +218,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
                     <?php } ?>
                     
               </select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select for="tipoT" name="tipoT" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
-                    <option value="1">Full Time</option>
-                    <option value="2">Part Time</option>
-                    <option value="3">Esporadico</option>
-                  </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <button type="submit" name="buscar" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Buscar persona</button>
@@ -255,7 +236,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
 
 
-    <!-- ############  Listado de trabajos  ############ -->
+    <!-- ############  Listado de usuarios  ############ -->
     
     <section class="site-section">
       <div class="container">
@@ -263,78 +244,110 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <div class="col-md-7 text-center">
             <?php
             $resultado = $mysqli->query($queryc);
-            while ($var = mysqli_fetch_row($resultado)) {
+            if($resultado != NULL){
+              while ($var = mysqli_fetch_row($resultado)) {
+              ?>
+                <h2 class="section-title mb-2"><?php echo $var[0] ?> Personas Listadas</h2>
+              <?php 
+              } 
+            }else{
+              ?>
+              <h2 class="section-title mb-2"> No hay personas para listar</h2>
+            <?php 
+            } 
             ?>
-              <h2 class="section-title mb-2"><?php echo $var[0] ?> Personas Listadas</h2>
-            <?php } ?>
           </div>
         </div>
 
         <ul class="job-listings mb-5">
           <?php
           $resultado = $mysqli->query($queryb);
-          while ($var = mysqli_fetch_row($resultado)) {
-          ?>
-            <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-              <?php
-              if ($mis == true) {
+          if($resultado != NULL){
+            while ($var = mysqli_fetch_row($resultado)) {
               ?>
-                <a href="Perfil.php?Perfil=<?php echo $var[0] ?>"></a>
-              <?php
-              } else {
-              ?>
-                <a data-toggle="modal" data-target="#staticBackdrop"></a>
-              <?php
-              }
-              ?>
-
-              <div class="job-listing-logo">
-                <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
-              </div>
-
-              <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-                <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                  <h2><?php echo $var[1] ?></h2>
+                <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
                   <?php
-                  if($var[6]==null || $var==''){
+                  if ($mis == true) {
+                    if($us == $var[0]){
+                      ?>
+                      <a href="miPerfil.php"></a>
+                    <?php
+                    }else{
+                      ?>
+                      <a href="Perfil.php?Perfil=<?php echo $var[0] ?>"></a>
+                      <?php
+                    }
+                    
+                  } else {
+                  ?>
+                    <a data-toggle="modal" data-target="#staticBackdrop"></a>
+                  <?php
+                  if($var[2]==null || $var==''){
                     $cargo  = "Profesion no definida";
                   }else{
-                    $cargo= $var[6];
+                    $cargo= $var[2];
                   }
+                  ?>
+    
+                  <div class="job-listing-logo">
+                    <img src="images/logo1_PeguitasYa.jpg" alt="Free Website Template by Free-Template.co" class="img-fluid">
+                  </div>
+    
+                  <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+                    <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                      <h2><?php echo $var[1] ?></h2>
+                      <?php
+                      if($var[6]==null || $var==''){
+                        $cargo  = "Profesion no definida";
+                      }else{
+                        $cargo= $var[6];
+                      }
+    
+    
+                      ?>
+                      <strong><?php echo $cargo ?></strong>
+                    </div>
+                    <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                      <span class="icon-room"></span> <?php echo $var[4] ?>
+                    </div>
+                    <div class="job-listing-meta">
+                    <?php
+                  if ($var[6] == 'Full Time') {
+                  ?>
+                    <span class="badge badge-danger"><?php echo $var[6] ?></span>
+                  <?php
+                  } else if ($var[6] == 'Esporadico') {
+                    ?>
+                      <span class="badge badge-success"><?php echo $var[6] ?></span>
+                    <?php
+                    } else {
+                    ?>
+                      <span class="badge badge-info"><?php echo $var[6] ?></span>
+                    <?php
+                    }
+                    ?>
+                    </div>
+                  <?php }
+            } 
 
+          }else{
+            echo ("No hay usuarios que mostrar");                       
 
                   ?>
                   <strong><?php echo $cargo ?></strong>
                 </div>
                 <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                  <span class="icon-room"></span> <?php echo $var[4] ?>
-                </div>
-                <div class="job-listing-meta">
-                <?php
-              if ($var[6] == 'Full Time') {
-              ?>
-                <span class="badge badge-danger"><?php echo $var[6] ?></span>
-              <?php
-              } else if ($var[6] == 'Esporadico') {
-                ?>
-                  <span class="badge badge-success"><?php echo $var[6] ?></span>
-                <?php
-                } else {
-                ?>
-                  <span class="badge badge-info"><?php echo $var[6] ?></span>
-                <?php
-                }
-                ?>
+                  <span class="icon-room"></span> <?php echo $var[3] ?>, <?php echo $var[4] ?>
                 </div>
               <?php } ?>
               </div>
         </ul>
 
-        <!-- Mostrar cantidad de trabajos  -->
+        <!-- Mostrar cantidad de usuarios  -->
 
         <div class="row pagination-wrap">
           <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> trabajos</span>
+            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> Personas</span>
           </div>
           <div class="col-md-6 text-center text-md-right">
             <div class="custom-pagination ml-auto">

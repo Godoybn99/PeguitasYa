@@ -6,7 +6,7 @@ session_start();
 
 if(isset($_POST['idTrabajo'])){
 
-echo $trabajo = $_POST['idTrabajo'];
+$trabajo = $_POST['idTrabajo'];
 $_SESSION['publi'] = $_POST['idTrabajo'];
 }else{
   $trabajo= $_SESSION['publi'];

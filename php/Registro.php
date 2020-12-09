@@ -34,7 +34,7 @@ $_SESSION['message'] = 'Las contraseñas no coinciden';
 $_SESSION['message_type'] = 'danger';
 
 }else{
-$query ="INSERT INTO usuario(nombre,apellidos,correo,direccion,contra,valoracion) VALUES('$nom','$ape','$email','$dir','$pas','1')";
+$query ="INSERT INTO usuario(nombre,apellidos,correo,direccion,contra,valoracion) VALUES('$nom','$ape','$email','$dir','$pas','3')";
 $resultado = $mysqli->query($query);
 
 $_SESSION['message'] = 'Se registro el usuario';

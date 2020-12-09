@@ -54,12 +54,12 @@ $resultado3= $mysqli->query($query3);
 $query4="UPDATE postulacion set score = '$Res' where idTrabajo = '$publi' and idUsuario = '$id'";
 $resultado3= $mysqli->query($query4);
 
-//if($direc == 1){
-//header("Location: ../busquedaTrabajador.php");
-//}
-//if($direc == 2){
-//    header("Location: ../Perfil.php");
-//}'
+if($direc == 1){
+header("Location: ../busquedaTrabajador.php");
+}
+if($direc == 2){
+    header("Location: ../Perfil.php");
+}
 echo "Se termino la puntuacion";
 }else{
     echo "No se pudo puntuar el usuario";
