@@ -1,0 +1,34 @@
+@ -69,17 +69,30 @@ if($_POST){
+        $est = 4;
+    }
+
+if($_FILES["curriculum"]){
+    $nombre_base = basename($_FILES["curriculum"]["name"]);
+    $nombre_final = date("m-d-y"). "-". date("h-i-s"). "-". $nombre_base;
+    $ruta = "../curriculums/". $nombre_final;
+    $subirarchivo = move_uploaded_file($_FILES["curriculum"]["tmp_name"], $ruta);
+    if($subirarchivo){
+        $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score, curriculum) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp', '$est', '$valor', '$ruta' )";
+        $resultado = $mysqli->query($query);
+    } else{
+        $_SESSION['message'] = "Hubo un error para subir tu ARCHIVO";
+        $_SESSION['message_type'] = 'danger';
+    }
+}
+   
+
+    $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp', '$est', '$valor' )";
+    $resultado = $mysqli->query($query);
+    #$query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp', '$est', '$valor' )";
+    #$resultado = $mysqli->query($query);
+
+    if($resultado){
+        $_SESSION['message'] = 'Se ingresó postulación';
+        $_SESSION['message_type'] = 'success';
+        $id=$_SESSION['id'];
+    }else{
+        $_SESSION['message'] = 'Hubo un error al ingresar postulación';
+        $_SESSION['message'] = "Hubo un error para ingresar tu publicacion";
+        $_SESSION['message_type'] = 'danger';
+        $id=$_SESSION['id'];
+        

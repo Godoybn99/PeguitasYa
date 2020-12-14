@@ -539,11 +539,10 @@ if(isset($_POST['busquedaIA'])){
       </form>
       <?php
       if($var[14]){
-          echo "<td><button class= 'btn btn-info' href=peguitasYA/$var[14] download = ".$var[0]."".$var[1]."> Descargar Curriculum </button></td>";
+          echo "<td><a role='button' class='btn btn-primary' href=peguitasYA/$var[14] download = ".$var[0]."-".$var[1]."> Descargar Curriculum </a></td>";
         }else{
         }
-      ?>
-      
+      ?>      
       <tr>
       
     <?php }

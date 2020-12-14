@@ -19,19 +19,19 @@ if(is_numeric(session_id())){
   
   }
   if(isset($_GET['Dato'])){
-    $us=$_GET['Dato'];
+    $idUsuario=$_GET['Dato'];
     $publicacion=0;
     $_SESSION['usuario'] = $idUsuario;
     $dire="2";
   }
 
   if(!isset($_POST['idUs']) && !isset($_GET['Dato'])){
-    $us = $_SESSION['usuario'];
+    $idUsuario = $_SESSION['usuario'];
     $dire="2";
   }
 
   $estado= "Cerrar sesion";
-  $query = "SELECT nombre,apellidos,correo,valoracion,trabajo,idUsuario FROM usuario where idUsuario ='$us'";
+  $query = "SELECT nombre,apellidos,correo,valoracion,trabajo,idUsuario FROM usuario where idUsuario ='$idUsuario'";
   $resultado = $mysqli->query($query);
   while ($var = mysqli_fetch_row($resultado)){
     $nombre = $var[0];

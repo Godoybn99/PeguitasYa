@@ -382,27 +382,27 @@ if(is_numeric(session_id())){
                 <?php 
                 if($tipo == 'Full Time'){
                   ?>
-                  <option selected>Full Time</option>
-                  <option>Part Time</option> 
+                  <option selected>FullTime</option>
+                  <option>PartTime</option> 
                   <option>Esporadico</option>
                 <?php
                 } else
                 if($tipo == 'Part Time') {
                   ?>
-                  <option selected>Part Time</option>
-                  <option>Full Time</option>
+                  <option selected>PartTime</option>
+                  <option>FullTime</option>
                   <option>Esporadico</option>
                 <?php 
                 } else
-                if($tipo == 'Esporadico'){?>
+                {?>
                   <option selected>Esporadico</option>     
-                  <option>Part Time</option>
-                  <option>Full Time</option>                  
+                  <option>PartTime</option>
+                  <option>FullTime</option>                  
                 <?php 
                 }
                 ?>
                 </select>
-              </div>
+          </div>
 
           <div class="row form-group mb-4">
           <div class="row mb-7">
