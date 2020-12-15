@@ -21,7 +21,7 @@ if ($_GET['pagina'] < 1) {
 
 
 if (isset($_POST['buscar'])) {
-
+  echo $_POST['buscar'];
   $pBusq = $_POST['pBusq'];
   $pRegion = $_POST['region'];
   $pTipo = $_POST['tipoT'];
@@ -264,7 +264,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <button type="submit" name="buscar" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Buscar trabajo</button>
+                  <button type="submit" name="buscar" class="btn btn-primary btn-lg btn-block text-white btn-search" value="boton"><span class="icon-search icon mr-2"></span>Buscar trabajo</button>
                 </div>
               </div>
               <div class="row">
@@ -431,10 +431,10 @@ while ($cant = mysqli_fetch_row($resultado)) {
             <a href="#" class="next">Siguente</a>
           </div> */ ?>
         </div>
+       
         <nav arial-label="Page navigation example" class="d-inline-block">
-          <ul class="d-inline-block">
+          <ul class="pagination">
             <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] - 1 ?>">Anterior</a></li>
-
             <?php for ($i = 0; $i < $paginas; $i++) { ?>
               <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $i + 1 ?>"><?php echo $i + 1 ?></a></li>
             <?php } ?>
