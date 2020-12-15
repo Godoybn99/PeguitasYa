@@ -10,6 +10,7 @@ if(isset($_POST)){
     $cor = $_POST['txtCorreo'];
     $tel = $_POST['txtFono'];
     $des = $_POST['txtDes'];
+    $fecha = $_POST['fechaP'];
     
     $ia = $_POST['IA'];
     
@@ -51,7 +52,7 @@ if(isset($_POST)){
         //echo mysqli_error($resultado);
 
     }
-    $query2 = "INSERT INTO trabajo (titulo,descripcion,idUsuario,idDireccion,idEstado,idTipo,correo,fono,rentaMin,rentaMax,ia) VALUES ('$titulo', '$des', '$id', '$dir', '1', '$tipo', '$cor', '$tel', '$rentMin', '$rentMax', '$ia')";
+    $query2 = "INSERT INTO trabajo (titulo,descripcion,idUsuario,idDireccion,idEstado,idTipo,correo,fono,rentaMin,rentaMax,ia,fecha) VALUES ('$titulo', '$des', '$id', '$dir', '1', '$tipo', '$cor', '$tel', '$rentMin', '$rentMax', '$ia', '$fecha')";
     $resultado2 = $mysqli->query($query2);
     if($resultado2){
        $_SESSION['message'] = 'Se realizo la publicacion';

@@ -1,0 +1,9 @@
+Ejecucion de variables:
+2var = "Hello" #ERROR!!!!
+_var_ = "Hello" #BIEN!!!! 
+
+clasificacion: arbolTree
+metodo filtrar,
+
+
+arbol, caracteristicas.

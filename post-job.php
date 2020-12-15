@@ -3,6 +3,8 @@
 session_start();
 require "php/db.php";
 
+date_default_timezone_set("America/Santiago");
+$fecha = date("Y-m-d");
 
 if(is_numeric(session_id())){
   $us= session_id();
@@ -86,7 +88,6 @@ if(is_numeric(session_id())){
                   <li><a href="post-job.php">Publicar un trabajo</a></li>
                   <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
                 </ul>
-              <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -281,6 +282,8 @@ if(is_numeric(session_id())){
                 <textarea name="txtDes" rows="8" cols="100" placeholder="Descripcion de la publicacion" maxlength="200" required></textarea>
                 <div class="form-group">
               </div>
+
+              <input type="text" name = "fechaP" value="<?php echo $fecha ?>"></input>
 
               <div class="form-group">
                 <label>¿Necesita de la IA de PeguitasYa?</label><br>

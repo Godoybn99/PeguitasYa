@@ -4,67 +4,80 @@
 session_start();
 require "php/db.php";
 
+$trabajos_x_pagina = 3;
+//$total_articulos_mostrados = 0;
+// Redondear hacia arriba
+$iniciar = ($_GET['pagina'] - 1) * $trabajos_x_pagina;
 
-if (isset($_POST['buscar'])){
+if (!$_GET) {
+  //header('location:index.php?pagina=1');
+}
+
+if ($_GET['pagina'] < 1) {
+  header('location:index.php?pagina=1');
+}
+
+
+
+
+if (isset($_POST['buscar'])) {
 
   $pBusq = $_POST['pBusq'];
   $pRegion = $_POST['region'];
   $pTipo = $_POST['tipoT'];
   $where = "";
 
-  if(!empty($pBusq)){
+  if (!empty($pBusq)) {
     $where = "WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND idEstado = 1";
-  }else{
+  } else {
     $where = "WHERE region.idRegion = '$pRegion' AND idEstado = 1";
   }
 
-  if(empty($pBusq) && empty($pRegion)){
+  if (empty($pBusq) && empty($pRegion)) {
     $where = "WHERE trabajo.idTipo = '$pTipo' AND idEstado = 1";
   }
 
-  if(!empty($pBusq) && !empty($pRegion)){
+  if (!empty($pBusq) && !empty($pRegion)) {
     $where = "WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND region.idRegion = '$pRegion' AND idEstado = 1";
   }
 
-  if(!empty($pBusq) && !empty($pTipo)){
+  if (!empty($pBusq) && !empty($pTipo)) {
     $where = "WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND trabajo.idTipo = '$pTipo' AND idEstado = 1";
   }
-  
-  if(!empty($pRegion) && !empty($pTipo)){
+
+  if (!empty($pRegion) && !empty($pTipo)) {
     $where = "WHERE region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo' AND idEstado = 1";
   }
 
-  if(empty($pRegion) && empty($pTipo) && empty($pBusq)){
+  if (empty($pRegion) && empty($pTipo) && empty($pBusq)) {
     $where = "WHERE idEstado = 1";
   }
 
-  if(!empty($pRegion) && !empty($pTipo) && !empty($pBusq)){
-    $where ="WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo' AND idEstado = 1";
+  if (!empty($pRegion) && !empty($pTipo) && !empty($pBusq)) {
+    $where = "WHERE (titulo LIKE '%$pBusq%' OR descripcion LIKE '%$pBusq%') AND region.idRegion = '$pRegion' AND trabajo.idTipo = '$pTipo' AND idEstado = 1";
   }
 
   $queryc = "SELECT count(idTrabajo) FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
-  $queryb = "SELECT idTrabajo, titulo,descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
-} 
-else {
+  $queryb = "SELECT idTrabajo, titulo,descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where LIMIT $iniciar,$trabajos_x_pagina";
+} else {
   $queryc = "SELECT count(idTrabajo) FROM trabajo where idEstado = 1";
-  $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE idEstado = 1";
+  $queryb = "SELECT idTrabajo, titulo, descripcion, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion WHERE idEstado = 1 LIMIT $iniciar,$trabajos_x_pagina";
 }
 
-if(is_numeric(session_id())){
-  $us= session_id();
-  $estado= "Mi Perfil";
+if (is_numeric(session_id())) {
+  $us = session_id();
+  $estado = "Mi Perfil";
   $query = "SELECT nombre FROM usuario where idUsuario ='$us'";
   $resultado = $mysqli->query($query);
   while ($var = mysqli_fetch_row($resultado)) {
     $nombre = $var[0];
   }
-  $ref ='miPerfil.php';
+  $ref = 'miPerfil.php';
   $mis = true;
-  
-}else{
+} else {
   $estado = "Inicio sesion";
-  $nombre = ''; 
-  $ref ='inicio.php';
+  $nombre = '';
+  $ref = 'inicio.php';
   $mis = false;
 }
 
@@ -77,7 +90,12 @@ if(is_numeric(session_id())){
 $query = "SELECT count(idTrabajo) FROM trabajo";
 $resultado = $mysqli->query($query);
 while ($cant = mysqli_fetch_row($resultado)) {
-  $canti = $cant;
+  $canti = $cant[0];
+  $total_articulos_mostrados = $canti;
+  $paginas = ceil($total_articulos_mostrados / $trabajos_x_pagina);
+  if ($_GET['pagina'] > $paginas) {
+    header('location:index.php?pagina=1');
+  }
 } ?>
 
 <head>
@@ -136,22 +154,21 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <li class="has-children">
                 <a>Servicios</a>
                 <ul class="dropdown">
-                <?php
-              if ($mis == true) {
-                ?>
-                <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
-                <li><a href="post-job.php">Publicar un trabajo</a></li>
-                <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
-                <?php
-              } else {
-                ?>
-                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
-                <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
-              <?php
-              }
-              ?>
-              </ul>
-              <li><a href="contact.php">Contacto</a></li>
+                  <?php
+                  if ($mis == true) {
+                  ?>
+                    <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
+                    <li><a href="post-job.php">Publicar un trabajo</a></li>
+                    <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
+                  <?php
+                  } else {
+                  ?>
+                    <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
+                    <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
+                  <?php
+                  }
+                  ?>
+                </ul>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -160,7 +177,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
               <?php
-              
+
               if ($mis == true) {
               ?>
                 <a href="misPublicaciones.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Mis publicaciones</a>
@@ -222,22 +239,22 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <h1 class="text-white font-weight-bold">PeguitasYA</h1>
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" name="ab"  method="post" class="search-jobs-form">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" name="ab" method="post" class="search-jobs-form">
               <div class="row mb-5">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <input for="pBusq" name="pBusq" type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                <select class="selectpicker border rounded" name="region" id="region" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Selecione Region">
-                <?php
-                    $query="SELECT * FROM region";
-                    $resultado= $mysqli->query($query);
-                    while($var=mysqli_fetch_row($resultado)){
-                ?>
-                      <option value= <?php echo $var[0]  ?> ><?php echo $var[1]  ?></option>
+                  <select class="selectpicker border rounded" name="region" id="region" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Selecione Region">
+                    <?php
+                    $query = "SELECT * FROM region";
+                    $resultado = $mysqli->query($query);
+                    while ($var = mysqli_fetch_row($resultado)) {
+                    ?>
+                      <option value=<?php echo $var[0]  ?>><?php echo $var[1]  ?></option>
                     <?php } ?>
-                    
-              </select>
+
+                  </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <select for="tipoT" name="tipoT" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Seleccione tipo de trabajo">
@@ -315,7 +332,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
     </section>
 
     <!-- ############  Listado de trabajos  ############ -->
-    
+
     <section class="site-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">
@@ -323,8 +340,10 @@ while ($cant = mysqli_fetch_row($resultado)) {
             <?php
             $resultado = $mysqli->query($queryc);
             while ($var = mysqli_fetch_row($resultado)) {
+              $total_articulos_mostrados = $var[0];
+              $paginas = ceil($total_articulos_mostrados / $trabajos_x_pagina);
             ?>
-              <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Listados</h2>
+              <h2 class="section-title mb-2"><?php echo $var[0] ?> Trabajos Encontrados</h2>
             <?php } ?>
           </div>
         </div>
@@ -333,7 +352,10 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <?php
           $resultado = $mysqli->query($queryb);
           while ($var = mysqli_fetch_row($resultado)) {
+            //$total_articulos_mostrados = $var[0];
+            //$paginas = ceil($total_articulos_mostrados / $trabajos_x_pagina);
           ?>
+
             <li type="Button" class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
               <?php
               if ($mis == true) {
@@ -361,21 +383,21 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   <span class="icon-room"></span> <?php echo $var[4] ?>, <?php echo $var[5] ?>
                 </div>
                 <div class="job-listing-meta">
-                <?php
-              if ($var[6] == 'Full Time') {
-              ?>
-                <span class="badge badge-danger"><?php echo $var[6] ?></span>
-              <?php
-              } else if ($var[6] == 'Esporadico') {
-                ?>
-                  <span class="badge badge-success"><?php echo $var[6] ?></span>
-                <?php
-                } else {
-                ?>
-                  <span class="badge badge-info"><?php echo $var[6] ?></span>
-                <?php
-                }
-                ?>
+                  <?php
+                  if ($var[6] == 'Full Time') {
+                  ?>
+                    <span class="badge badge-danger"><?php echo $var[6] ?></span>
+                  <?php
+                  } else if ($var[6] == 'Esporadico') {
+                  ?>
+                    <span class="badge badge-success"><?php echo $var[6] ?></span>
+                  <?php
+                  } else {
+                  ?>
+                    <span class="badge badge-info"><?php echo $var[6] ?></span>
+                  <?php
+                  }
+                  ?>
                 </div>
               <?php } ?>
               </div>
@@ -384,99 +406,111 @@ while ($cant = mysqli_fetch_row($resultado)) {
         <!-- Mostrar cantidad de trabajos  -->
 
         <div class="row pagination-wrap">
-          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">            
-            <?php 
+          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+            <?php
             $resultado = $mysqli->query($queryc);
-            while ($var = mysqli_fetch_row($resultado)) { 
-              if(sizeof($var) > 1){?>
-              <span>Mostrando 1- <?php echo $var[0] ?> de <?php echo $var[0] ?> trabajos</span>
-              <?php } 
-            else { ?>
-              <span>No hay trabajos que mostrar</span>
+            while ($var = mysqli_fetch_row($resultado)) {
+              if (sizeof($var) != Null) {
+                $total_articulos_mostrados = $var[0];
+                $paginas = ceil($total_articulos_mostrados / $trabajos_x_pagina); ?>
+                <span>Mostrando 1- <?php echo $trabajos_x_pagina ?> de <?php echo $var[0] ?> trabajos</span>
+              <?php } else { ?>
+                <span>No hay trabajos que mostrar</span>
             <?php }
             } ?>
           </div>
-          <div class="col-md-6 text-center text-md-right">
-            <div class="custom-pagination ml-auto">
-              <a href="#" class="prev">Atras</a>
-              <div class="d-inline-block">
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-              </div>
-              <a href="#" class="next">Siguente</a>
+
+          <?php /*<div class="custom-pagination ml-auto">
+            <a href="#" class="prev">Atras</a>
+            <div class="d-inline-block">
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
             </div>
-          </div>
+            <a href="#" class="next">Siguente</a>
+          </div> */ ?>
         </div>
+        <nav arial-label="Page navigation example" class="d-inline-block">
+          <ul class="d-inline-block">
+            <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] - 1 ?>">Anterior</a></li>
 
+            <?php for ($i = 0; $i < $paginas; $i++) { ?>
+              <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $i + 1 ?>"><?php echo $i + 1 ?></a></li>
+            <?php } ?>
+
+            <li class="page-item <?php echo $_GET['pagina'] >= $paginas ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] + 1 ?>">Siguiente</a></li>
+          </ul>
+        </nav>
       </div>
-    </section>
 
-    <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-8">
-            <h2 class="text-white">¿Buscas un trabajo?</h2>
-            <p class="mb-0 text-white lead">Registrate en nuestra pagina web .</p>
-          </div>
-          <div class="col-md-3 ml-auto">
-            <a href="inicio.php" class="btn btn-warning btn-block btn-lg">Registrate</a>
+  </div>
+  </section>
+
+  <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h2 class="text-white">¿Buscas un trabajo?</h2>
+          <p class="mb-0 text-white lead">Registrate en nuestra pagina web .</p>
+        </div>
+        <div class="col-md-3 ml-auto">
+          <a href="inicio.php" class="btn btn-warning btn-block btn-lg">Registrate</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="site-footer">
+
+    <a href="#top" class="smoothscroll scroll-top">
+      <span class="icon-keyboard_arrow_up"></span>
+    </a>
+
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Search Trending</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Graphic Design</a></li>
+            <li><a href="#">Web Developers</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">HTML5</a></li>
+            <li><a href="#">CSS3</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Company</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Resources</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Support</h3>
+          <ul class="list-unstyled">
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 mb-4 mb-md-0">
+          <h3>Contact Us</h3>
+          <div class="footer-social">
+            <a href="#"><span class="icon-facebook"></span></a>
+            <a href="#"><span class="icon-twitter"></span></a>
+            <a href="#"><span class="icon-instagram"></span></a>
+            <a href="#"><span class="icon-linkedin"></span></a>
           </div>
         </div>
       </div>
-    </section>
 
 
-    <footer class="site-footer">
-
-      <a href="#top" class="smoothscroll scroll-top">
-        <span class="icon-keyboard_arrow_up"></span>
-      </a>
-
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Search Trending</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">Web Design</a></li>
-              <li><a href="#">Graphic Design</a></li>
-              <li><a href="#">Web Developers</a></li>
-              <li><a href="#">Python</a></li>
-              <li><a href="#">HTML5</a></li>
-              <li><a href="#">CSS3</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Company</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Resources</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Support</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">Support</a></li>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms of Service</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Contact Us</h3>
-            <div class="footer-social">
-              <a href="#"><span class="icon-facebook"></span></a>
-              <a href="#"><span class="icon-twitter"></span></a>
-              <a href="#"><span class="icon-instagram"></span></a>
-              <a href="#"><span class="icon-linkedin"></span></a>
-            </div>
-          </div>
-        </div>
-
-
-    </footer>
+  </footer>
 
   </div>
 

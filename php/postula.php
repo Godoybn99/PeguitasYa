@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "db.php";
+date_default_timezone_set("America/Santiago");
 
 $trabajo = $_POST['idTrabajo'];
 $_SESSION['publicacion'] = $trabajo;

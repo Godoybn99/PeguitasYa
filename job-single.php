@@ -2,7 +2,7 @@
 <?php
 session_start();
 require "php/db.php";
-
+date_default_timezone_set("America/Santiago");
 
 if(isset($_GET['publicacion'])){
   $trabajo = $_GET['publicacion'];
@@ -38,7 +38,7 @@ if(is_numeric(session_id())){
 
  
 //Busqueda del trabajo 
-  $query="SELECT titulo,descripcion,trabajo.correo,trabajo.fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.idUsuario,ia FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
+  $query="SELECT titulo,descripcion,trabajo.correo,trabajo.fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.idUsuario, ia, fecha FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
   $resultado= $mysqli->query($query); 
   while($var=mysqli_fetch_row($resultado)){
         $titulo = $var[0];
@@ -54,6 +54,7 @@ if(is_numeric(session_id())){
         $tipo = $var[10];
         $usuario = $var[11];
         $ia = $var[12];
+        $fecha = $var[13];
 
       if($es == 1){
         $es = "Disponible";
@@ -159,7 +160,6 @@ if(is_numeric(session_id())){
               }
               ?>
               </ul>
-              <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -285,7 +285,7 @@ if(is_numeric(session_id())){
             <div class="bg-light p-3 border rounded mb-4">
               <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Detalles del trabajo</h3>
               <ul class="list-unstyled pl-3 mb-0">
-                <li class="mb-2"><strong class="text-black">Fecha de publicacion:</strong> April 14, 2019</li>
+                <li class="mb-2"><strong class="text-black">Fecha de publicacion:</strong> <?php echo $fecha ?> </li>
                 <li class="mb-2"><strong class="text-black">Estado: </strong><?php echo $es ?> </li>
                 <li class="mb-2"><strong class="text-black">Tipo de trabajo: </strong> <?php echo $tipo ?></li>
                 <li class="mb-2"><strong class="text-black">Direccion del trabajo:</strong> <?php echo $region ?>-<?php echo $comuna ?></li>
@@ -473,7 +473,7 @@ if(is_numeric(session_id())){
               </select>
             </div>
             <div>
-              <input type="file" name="curriculum" class="form__file" required>
+              <input type="file" name="curriculum" class="form__file" accept="image/png, .jpeg, .jpg, .pdf, .doc" required>
             </div>
             <div class="modal-footer">
               <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

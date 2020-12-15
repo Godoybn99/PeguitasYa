@@ -130,7 +130,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
               }
               ?>
                 </ul>
-              <li><a href="contact.php">Contacto</a></li>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
