@@ -2,6 +2,7 @@
 <?php
 
 session_start();
+require "php/db.php";
 
 if(is_numeric(session_id())){
   $us= session_id();
@@ -72,10 +73,22 @@ if(is_numeric(session_id())){
               <li class="has-children">
                 <a>Servicios</a>
                 <ul class="dropdown">
+                <?php
+                  if ($mis == true) {
+                  ?>
                 <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
                 <li><a href="post-job.php">Publicar un trabajo</a></li>
                 <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
+                <?php
+                  } else {
+                  ?>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
+                <li><a data-toggle="modal" data-target="#staticBackdrop" >Publicar un trabajo</a></li>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un usuario</a></li>
                 </ul>
+                <?php
+                  }
+                  ?>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
             </ul>
@@ -195,38 +208,44 @@ if(is_numeric(session_id())){
             <p class="lead text-white">En PeguitasYA se busca que todos tengas las mejores oportunidades.</p>
           </div>
         </div>
-        <div class="row pb-0 block__19738 section-counter">
+        <div class="row pb-0 block__19738 section-counter justify-content-center">
 
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="1930">0</strong>
-            </div>
-            <span class="caption">Candidatos</span>
-          </div>
+<div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+  <div class="d-flex align-items-center justify-content-center mb-2">
+  <?php 
+  $queryU="SELECT count(idUsuario) FROM usuario ";
+  $resultado = $mysqli->query($queryU);
+  while ($var = mysqli_fetch_row($resultado)) { ?>
+    <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+    <?php } ?>
+  </div>
+  <span class="caption">Candidatos</span>
+</div>
 
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="54">0</strong>
-            </div>
-            <span class="caption">Trabajos publicados disponibles</span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="120">0</strong>
-            </div>
-            <span class="caption">Trabajos publicados no disponibles </span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="550">0</strong>
-            </div>
-            <span class="caption">Compañias</span>
-          </div>
-
-            
-        </div>
+<div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+  <div class="d-flex align-items-center justify-content-center mb-2">
+  <?php 
+ $queryT="SELECT count(idTrabajo) FROM trabajo where idEstado = 1 ";
+  $resultado = $mysqli->query($queryT);
+  while ($var = mysqli_fetch_row($resultado)) { ?>
+    <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+    <?php } ?>
+  </div>
+  <span class="caption">Trabajos publicados disponibles</span>
+</div>
+    
+<div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+  <div class="d-flex align-items-center justify-content-center mb-2">
+  <?php 
+  $queryE="SELECT count(idTrabajo) FROM trabajo where idEstado = 2 ";
+  $resultado = $mysqli->query($queryE);
+  while ($var = mysqli_fetch_row($resultado)) { ?>
+    <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+    <?php } ?>
+  </div>
+  <span class="caption">Trabajos publicados no disponibles</span>
+</div>
+</div>
       </div>
     </section>
 
@@ -239,46 +258,6 @@ if(is_numeric(session_id())){
         <span class="icon-keyboard_arrow_up"></span>
       </a>
 
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Search Trending</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">Web Design</a></li>
-              <li><a href="#">Graphic Design</a></li>
-              <li><a href="#">Web Developers</a></li>
-              <li><a href="#">Python</a></li>
-              <li><a href="#">HTML5</a></li>
-              <li><a href="#">CSS3</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Company</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Resources</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Support</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">Support</a></li>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms of Service</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Contact Us</h3>
-            <div class="footer-social">
-              <a href="#"><span class="icon-facebook"></span></a>
-              <a href="#"><span class="icon-twitter"></span></a>
-              <a href="#"><span class="icon-instagram"></span></a>
-              <a href="#"><span class="icon-linkedin"></span></a>
-            </div>
-          </div>
-        </div>
 
       
     </footer>

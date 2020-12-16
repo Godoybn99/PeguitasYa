@@ -4,7 +4,7 @@
 session_start();
 require "php/db.php";
 
-$trabajos_x_pagina = 3;
+$trabajos_x_pagina = 5;
 //$total_articulos_mostrados = 0;
 // Redondear hacia arriba
 $iniciar = ($_GET['pagina'] - 1) * $trabajos_x_pagina;
@@ -17,14 +17,32 @@ if ($_GET['pagina'] < 1) {
   header('location:index.php?pagina=1');
 }
 
+  
 
+  
+  
+  
+  
+  if (!isset($_GET['pBusq'])){
+    $pBusq = '';
+  }else{
+    $pBusq = $_GET['pBusq'];
+  }
 
+  if (!isset($_GET['region'])){
+    $pRegion = '';
+  }else{
+    $pRegion = $_GET['region'];
+  }
+  
+  if (!isset($_GET['tipoT'])){
+    $pTipo = '';
+  }else{
+    $pTipo = $_GET['tipoT'];
+  }
 
-if (isset($_POST['buscar'])) {
-  echo $_POST['buscar'];
-  $pBusq = $_POST['pBusq'];
-  $pRegion = $_POST['region'];
-  $pTipo = $_POST['tipoT'];
+if (isset($_GET['pBusq']) || isset($_GET['region']) || isset($_GET['tipoT'] )) {
+  
   $where = "";
 
   if (!empty($pBusq)) {
@@ -80,6 +98,12 @@ if (is_numeric(session_id())) {
   $ref = 'inicio.php';
   $mis = false;
 }
+
+
+
+
+
+
 
 ?>
 
@@ -215,7 +239,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
                       </div>
                     </div>
-                  </div>
+                  </div>  
                 </div>
               <?php
               }
@@ -239,7 +263,11 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <h1 class="text-white font-weight-bold">PeguitasYA</h1>
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" name="ab" method="post" class="search-jobs-form">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" name="ab" method="GET" class="search-jobs-form">
+            <?php  
+
+              ?>
+              <input name="pagina" type="hidden" value="1">
               <div class="row mb-5">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <input for="pBusq" name="pBusq" type="text" class="form-control form-control-lg" placeholder="Nombre de trabajo, Compañia...">
@@ -267,16 +295,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   <button type="submit" name="buscar" class="btn btn-primary btn-lg btn-block text-white btn-search" value="boton"><span class="icon-search icon mr-2"></span>Buscar trabajo</button>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-12 popular-keywords">
-                  <h3>Busquedas mas populares:</h3>
-                  <ul class="keywords list-unstyled m-0 p-0">
-                    <li><a href="#" class="">Diseñador de UI</a></li>
-                    <li><a href="#" class="">Python</a></li>
-                    <li><a href="#" class="">Desarollador</a></li>
-                  </ul>
-                </div>
-              </div>
+
             </form>
           </div>
         </div>
@@ -296,37 +315,43 @@ while ($cant = mysqli_fetch_row($resultado)) {
             <p class="lead text-white">En PeguitasYA se busca que todos tengas las mejores oportunidades.</p>
           </div>
         </div>
-        <div class="row pb-0 block__19738 section-counter">
+        <div class="row pb-0 block__19738 section-counter justify-content-center">
 
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="1930">0</strong>
+            <?php 
+            $queryU="SELECT count(idUsuario) FROM usuario ";
+            $resultado = $mysqli->query($queryU);
+            while ($var = mysqli_fetch_row($resultado)) { ?>
+              <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+              <?php } ?>
             </div>
             <span class="caption">Candidatos</span>
           </div>
 
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="54">0</strong>
+            <?php 
+           $queryT="SELECT count(idTrabajo) from trabajo where idEstado =1";
+            $resultado = $mysqli->query($queryT);
+            while ($var = mysqli_fetch_row($resultado)) { ?>
+              <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+              <?php } ?>
             </div>
             <span class="caption">Trabajos publicados disponibles</span>
           </div>
-
+              
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="120">0</strong>
+            <?php 
+            $queryE="SELECT count(idTrabajo) FROM trabajo where idEstado = 2 ";
+            $resultado = $mysqli->query($queryE);
+            while ($var = mysqli_fetch_row($resultado)) { ?>
+              <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+              <?php } ?>
             </div>
-            <span class="caption">Trabajos publicados no disponibles </span>
+            <span class="caption">Trabajos publicados no disponibles</span>
           </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="550">0</strong>
-            </div>
-            <span class="caption">Compañias</span>
-          </div>
-
-
         </div>
       </div>
     </section>
@@ -434,12 +459,12 @@ while ($cant = mysqli_fetch_row($resultado)) {
        
         <nav arial-label="Page navigation example" class="d-inline-block">
           <ul class="pagination">
-            <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] - 1 ?>">Anterior</a></li>
+            <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] - 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo)?>">Anterior</a></li>
             <?php for ($i = 0; $i < $paginas; $i++) { ?>
-              <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $i + 1 ?>"><?php echo $i + 1 ?></a></li>
+              <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $i + 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo)?>"><?php echo $i + 1 ?></a></li>
             <?php } ?>
 
-            <li class="page-item <?php echo $_GET['pagina'] >= $paginas ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] + 1 ?>">Siguiente</a></li>
+            <li class="page-item <?php echo $_GET['pagina'] >= $paginas ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] + 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo)?>">Siguiente</a></li>
           </ul>
         </nav>
       </div>
@@ -468,46 +493,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
       <span class="icon-keyboard_arrow_up"></span>
     </a>
 
-    <div class="container">
-      <div class="row mb-5">
-        <div class="col-6 col-md-3 mb-4 mb-md-0">
-          <h3>Search Trending</h3>
-          <ul class="list-unstyled">
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Graphic Design</a></li>
-            <li><a href="#">Web Developers</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">HTML5</a></li>
-            <li><a href="#">CSS3</a></li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-3 mb-4 mb-md-0">
-          <h3>Company</h3>
-          <ul class="list-unstyled">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Career</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Resources</a></li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-3 mb-4 mb-md-0">
-          <h3>Support</h3>
-          <ul class="list-unstyled">
-            <li><a href="#">Support</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-3 mb-4 mb-md-0">
-          <h3>Contact Us</h3>
-          <div class="footer-social">
-            <a href="#"><span class="icon-facebook"></span></a>
-            <a href="#"><span class="icon-twitter"></span></a>
-            <a href="#"><span class="icon-instagram"></span></a>
-            <a href="#"><span class="icon-linkedin"></span></a>
-          </div>
-        </div>
-      </div>
+   
 
 
   </footer>

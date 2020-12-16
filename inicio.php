@@ -81,8 +81,22 @@ if(is_numeric(session_id())){
               <li class="has-children">
                 <a>Servicios</a>
                 <ul class="dropdown">
-                  <li><a href="job-single.html">Buscar un trabajador</a></li>
-                  <li><a href="post-job.php">Publicar un trabajo</a></li>
+                <?php
+                  if ($mis == true) {
+                  ?>
+                <li><a href="buscarTrabajador.php">Buscar un trabajador</a></li>
+                <li><a href="post-job.php">Publicar un trabajo</a></li>
+                <li><a href="buscarUsuario.php">Buscar un usuario</a></li>
+                <?php
+                  } else {
+                  ?>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
+                <li><a data-toggle="modal" data-target="#staticBackdrop" >Publicar un trabajo</a></li>
+                <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un usuario</a></li>
+                </ul>
+                <?php
+                  }
+                  ?>
                 </ul>
               <li class="d-lg-none"><a href="post-job.php"><span class="mr-2">+</span> Publicar Trabajos</a></li>
               <li class="d-lg-none"><a href="login.html">Log In</a></li>
@@ -114,25 +128,48 @@ if(is_numeric(session_id())){
               </button>
 
               <!-- Modal -->
-              <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" >
+              <div class="modal" id="condiciones" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" >
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar un trabajo?</h5>
+                      <h5 class="modal-title" id="staticBackdropLabel">Termino de condiciones</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body" algin="center" >
-                      Para poder publicar un trabajo se necesita una cuenta "Registrate".          
+                      Texto de ejemplo        
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                      <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
                     </div>
                   </div>
                 </div>
               </div>
+
+
+              <!-- Modal -->
+              <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">¿Quieres publicar o ver un trabajo?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" algin="center">
+                        Para poder publicar o ver un trabajo se necesita una cuenta "Registrate".
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
               <?php 
                 }
               ?>
@@ -152,7 +189,7 @@ if(is_numeric(session_id())){
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Registro/inicio de sesion</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
+              <a href="#">Inicio</a> <span class="mx-2 slash">/</span>
               <span class="text-white"><strong>Inicio de sesion</strong></span>
             </div>
           </div>
@@ -237,6 +274,12 @@ if(is_numeric(session_id())){
                   <label class="text-black" for="fname">Confirme su contraseña</label>
                   <input type="password" name="txtCpas" class="form-control" placeholder="Confirme su contraseña" pattern="[a-zA-Z0-9._%+-]{6,16}" required>
                 </div>
+                <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <input class="form-check-input" type="checkbox" value="" required >
+                  <label class="mx-2 slash" data-toggle="modal" data-target="#condiciones" > Acepta las condiciones de uso</label>
+                </div>
+                </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12">
@@ -311,47 +354,7 @@ if(is_numeric(session_id())){
         <span class="icon-keyboard_arrow_up"></span>
       </a>
 
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Search Trending</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">Web Design</a></li>
-              <li><a href="#">Graphic Design</a></li>
-              <li><a href="#">Web Developers</a></li>
-              <li><a href="#">Python</a></li>
-              <li><a href="#">HTML5</a></li>
-              <li><a href="#">CSS3</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Company</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Resources</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Support</h3>
-            <ul class="list-unstyled">
-              <li><a href="#">Support</a></li>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms of Service</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Contact Us</h3>
-            <div class="footer-social">
-              <a href="#"><span class="icon-facebook"></span></a>
-              <a href="#"><span class="icon-twitter"></span></a>
-              <a href="#"><span class="icon-instagram"></span></a>
-              <a href="#"><span class="icon-linkedin"></span></a>
-            </div>
-          </div>
-        </div>
-      </div>
+    
     </footer>
   
   </div>
@@ -371,7 +374,7 @@ if(is_numeric(session_id())){
     
     
     <script src="js/bootstrap-select.min.js"></script>
-    
+    <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
     <script src="js/custom.js"></script>
     <script type="text/javascript">
 	$(document).ready(function(){
@@ -395,7 +398,8 @@ if(is_numeric(session_id())){
 		});
 	}
 </script>
-   
-     
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
   </body>
 </html>
