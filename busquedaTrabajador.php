@@ -290,7 +290,7 @@ if(isset($_POST['busquedaIA'])){
 
 
 <?php
-  $queryIA="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+  $queryIA="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
   $resultadoIA= $mysqli->query($queryIA);
   //fopen('datosIA.txt','a');
   //$file - 'datosIA.txt';
@@ -299,7 +299,7 @@ if(isset($_POST['busquedaIA'])){
     $separator = "\t";
     $fp = fopen('datosIA/publicacion'.$trabajo.'.csv', 'w');
     while($var=mysqli_fetch_row($resultadoIA)){
-      $registro = array($var[9], $var[3] ,  $var[4], $var[5], $var[6], $var[7], $var[8]);
+      $registro = array($var[8], $var[3], $var[4], $var[5], $var[6], $var[7]);
       fputcsv($fp,$registro);
     }
     fclose($fp);  
@@ -332,7 +332,6 @@ if(isset($_POST['busquedaIA'])){
             <th>Años de Exp</th>
             <th>¿Es de la misma comuna?</th>
             <th>Cantidad de Trabajos</th>
-            <th>Especialidad</th>
             <th>Nivel de Estudios</th>
             <th>Valoracion</th>
             <th>Datos del Postulante</th>
@@ -363,7 +362,7 @@ if(isset($_POST['busquedaIA'])){
                 #echo var_dump($arrayId);
   //Busqueda con IA   
     foreach ($arrayId as $val) {
-    $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
+    $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
     $resultado= $mysqli->query($query);
     while($var=mysqli_fetch_row($resultado)){    
     $idTrabajo= $var[9];
@@ -398,18 +397,10 @@ if(isset($_POST['busquedaIA'])){
       }
   
       if($var[6] == 2){
-          $esp = 'Full Stack';
-      }else if($var[6] == 1){
-          $esp = 'Front End';
-      }else if($var[6] == 3){
-          $esp = 'Back End';
-      }
-  
-      if($var[7] == 2){
           $estud = 'Titulo Tecnico';
-      }else if($var[7] == 3){
+      }else if($var[6] == 3){
           $estud = 'Titulo profesional';
-      }else if($var[7] == 4){
+      }else if($var[6] == 4){
           $estud = 'Post Grados';
       }else{
           $estud = 'Sin estudios universitarios';
@@ -418,9 +409,9 @@ if(isset($_POST['busquedaIA'])){
       $uNombre = $var[0];
       $uApellido = $var[1];
       $uCorreo = $var[2];
-      $uDire = $var[12];
-      $uCargo = $var[13];
-      $uValo = $var[8];
+      $uDire = $var[11];
+      $uCargo = $var[12];
+      $uValo = $var[7];
 
       if($uCargo == null || $uCargo == ''){
         $uCargo =  'Cargo no definido';
@@ -434,17 +425,16 @@ if(isset($_POST['busquedaIA'])){
       <td><?php echo$ano?></td>
       <td><?php echo$comu?></td>
       <td><?php echo$cantT?></td>
-      <td><?php echo$esp?></td>
       <td><?php echo$estud?></td>
-      <td><?php echo$var[8]?></td>
+      <td><?php echo$var[7]?></td>
       <form method="post" action="Perfil.php"> 
       <input name='idUs' type="hidden" value= <?php echo $idUsuario?>></input>
       <input name='publicacion' type="hidden" value= <?php echo $trabajo?>></input>
       <td><button class="btn btn-primary" type="submit">Ver Perfil</button></td>
       </form>
       <?php
-      if($var[14]){
-          echo "<td><button class= 'btn btn-info' href=peguitasYA/$var[14] download = ".$var[0]."".$var[1]."> Descargar Curriculum </button></td>";
+      if($var[13]){
+          echo "<td><button class= 'btn btn-info' href=peguitasYA/$var[13] download = ".$var[0]."".$var[1]."> Descargar Curriculum </button></td>";
         }else{
         }
       ?>
@@ -456,13 +446,13 @@ if(isset($_POST['busquedaIA'])){
                 
     }else{
     //Busqueda normal
-  $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+  $query="SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
   $resultado= $mysqli->query($query);
   while($var=mysqli_fetch_row($resultado)){
 
-    $idTrabajo= $var[9];
-    $idUsuario = $var[10];
-    $idPostulacion = $var[11];
+    $idTrabajo= $var[8];
+    $idUsuario = $var[9];
+    $idPostulacion = $var[10];
     
       if($var[3] == 1){
           $ano = 'Sin experiencia';
@@ -492,18 +482,10 @@ if(isset($_POST['busquedaIA'])){
       }
   
       if($var[6] == 2){
-          $esp = 'Full Stack';
-      }else if($var[6] == 1){
-          $esp = 'Front End';
-      }else if($var[6] == 3){
-          $esp = 'Back End';
-      }
-  
-      if($var[7] == 2){
           $estud = 'Titulo Tecnico';
-      }else if($var[7] == 3){
+      }else if($var[6] == 3){
           $estud = 'Titulo profesional';
-      }else if($var[7] == 4){
+      }else if($var[6] == 4){
           $estud = 'Post Grados';
       }else{
           $estud = 'Sin estudios universitarios';
@@ -512,9 +494,9 @@ if(isset($_POST['busquedaIA'])){
       $uNombre = $var[0];
       $uApellido = $var[1];
       $uCorreo = $var[2];
-      $uDire = $var[12];
-      $uCargo = $var[13];
-      $uValo = $var[8];
+      $uDire = $var[11];
+      $uCargo = $var[12];
+      $uValo = $var[7];
 
       if($uCargo == null || $uCargo == ''){
         $uCargo =  'Cargo no definido';
@@ -528,17 +510,16 @@ if(isset($_POST['busquedaIA'])){
       <td><?php echo$ano?></td>
       <td><?php echo$comu?></td>
       <td><?php echo$cantT?></td>
-      <td><?php echo$esp?></td>
       <td><?php echo$estud?></td>
-      <td><?php echo$var[8]?></td>
+      <td><?php echo$var[7]?></td>
       <form method="post" action="Perfil.php"> 
       <input name='idUs' type="hidden" value= <?php echo $idUsuario?>></input>
       <input name='publicacion' type="hidden" value= <?php echo $trabajo?>></input>
       <td><button class="btn btn-primary" type="submit">Ver Perfil</button></td>
       </form>
       <?php
-      if($var[14]){
-          echo "<td><a role='button' class='btn btn-primary' href=peguitasYA/$var[14] download = ".$var[0]."-".$var[1]."> Descargar Curriculum </a></td>";
+      if($var[13]){
+          echo "<td><a role='button' class='btn btn-primary' href=peguitasYA/$var[13] download = ".$var[0]."-".$var[1]."> Descargar Curriculum </a></td>";
         }else{
         }
       ?>      

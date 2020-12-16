@@ -23,17 +23,15 @@ if($_POST){
     $ano = $_POST['anos'];
     $com = $_POST['comuna'];
     $cantT = $_POST['cantT'];
-    $esp = $_POST['esp'];
+    //$esp = $_POST['esp'];
     $est = $_POST['study'];
 
     if($_POST['anos'] == 'Sin experiencia'){
         $ano = 1;
-    }else if($_POST['anos'] == '1 año'){
-        $ano = 2;
-    }else if($_POST['anos'] == '2 años'){
-        $ano = 3;
+    }else if($_POST['anos'] == '1 a 2 años'){
+        $ano = 2;    
     }else if($_POST['anos'] == '3 o más años'){
-        $ano = 4;
+        $ano = 3;
     }
     
 
@@ -51,15 +49,7 @@ if($_POST){
         $cantT = 3;
     }else if($cantT == '3 o más'){
         $cantT = 4;
-    }
-
-    if($_POST['esp'] == 'Full Stack'){
-        $esp = 2;
-    }else if($_POST['esp'] == 'Front End'){
-        $esp = 1;
-    }else if($_POST['esp'] == 'Back End'){
-        $esp = 3;
-    }
+    }    
 
     if($_POST['study'] == 'Sin estudios universitarios'){
         $est = 1;
@@ -67,8 +57,6 @@ if($_POST){
         $est = 2;
     }else if($_POST['study'] == 'Titulo profesional'){
         $est = 3;
-    }else if($_POST['study'] == 'Post Grados'){
-        $est = 4;
     }
 
 if($_FILES["curriculum"]){
@@ -77,11 +65,11 @@ if($_FILES["curriculum"]){
     $ruta = "../curriculums/". $nombre_final;
     $subirarchivo = move_uploaded_file($_FILES["curriculum"]["tmp_name"], $ruta);
     if($subirarchivo){
-        $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score, curriculum) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp', '$est', '$valor', '$ruta' )";
+        $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, studies, score, curriculum) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$est', '$valor', '$ruta' )";
         $resultado = $mysqli->query($query);
     } else{
-        $_SESSION['message'] = "Hubo un error para subir tu ARCHIVO";
-        $_SESSION['message_type'] = 'danger';
+        $query ="INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$est', '$valor')";
+        $resultado = $mysqli->query($query);
     }
 }
    

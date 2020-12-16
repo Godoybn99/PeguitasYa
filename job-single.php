@@ -359,8 +359,7 @@ if(is_numeric(session_id())){
               <div>
                 <select for="tipoT" name="anos" class="selectpicker border rounded" data-style="btn-black" data-width="50%" data-live-search="true" title="Seleccione una opción" required>
                     <option>Sin experiencia</option>
-                    <option>1 año</option>
-                    <option>2 años</option>
+                    <option>1 a 2 años</option>
                     <option>3 o más años</option>
                 </select>
               </div>
@@ -399,10 +398,10 @@ if(is_numeric(session_id())){
                   </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" visibility: hidden>
               <label for="esp" class="cik-fomr-label">Especialización</label>
               <div>
-                  <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="58%" data-live-search="true" title="Seleccione una orientación" required>
+                  <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="58%" data-live-search="true" title="Seleccione una orientación">
                     <option>Back End</option>
                     <option>Full Stack</option>
                     <option>Front End</option>
@@ -416,7 +415,6 @@ if(is_numeric(session_id())){
                     <option>Sin estudios universitarios</option>
                     <option>Titulo Tecnico</option>
                     <option>Titulo profesional</option>
-                    <option>Post Grados</option>
                   </select>
                 </div>
             </div>
@@ -431,7 +429,7 @@ if(is_numeric(session_id())){
               </select>
             </div>
             <div>
-              <input type="file" name="curriculum" class="form__file" accept="image/png, .jpeg, .jpg, .pdf, .doc" required>
+              <input type="file" name="curriculum" class="form__file" accept="image/png, .jpeg, .jpg, .pdf, .doc">
             </div>
             <div class="modal-footer">
               <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
