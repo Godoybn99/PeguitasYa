@@ -259,13 +259,11 @@ if(is_numeric(session_id())){
             <div class="row">
               <div class="col-6">
                 <?php
-              if($ia == 1){
                 if($usu != $uId){
                   ?>    
                   <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Postular</a>              
                 <?php
-                }
-              }
+                }              
               ?>
               </div>              
             </div>
@@ -429,7 +427,16 @@ if(is_numeric(session_id())){
               </select>
             </div>
             <div>
-              <input type="file" name="curriculum" class="form__file" accept="image/png, .jpeg, .jpg, .pdf, .doc">
+            <?php
+                if($ia == '1'){
+                  ?>    
+                  <input type="file" name="curriculum" class="form__file" accept="image/png, .jpeg, .jpg, .pdf, .doc" required>              
+                <?php
+                } else{?>
+                  <input type="file" name="curriculum" class="form__file" accept="image/png, .jpeg, .jpg, .pdf, .doc">
+                <?php
+                }              
+              ?>
             </div>
             <div class="modal-footer">
               <button class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
