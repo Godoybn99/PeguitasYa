@@ -323,6 +323,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
             </div>
 
 
+            <?php 
+            $queryPuntuacion = "SELECT valor FROM valoracion where idTrabajo = '$trabajo' AND idPublicador = '$usu'";
+            ?>
             <form method="POST" action="php/ajax_puntuar_publicacion.php">
               <input name='idUsuario' type="hidden" value=<?php echo $usu ?>></input>
               <input name='publicacion' type="hidden" value=<?php echo $trabajo ?>></input>

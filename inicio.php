@@ -335,7 +335,7 @@ require "php/db.php";
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Contraseña</label>
-                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="Contraseña" pattern="[a-zA-Z0-9._%+-]" required>
+                  <input type="password" name="txtCon" id="fname" class="form-control" placeholder="Contraseña" pattern="[a-zA-Z0-9._%+-]{1,16}" required>
                 </div>
               </div>
 
