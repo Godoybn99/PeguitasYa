@@ -10,23 +10,23 @@ $publi = $_POST['publicacion'];
 $direc = $_POST['dire'];
 $suma = null; 
 
-$query = "SELECT * from valoracion where idPublicador = '$us' and idTrabajo = '$publi'";
+$query = "SELECT * from valoracion where idPublicador = '$id' and idTrabajo = '$publi'";
 $resultado= $mysqli->query($query);
 if(mysqli_num_rows($resultado)>0){
 
-    $query = "UPDATE valoracion set valor = '$valor' where idTrabajo = '$publi' and idPublicador = '$us'";
+    $query = "UPDATE valoracion set valor = '$valor' where idTrabajo = '$publi' and idPublicador = '$id'";
     $resultado2=mysqli_query($conexion,$query);
     echo "Se realizo la actualizacion ";
 
 }
 else{
-$query = "INSERT INTO valoracion (valor,idUsuario,idTrabajo,idPublicador) values ('$valor','$id','$publi','$us')";
+$query = "INSERT INTO valoracion (valor,idUsuario,idTrabajo,idPublicador) values ('$valor','$us','$publi','$id')";
 $resultado2=mysqli_query($conexion,$query);
 echo "Se ingreso la nueva Valoracion";
 }
 
 if($resultado2){
-$query = "SELECT valor from valoracion where idUsuario = '$id'";
+$query = "SELECT valor from valoracion where idPublicador = '$id'";
 $result=$mysqli->query($query);
 echo ("El id del usuario es: ".$id."<br>");
 while ($ver=mysqli_fetch_row($result)){
@@ -37,7 +37,7 @@ $total = $suma;
 
 echo ("El valor de la Suma es: ".$total."<br>");
 
-$query3="SELECT count(valor) FROM valoracion where idUsuario = '$id'";
+$query3="SELECT count(valor) FROM valoracion where idPublicador = '$id'";
 $resultado3= $mysqli->query($query3);
 $cantidad='';
 while($cant = mysqli_fetch_row($resultado3)){ 
