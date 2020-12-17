@@ -267,7 +267,7 @@ if(is_numeric(session_id())){
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Tipo de trabajo</label>
-                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder=<?php echo $tipo ?> required>
+                  <input type="Text" readonly name="txtCpas" class="form-control" placeholder='<?php echo $tipo ?>' required>
                 </div>
               </div>
 
@@ -381,22 +381,22 @@ if(is_numeric(session_id())){
                 <?php 
                 if($tipo == 'Full Time'){
                   ?>
-                  <option selected>FullTime</option>
-                  <option>PartTime</option> 
+                  <option selected>Full Time</option>
+                  <option>Part Time</option> 
                   <option>Esporadico</option>
                 <?php
                 } else
                 if($tipo == 'Part Time') {
                   ?>
-                  <option selected>PartTime</option>
-                  <option>FullTime</option>
+                  <option selected>Part Time</option>
+                  <option>Full Time</option>
                   <option>Esporadico</option>
                 <?php 
                 } else
                 {?>
                   <option selected>Esporadico</option>     
-                  <option>PartTime</option>
-                  <option>FullTime</option>                  
+                  <option>Part Time</option>
+                  <option>Full Time</option>                  
                 <?php 
                 }
                 ?>

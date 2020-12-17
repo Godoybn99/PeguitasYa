@@ -2,6 +2,9 @@
 
 <?php
 session_start();
+if(!is_numeric(session_id())){
+  session_destroy();
+}
 require "php/db.php";
 
 $trabajos_x_pagina = 5;
@@ -10,7 +13,7 @@ $trabajos_x_pagina = 5;
 $iniciar = ($_GET['pagina'] - 1) * $trabajos_x_pagina;
 
 if (!$_GET) {
-  //header('location:index.php?pagina=1');
+  header('location:index.php?pagina=1');
 }
 
 if ($_GET['pagina'] < 1) {
