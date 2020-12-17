@@ -36,6 +36,7 @@ if (is_numeric(session_id())) {
 }
 
 
+
 //Busqueda del trabajo 
 $query = "SELECT titulo,descripcion,trabajo.correo,trabajo.fono,trabajo.idEstado,rentaMin,rentaMax, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.idUsuario, ia, fecha FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
 $resultado = $mysqli->query($query);
@@ -62,8 +63,24 @@ while ($var = mysqli_fetch_row($resultado)) {
     $es = "No Disponible";
   }
 
+//Promedio trabajo.
+    $suma = 0;
+    $queryContador = "SELECT count(valor) FROM valoracion where idTrabajo = '$trabajo'";
+    $resultadoConteo = $mysqli->query($queryContador);
+    while ($contador = mysqli_fetch_row($resultadoConteo)) {
+    $conteo = $contador[0];
+    }
 
-
+    $queryValoraciones = "SELECT valor from valoracion where idTrabajo = '$trabajo'";
+    $resultadoValoraciones = $mysqli->query($queryValoraciones);
+    while ($valoraciones = mysqli_fetch_row($resultadoValoraciones)) {
+        $suma = $suma + $valoraciones[0];
+    }
+    if($conteo == 0){
+      $promedio = "Sin valoracions";
+    }else{
+    $promedio = intdiv($suma, $conteo);
+    }
   $query2 = "SELECT * FROM usuario where idUsuario = '$usuario'";
   $resultado2 = $mysqli->query($query2);
   while ($dato = mysqli_fetch_row($resultado2)) {
@@ -263,7 +280,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 <div>
                   <span class="ml-0 mr-2 mb-2"><span class="icon-briefcase mr-2"></span><?php echo $us ?></span>
                   <span class="m-2"><span class="icon-room mr-2"></span><?php echo $region ?>-<?php echo $comuna ?></span>
-                  <span class="m-2"><span class="icon-clock-o mr-2"></span><span class="text-primary"><?php echo $tipo ?></span></span>
+                  <span class="m-2"><span class="icon-clock-o mr-2"></span><?php echo $tipo ?></span></span>
+                  <span class="m-2"><span class="icon-star mr-2"></span><?php echo $promedio?> </span></span>
                 </div>
               </div>
             </div>

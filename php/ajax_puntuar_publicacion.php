@@ -48,9 +48,6 @@ if ($resultado) {
     $query4 = "UPDATE postulacion set score = '$promedio' where idTrabajo = '$publi' and idUsuario = '$idPublic'";
     $resultado3 = $mysqli->query($query4);
     
-}else{
-    $_SESSION['message'] = 'No se pudo valorar la publicacion';
-    $_SESSION['message_type'] = 'danger';
 }
 
 
