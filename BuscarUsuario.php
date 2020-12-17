@@ -3,13 +3,33 @@
 <?php
 session_start();
 require "php/db.php";
+$us= session_id();
+$trabajos_x_pagina = 5;
+//$total_articulos_mostrados = 0;
+// Redondear hacia arriba
+$iniciar = ($_GET['pagina'] - 1) * $trabajos_x_pagina;
+
+if ($_GET['pagina'] < 1) {
+  header('location:BuscarUsuario.php?pagina=1');
+}
 
 
-if (isset($_POST['buscar'])){
-  $us= session_id();
+if (!isset($_GET['pBusq'])){
+  $pBusq = '';
+}else{
+  $pBusq = $_GET['pBusq'];
+}
 
-  $pBusq = $_POST['pBusq'];
-  $pRegion = $_POST['region'];
+if (!isset($_GET['region'])){
+  $pRegion = '';
+}else{
+  $pRegion = $_GET['region'];
+}
+
+
+if (isset($_GET['pBusq']) || isset($_GET['region'])){
+  
+
   $where = "";
 
   if(!empty($pBusq)){
@@ -23,10 +43,10 @@ if (isset($_POST['buscar'])){
   }
 
   $queryc = "SELECT count(idUsuario) FROM usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where ";
-  $queryb = "SELECT usuario.idUsuario,usuario.nombre,usuario.trabajo,comuna.nombreComuna,region.nombreRegion from usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where";
+  $queryb = "SELECT usuario.idUsuario,usuario.nombre,usuario.trabajo,comuna.nombreComuna,region.nombreRegion from usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion $where LIMIT $iniciar,$trabajos_x_pagina";
 } else {
   $queryc = "SELECT count(idUsuario) FROM usuario";
-  $queryb = "SELECT usuario.idUsuario,usuario.nombre,usuario.trabajo,comuna.nombreComuna,region.nombreRegion from usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion";
+  $queryb = "SELECT usuario.idUsuario,usuario.nombre,usuario.trabajo,comuna.nombreComuna,region.nombreRegion from usuario INNER JOIN direccion ON usuario.direccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion LIMIT $iniciar,$trabajos_x_pagina";
 }
 
 if(is_numeric(session_id())){
@@ -201,7 +221,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <h1 class="text-white font-weight-bold">PeguitasYA (Personas)</h1>
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" name="ab"  method="post" class="search-jobs-form">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" name="ab"  method="GET" class="search-jobs-form">
+            <input name="pagina" type="hidden" value="1">
               <div class="row mb-5 align-items-center justify-content-center">
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                   <input for="pBusq" name="pBusq" type="text" class="form-control form-control-lg" placeholder="Nombre, Trabajo...">
@@ -299,31 +320,63 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <?php } ?>
               </div>
         </ul>
-              <?php  ?>
-              </div>
-        </ul>
 
         <!-- Mostrar cantidad de usuarios  -->
-
         <div class="row pagination-wrap">
           <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Mostrando 1-<?php echo $canti[0] ?> de <?php echo $canti[0] ?> Personas</span>
+            <?php
+            $resultado = $mysqli->query($queryc);
+            while ($var = mysqli_fetch_row($resultado)) {
+              if (sizeof($var) != Null) {
+                $total_articulos_mostrados = $var[0];
+                $paginas = ceil($total_articulos_mostrados / $trabajos_x_pagina); ?>
+                <span>Mostrando 1- <?php echo $trabajos_x_pagina ?> de <?php echo $var[0] ?> trabajos</span>
+              <?php } else { ?>
+                <span>No hay trabajos que mostrar</span>
+            <?php }
+            } ?>
           </div>
-          <div class="col-md-6 text-center text-md-right">
-            <div class="custom-pagination ml-auto">
-              <a href="#" class="prev">Atras</a>
-              <div class="d-inline-block">
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-              </div>
-              <a href="#" class="next">Siguente</a>
-            </div>
-          </div>
-        </div>
 
+          <?php /*<div class="custom-pagination ml-auto">
+            <a href="#" class="prev">Atras</a>
+            <div class="d-inline-block">
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+            </div>
+            <a href="#" class="next">Siguente</a>
+          </div> */ ?>
+        </div>
+       
+        <nav arial-label="Page navigation example" class="d-inline-block">
+          <ul class="pagination">
+            <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="BuscarUsuario.php?pagina=<?php echo $_GET['pagina'] - 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>">Anterior</a></li>
+            <?php for ($i = 0; $i < $paginas; $i++) { ?>
+              <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>"><a class="page-link" href="BuscarUsuario.php?pagina=<?php echo $i + 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>"><?php echo $i + 1 ?></a></li>
+            <?php } ?>
+
+            <li class="page-item <?php echo $_GET['pagina'] >= $paginas ? 'disabled' : '' ?>"><a class="page-link" href="BuscarUsuario.php?pagina=<?php echo $_GET['pagina'] + 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>">Siguiente</a></li>
+          </ul>
+        </nav>
       </div>
+
+  </div>
+
+
+  <section class="py-5 bg-image overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h2 class="text-white">¿Buscas un trabajo?</h2>
+          <p class="mb-0 text-white lead">Registrate en nuestra pagina web .</p>
+        </div>
+        <div class="col-md-3 ml-auto">
+          <a href="inicio.php" class="btn btn-warning btn-block btn-lg">Registrate</a>
+        </div>
+      </div>
+    </div>
+    
     </section>
 
 
