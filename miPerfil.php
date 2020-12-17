@@ -299,9 +299,56 @@ if(is_numeric(session_id())){
             <th>Direccion</th>
             <th>Correo</th>
             <th>Fono</th>
-            <th>Renta</th>
+            <th>Renta Min</th>
+            <th>Renta Max</th>
+            <th>Fecha</th>
+            <th>Ver Publicacion</th>
             </tr>
          </thead>
+            <tbody>
+            <?php
+            $query="SELECT trabajo.titulo,usuario.nombre,usuario.apellidos, trabajo.idEstado, trabajo.idTipo, region.nombreRegion,comuna.nombreComuna, trabajo.correo, trabajo.fono, trabajo.rentaMin,trabajo.rentaMax,trabajo.fecha,trabajo.idTrabajo FROM postulacion inner join trabajo on postulacion.idTrabajo = trabajo.idTrabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN direccion on trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna on direccion.idComuna = comuna.idComuna INNER JOIN region on comuna.idRegion = region.idRegion WHERE postulacion.idUsuario ='$us'";       
+            $resultado= $mysqli->query($query);
+              while($var=mysqli_fetch_row($resultado)){    
+              $trabajo = $var[12];
+              $es = $var[3];
+              $tipo = $var[4];
+              
+              if($es == 1){
+                $es = "Disponible";
+              }
+              if($es == 2){
+                $es = "No Disponible";
+              }
+              
+              if($tipo == 1){
+                $tipo = "Full time";
+              }
+              if($tipo == 2){
+                $tipo = "Part time";
+              }
+              if($tipo == 3){
+                $tipo = "Esporadico";
+              }
+
+        
+                ?>
+                <tr align="center">
+                <td><?php echo$var[0]?></td>
+                <td><?php echo$var[1].' '.$var[2] ?></td>
+                <td><?php echo$es?></td>
+                <td><?php echo$tipo?></td>
+                <td><?php echo$var[5] .', '. $var[6]?></td>
+                <td><?php echo$var[7]?></td>
+                <td><?php echo$var[8]?></td>
+                <td><?php echo$var[9]?></td>
+                <td><?php echo$var[10]?></td>
+                <td><?php echo$var[11]?></td>
+               
+                <td><a  class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Ver Publicacion</a></td>
+      <?php } ?>
+
+            </tbody>
     </table>
     </section>
 
