@@ -17,32 +17,32 @@ if ($_GET['pagina'] < 1) {
   header('location:index.php?pagina=1');
 }
 
-  
 
-  
-  
-  
-  
-  if (!isset($_GET['pBusq'])){
-    $pBusq = '';
-  }else{
-    $pBusq = $_GET['pBusq'];
-  }
 
-  if (!isset($_GET['region'])){
-    $pRegion = '';
-  }else{
-    $pRegion = $_GET['region'];
-  }
-  
-  if (!isset($_GET['tipoT'])){
-    $pTipo = '';
-  }else{
-    $pTipo = $_GET['tipoT'];
-  }
 
-if (isset($_GET['pBusq']) || isset($_GET['region']) || isset($_GET['tipoT'] )) {
-  
+
+
+
+if (!isset($_GET['pBusq'])) {
+  $pBusq = '';
+} else {
+  $pBusq = $_GET['pBusq'];
+}
+
+if (!isset($_GET['region'])) {
+  $pRegion = '';
+} else {
+  $pRegion = $_GET['region'];
+}
+
+if (!isset($_GET['tipoT'])) {
+  $pTipo = '';
+} else {
+  $pTipo = $_GET['tipoT'];
+}
+
+if (isset($_GET['pBusq']) || isset($_GET['region']) || isset($_GET['tipoT'])) {
+
   $where = "";
 
   if (!empty($pBusq)) {
@@ -188,7 +188,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   } else {
                   ?>
                     <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
-                    <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>                    
+                    <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
                     <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un usuario</a></li>
                   <?php
                   }
@@ -240,7 +240,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         <a href=<?php echo $ref ?> class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Registrate</a>
                       </div>
                     </div>
-                  </div>  
+                  </div>
                 </div>
               <?php
               }
@@ -265,7 +265,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <p>Bienvenido <?php echo $nombre  ?> </p>
             </div>
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" name="ab" method="GET" class="search-jobs-form">
-            <?php  
+              <?php
 
               ?>
               <input name="pagina" type="hidden" value="1">
@@ -320,11 +320,11 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-            <?php 
-            $queryU="SELECT count(idUsuario) FROM usuario ";
-            $resultado = $mysqli->query($queryU);
-            while ($var = mysqli_fetch_row($resultado)) { ?>
-              <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+              <?php
+              $queryU = "SELECT count(idUsuario) FROM usuario ";
+              $resultado = $mysqli->query($queryU);
+              while ($var = mysqli_fetch_row($resultado)) { ?>
+                <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
               <?php } ?>
             </div>
             <span class="caption">Candidatos</span>
@@ -332,23 +332,23 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-            <?php 
-           $queryT="SELECT count(idTrabajo) from trabajo where idEstado =1";
-            $resultado = $mysqli->query($queryT);
-            while ($var = mysqli_fetch_row($resultado)) { ?>
-              <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+              <?php
+              $queryT = "SELECT count(idTrabajo) from trabajo where idEstado =1";
+              $resultado = $mysqli->query($queryT);
+              while ($var = mysqli_fetch_row($resultado)) { ?>
+                <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
               <?php } ?>
             </div>
             <span class="caption">Trabajos publicados disponibles</span>
           </div>
-              
+
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-            <?php 
-            $queryE="SELECT count(idTrabajo) FROM trabajo where idEstado = 2 ";
-            $resultado = $mysqli->query($queryE);
-            while ($var = mysqli_fetch_row($resultado)) { ?>
-              <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
+              <?php
+              $queryE = "SELECT count(idTrabajo) FROM trabajo where idEstado = 2 ";
+              $resultado = $mysqli->query($queryE);
+              while ($var = mysqli_fetch_row($resultado)) { ?>
+                <strong class="number" data-number="<?php echo $var[0] ?>"></strong>
               <?php } ?>
             </div>
             <span class="caption">Trabajos publicados no disponibles</span>
@@ -431,41 +431,15 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
         <!-- Mostrar cantidad de trabajos  -->
 
-        <div class="row pagination-wrap">
-          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <?php
-            $resultado = $mysqli->query($queryc);
-            while ($var = mysqli_fetch_row($resultado)) {
-              if (sizeof($var) != Null) {
-                $total_articulos_mostrados = $var[0];
-                $paginas = ceil($total_articulos_mostrados / $trabajos_x_pagina); ?>
-                <span>Mostrando 1- <?php echo $trabajos_x_pagina ?> de <?php echo $var[0] ?> trabajos</span>
-              <?php } else { ?>
-                <span>No hay trabajos que mostrar</span>
-            <?php }
-            } ?>
-          </div>
 
-          <?php /*<div class="custom-pagination ml-auto">
-            <a href="#" class="prev">Atras</a>
-            <div class="d-inline-block">
-              <a href="#" class="active">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-            </div>
-            <a href="#" class="next">Siguente</a>
-          </div> */ ?>
-        </div>
-       
         <nav arial-label="Page navigation example" class="d-inline-block">
           <ul class="pagination">
-            <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] - 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo)?>">Anterior</a></li>
+            <li class="page-item <?php echo $_GET['pagina'] <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] - 1 ?>&pBusq=<?php echo urldecode($pBusq) ?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo) ?>">Anterior</a></li>
             <?php for ($i = 0; $i < $paginas; $i++) { ?>
-              <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $i + 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo)?>"><?php echo $i + 1 ?></a></li>
+              <li class="page-item <?php echo $_GET['pagina'] == $i + 1 ? 'active' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $i + 1 ?>&pBusq=<?php echo urldecode($pBusq) ?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo) ?>"><?php echo $i + 1 ?></a></li>
             <?php } ?>
 
-            <li class="page-item <?php echo $_GET['pagina'] >= $paginas ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] + 1 ?>&pBusq=<?php echo urldecode($pBusq)?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo)?>">Siguiente</a></li>
+            <li class="page-item <?php echo $_GET['pagina'] >= $paginas ? 'disabled' : '' ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina'] + 1 ?>&pBusq=<?php echo urldecode($pBusq) ?>&region=<?php echo urldecode($pRegion) ?>&tipoT=<?php echo urldecode($pTipo) ?>">Siguiente</a></li>
           </ul>
         </nav>
       </div>
@@ -494,7 +468,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
       <span class="icon-keyboard_arrow_up"></span>
     </a>
 
-   
+
 
 
   </footer>
