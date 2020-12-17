@@ -49,9 +49,9 @@ if($_POST){
        header("Location: ../misPublicaciones.php");
         
     }else{
-        $_SESSION['message'] = 'No se pudo';
+        $_SESSION['message'] = 'No se pudo actualizar los datos de la publicacion';
         $_SESSION['message_type'] = 'danger';
-        echo mysqli_error($query2);
+        header("Location: ../misPublicaciones.php");
        
     }
    
