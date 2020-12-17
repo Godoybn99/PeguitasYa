@@ -191,7 +191,7 @@ if(is_numeric(session_id())){
                    </button>
             </div>
             <?php
-            //session_unset();
+            unset($_SESSION['message']);
               }  
             ?>
  <!--Datos Perfil-->

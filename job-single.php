@@ -233,7 +233,20 @@ if(is_numeric(session_id())){
         </div>
       </div>
     </section>
-
+  <!--Alerta-->
+  <?php
+              if(isset($_SESSION['message'])){  
+            ?>
+            <div class="alert alert-<?= $_SESSION['message_type'];?> alert-dismissible fade show" role="alert">
+                   <?= $_SESSION['message']; ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+            </div>
+            <?php
+            unset($_SESSION['message']);
+              }  
+            ?>
     <!---Descripcion de la publicacion-->
     <section class="site-section">
       <div class="container">
