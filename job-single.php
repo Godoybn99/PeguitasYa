@@ -3,7 +3,7 @@
 session_start();
 require "php/db.php";
 date_default_timezone_set("America/Santiago");
-
+$valor =0;
 if (isset($_GET['publicacion'])) {
   $trabajo = $_GET['publicacion'];
   $_SESSION['publicacion'] = $_GET['publicacion'];
@@ -342,7 +342,11 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
 
             <?php 
-            $queryPuntuacion = "SELECT valor FROM valoracion where idTrabajo = '$trabajo' AND idPublicador = '$usu'";
+            $queryPuntuacion = "SELECT valor FROM valoracion where idTrabajo = '$trabajo' AND idPublicador = '$uId'";
+            $resultadoPuntuacion = $mysqli->query($queryPuntuacion);
+            while ($res = mysqli_fetch_row($resultadoPuntuacion)){
+              $valor = $res[0];
+            }
             ?>
             <form method="POST" action="php/ajax_puntuar_publicacion.php">
               <input name='idUsuario' type="hidden" value=<?php echo $usu ?>></input>
@@ -352,11 +356,15 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <div class="form-group">
                 <label for="exp" class="cik-fomr-label">Valora esta publicación</label>
                 <div class="valores">
-                  <input type="radio" name="example" class="rating" value="1" />
-                  <input type="radio" name="example" class="rating" value="2" />
-                  <input type="radio" name="example" class="rating" value="3" checked />
-                  <input type="radio" name="example" class="rating" value="4" />
-                  <input type="radio" name="example" class="rating" value="5" />
+                <?php for ($i = 1; $i <= 5; $i++){ 
+                  if($valor == $i){ ?>
+                    <input type="radio" name="example" class="rating" checked value="<?php echo $i ?>"  />
+                    <?php
+                  }else{ ?>
+                    <input type="radio" name="example" class="rating" value="<?php echo $i ?>" />
+                    <?php
+                  }                  
+                } ?>                 
                 </div>
               </div>
               <button type="submit" class="btn btn-primary">Puntuar</button>
