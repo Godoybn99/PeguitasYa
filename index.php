@@ -188,7 +188,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   } else {
                   ?>
                     <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un trabajador</a></li>
-                    <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>
+                    <li><a data-toggle="modal" data-target="#staticBackdrop">Publicar un trabajo</a></li>                    
+                    <li><a data-toggle="modal" data-target="#staticBackdrop">Buscar un usuario</a></li>
                   <?php
                   }
                   ?>
