@@ -330,7 +330,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
               if (sizeof($var) != Null) {
                 $total_articulos_mostrados = $var[0];
                 $paginas = ceil($total_articulos_mostrados / $trabajos_x_pagina); ?>
-                <span>Mostrando 1- <?php echo $trabajos_x_pagina ?> de <?php echo $var[0] ?> trabajos</span>
+                <?php /* <span>Mostrando 1- <?php echo $trabajos_x_pagina ?> de <?php echo $var[0] ?> trabajos</span> */ ?>
               <?php } else { ?>
                 <span>No hay trabajos que mostrar</span>
             <?php }

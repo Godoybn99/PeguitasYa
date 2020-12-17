@@ -3,7 +3,7 @@
 session_start();
 require "php/db.php";
 date_default_timezone_set("America/Santiago");
-$valor =0;
+$valor = 0;
 if (isset($_GET['publicacion'])) {
   $trabajo = $_GET['publicacion'];
   $_SESSION['publicacion'] = $_GET['publicacion'];
@@ -63,24 +63,24 @@ while ($var = mysqli_fetch_row($resultado)) {
     $es = "No Disponible";
   }
 
-//Promedio trabajo.
-    $suma = 0;
-    $queryContador = "SELECT count(valor) FROM valoracion where idTrabajo = '$trabajo'";
-    $resultadoConteo = $mysqli->query($queryContador);
-    while ($contador = mysqli_fetch_row($resultadoConteo)) {
+  //Promedio trabajo.
+  $suma = 0;
+  $queryContador = "SELECT count(valor) FROM valoracion where idTrabajo = '$trabajo'";
+  $resultadoConteo = $mysqli->query($queryContador);
+  while ($contador = mysqli_fetch_row($resultadoConteo)) {
     $conteo = $contador[0];
-    }
+  }
 
-    $queryValoraciones = "SELECT valor from valoracion where idTrabajo = '$trabajo'";
-    $resultadoValoraciones = $mysqli->query($queryValoraciones);
-    while ($valoraciones = mysqli_fetch_row($resultadoValoraciones)) {
-        $suma = $suma + $valoraciones[0];
-    }
-    if($conteo == 0){
-      $promedio = "Sin valoracions";
-    }else{
+  $queryValoraciones = "SELECT valor from valoracion where idTrabajo = '$trabajo'";
+  $resultadoValoraciones = $mysqli->query($queryValoraciones);
+  while ($valoraciones = mysqli_fetch_row($resultadoValoraciones)) {
+    $suma = $suma + $valoraciones[0];
+  }
+  if ($conteo == 0) {
+    $promedio = "Sin valoracions";
+  } else {
     $promedio = intdiv($suma, $conteo);
-    }
+  }
   $query2 = "SELECT * FROM usuario where idUsuario = '$usuario'";
   $resultado2 = $mysqli->query($query2);
   while ($dato = mysqli_fetch_row($resultado2)) {
@@ -281,7 +281,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   <span class="ml-0 mr-2 mb-2"><span class="icon-briefcase mr-2"></span><?php echo $us ?></span>
                   <span class="m-2"><span class="icon-room mr-2"></span><?php echo $region ?>-<?php echo $comuna ?></span>
                   <span class="m-2"><span class="icon-clock-o mr-2"></span><?php echo $tipo ?></span></span>
-                  <span class="m-2"><span class="icon-star mr-2"></span><?php echo $promedio?> </span></span>
+                  <span class="m-2"><span class="icon-star mr-2"></span><?php echo $promedio ?> </span></span>
                 </div>
               </div>
             </div>
@@ -293,8 +293,16 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <div class="col-6">
                 <?php
                 if ($usu != $uId) {
-                ?>
-                  <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Postular</a>
+                  $queryPostulacion = "SELECT idPostulacion FROM postulacion where idTrabajo = '$trabajo' AND idUsuario = '$usu'";
+                  $resultadoPostulacion = $mysqli->query($queryPostulacion);
+                  if (mysqli_fetch_row($resultadoPostulacion) != null) { ?>
+                    <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Actualiza tu postulacion</a>
+                    <?php
+                  }else{ ?>
+                    <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Postular</a>
+                    <?php
+                  }
+                ?>                  
                 <?php
                 }
                 ?>
@@ -341,10 +349,10 @@ while ($cant = mysqli_fetch_row($resultado)) {
             </div>
 
 
-            <?php 
+            <?php
             $queryPuntuacion = "SELECT valor FROM valoracion where idTrabajo = '$trabajo' AND idPublicador = '$uId'";
             $resultadoPuntuacion = $mysqli->query($queryPuntuacion);
-            while ($res = mysqli_fetch_row($resultadoPuntuacion)){
+            while ($res = mysqli_fetch_row($resultadoPuntuacion)) {
               $valor = $res[0];
             }
             ?>
@@ -356,15 +364,15 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <div class="form-group">
                 <label for="exp" class="cik-fomr-label">Valora esta publicación</label>
                 <div class="valores">
-                <?php for ($i = 1; $i <= 5; $i++){ 
-                  if($valor == $i){ ?>
-                    <input type="radio" name="example" class="rating" checked value="<?php echo $i ?>"  />
+                  <?php for ($i = 1; $i <= 5; $i++) {
+                    if ($valor == $i) { ?>
+                      <input type="radio" name="example" class="rating" checked value="<?php echo $i ?>" />
                     <?php
-                  }else{ ?>
-                    <input type="radio" name="example" class="rating" value="<?php echo $i ?>" />
-                    <?php
-                  }                  
-                } ?>                 
+                    } else { ?>
+                      <input type="radio" name="example" class="rating" value="<?php echo $i ?>" />
+                  <?php
+                    }
+                  } ?>
                 </div>
               </div>
               <button type="submit" class="btn btn-primary">Puntuar</button>

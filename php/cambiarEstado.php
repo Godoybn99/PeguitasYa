@@ -11,7 +11,7 @@ if($_POST['estado']== 2){
 $query="UPDATE trabajo set idEstado = '$estado' where idTrabajo = '$publicacion'";
 $resultado = $mysqli->query($query);
 if($resultado){
-    $_SESSION['message'] = 'Se cambio el estao de la publicacion';
+    $_SESSION['message'] = 'Se cambio el estado de la publicacion';
     $_SESSION['message_type'] = 'success';
     
     header("Location: ../misPublicaciones.php");
