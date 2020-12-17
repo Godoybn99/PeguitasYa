@@ -139,10 +139,10 @@ require "php/db.php";
                         </button>
                       </div>
                       <div class="modal-body" align="left">
-                        El objetivo y finalidad de la recoleccion de datos personales.
-                        Habilita a PeguitasYa a registrar, utilizar y proteger toda la información personal que se reuna de los usuarios, de conformidad con lo dispuesto por la legislación actualmente vigitente sobre protección de datos y esta política de privacidad.
-                        Habilita a PeguitasYa mostrar y utilizar su informacion para ser entregada a terceros, con la finalidad del correcto funcionamiento del servicio web, facilitar transacciones tecnologicas, ademas que estos datos seran utilizados para mejorar la gestion y administracion del servicio web, como tambien para el entrenamiento de modelos de prediccion que se utiliza en PeguitasYa.
-                        Por ultimo, habilita a PeguitasYa utilizar direccion de correo electronico ingresada al sistema, para el envio de encuestas, informacion, ofertas, entre otros.
+                        <p>El objetivo y finalidad de la recoleccion de datos personales.</p>
+                        <p>-Habilita a PeguitasYa a registrar, utilizar y proteger toda la información personal que se reuna de los usuarios, de conformidad con lo dispuesto por la legislación actualmente vigitente sobre protección de datos y esta política de privacidad.</p>
+                        <p>-Habilita a PeguitasYa mostrar y utilizar su informacion para ser entregada a terceros, con la finalidad del correcto funcionamiento del servicio web, facilitar transacciones tecnologicas, ademas que estos datos seran utilizados para mejorar la gestion y administracion del servicio web, como tambien para el entrenamiento de modelos de prediccion que se utiliza en PeguitasYa.</p>
+                        <p>-Por ultimo, habilita a PeguitasYa utilizar direccion de correo electronico ingresada al sistema, para el envio de encuestas, informacion, ofertas, entre otros.</p>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Rechazar</button>
