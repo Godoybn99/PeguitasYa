@@ -461,7 +461,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         </form>
                         <?php
                         if ($var[13]) {
-                          echo "<a id='des' class='btn btn-primary' href='peguitasYA/$var[13]' download = " . $var[0] . "" . $var[1] . "> Descargar Curriculum </a>";
+                          echo "<a id='des' class='btn btn-primary' href='peguitasYA/$var[13]' download = " . $var[0] . "" . $var[1] . " hidden> Descargar Curriculum </a>";
                           ?>
                           <td><button class="btn btn-primary" onclick="document.getElementById('des').click()">Descargar Curriculum</button></td>
                         <?php 
