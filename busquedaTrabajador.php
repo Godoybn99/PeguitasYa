@@ -439,14 +439,14 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         $estud = 'Sin estudios universitarios';
                       }
 
-                      if ($var[14] == 1) {
-                        $esp = 'Front End';
-                      } else if ($var[14] == 2) {
-                        $esp = 'Full Stack';
-                      } else if ($var[14] == 3) {
-                        $esp = 'Back End';
-                      } else {
-                        $esp = null;
+                      if($ia ==2){
+                        if ($var[14] == 1) {
+                          $esp = 'Front End';
+                        } else if ($var[14] == 2) {
+                          $esp = 'Full Stack';
+                        } else if ($var[14] == 3) {
+                          $esp = 'Back End';
+                        }
                       }
 
                       $uNombre = $var[0];
@@ -542,14 +542,14 @@ while ($cant = mysqli_fetch_row($resultado)) {
                       $estud = 'Sin estudios universitarios';
                     }
 
-                    if ($var[14] == 1) {
-                      $esp = 'Front End';
-                    } else if ($var[14] == 2) {
-                      $esp = 'Full Stack';
-                    } else if ($var[14] == 3) {
-                      $esp = 'Back End';
-                    } else {
-                      $esp = null;
+                    if($ia ==2){
+                      if ($var[14] == 1) {
+                        $esp = 'Front End';
+                      } else if ($var[14] == 2) {
+                        $esp = 'Full Stack';
+                      } else if ($var[14] == 3) {
+                        $esp = 'Back End';
+                      }
                     }
 
                     $uNombre = $var[0];
