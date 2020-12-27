@@ -265,7 +265,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   ?>
                     <span class="badge badge-dark">IA No Disponible</span>
                   <?php
-                  } else if ($var[6] == '1' || $var[6] == '2' ) {
+                  } else if ($var[6] == '1' || $var[6] == '2') {
                   ?>
                     <span class="badge badge-success">IA Disponible</span>
                   <?php
@@ -296,25 +296,24 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
 
       <?php
-      if($ia == 2){
+      if ($ia == 2) {
 
         $queryIA = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
-      $resultadoIA = $mysqli->query($queryIA);
-      //fopen('datosIA.txt','a');
-      //$file - 'datosIA.txt';
-      if (mysqli_num_rows($resultadoIA)) {
-        $jump = "\r\n";
-        $separator = "\t";
-        $fp = fopen('datosIA/publicacion' . $trabajo . '.csv', 'w');
-        while ($var = mysqli_fetch_row($resultadoIA)) {
-          $registro = array($var[9], $var[3], $var[4], $var[5], $var[6], $var[7], $var[8]);
-          fputcsv($fp, $registro);
+        $resultadoIA = $mysqli->query($queryIA);
+        //fopen('datosIA.txt','a');
+        //$file - 'datosIA.txt';
+        if (mysqli_num_rows($resultadoIA)) {
+          $jump = "\r\n";
+          $separator = "\t";
+          $fp = fopen('datosIA/publicacion' . $trabajo . '.csv', 'w');
+          while ($var = mysqli_fetch_row($resultadoIA)) {
+            $registro = array($var[9], $var[3], $var[4], $var[5], $var[6], $var[7], $var[8]);
+            fputcsv($fp, $registro);
+          }
+          fclose($fp);
+          chmod('datosIA/publicacion' . $trabajo . '.csv', 0777);
         }
-        fclose($fp);
-        chmod('datosIA/publicacion' . $trabajo . '.csv', 0777);
-      }
-
-      }else{
+      } else {
 
         $queryIA = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
         $resultadoIA = $mysqli->query($queryIA);
@@ -331,9 +330,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
           fclose($fp);
           chmod('datosIA/publicacion' . $trabajo . '.csv', 0777);
         }
-
       }
-      
+
       ?>
 
       <!---Lista de postulantes -->
@@ -361,6 +359,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   <th>Años de Exp</th>
                   <th>¿Es de la misma comuna?</th>
                   <th>Cantidad de Trabajos</th>
+                  <?php if ($ia == 2) { ?>
+                    <th>Especializacion</th>
+                  <?php } ?>
                   <th>Nivel de Estudios</th>
                   <th>Valoracion</th>
                   <th>Datos del Postulante</th>
@@ -370,7 +371,6 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <tbody>
                 <?php
                 if ($v == 0) {
-                  echo ($ia);
 
                   $p = exec("python datosIA/peguitaia.py $trabajo $ia");
                   $arrayId = [];
@@ -391,7 +391,13 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   #echo var_dump($arrayId);
                   //Busqueda con IA   
                   foreach ($arrayId as $val) {
-                    $query = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
+                    if ($ia == 2) {
+                      $query = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, idTrabajo, postulacion.idUsuario, idPostulacion, usuario.direccion, usuario.trabajo, curriculum, specialty FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
+                    }
+                    if ($ia == 1) {
+                      $query = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, idTrabajo, postulacion.idUsuario, idPostulacion, usuario.direccion, usuario.trabajo, curriculum FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo' AND postulacion.idUsuario = '$val'";
+                    }
+
                     $resultado = $mysqli->query($query);
                     while ($var = mysqli_fetch_row($resultado)) {
                       $idTrabajo = $var[9];
@@ -433,6 +439,16 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         $estud = 'Sin estudios universitarios';
                       }
 
+                      if($ia ==2){
+                        if ($var[14] == 1) {
+                          $esp = 'Front End';
+                        } else if ($var[14] == 2) {
+                          $esp = 'Full Stack';
+                        } else if ($var[14] == 3) {
+                          $esp = 'Back End';
+                        }
+                      }
+
                       $uNombre = $var[0];
                       $uApellido = $var[1];
                       $uCorreo = $var[2];
@@ -452,6 +468,10 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         <td><?php echo $ano ?></td>
                         <td><?php echo $comu ?></td>
                         <td><?php echo $cantT ?></td>
+                        <?php if ($ia == 2) { ?>
+                          <td><?php echo $esp ?></td>
+                        <?php
+                        } ?>
                         <td><?php echo $estud ?></td>
                         <td><?php echo $var[7] ?></td>
                         <form method="post" action="Perfil.php">
@@ -462,9 +482,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         <?php
                         if ($var[13]) {
                           echo "<a id='des' class='btn btn-primary' href='peguitasYA/$var[13]' download = " . $var[0] . "" . $var[1] . " hidden> Descargar Curriculum </a>";
-                          ?>
+                        ?>
                           <td><button class="btn btn-primary" onclick="document.getElementById('des').click()">Descargar Curriculum</button></td>
-                        <?php 
+                        <?php
                         } else {
                         }
                         ?>
@@ -475,7 +495,11 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   }
                 } else {
                   //Busqueda normal
-                  $query = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score,idTrabajo,postulacion.idUsuario,idPostulacion,usuario.direccion,usuario.trabajo,curriculum FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+                  if ($ia == 2) {
+                    $query = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, idTrabajo, postulacion.idUsuario, idPostulacion, usuario.direccion, usuario.trabajo, curriculum, specialty FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+                  } else if ($ia == 1) {
+                    $query = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, idTrabajo, postulacion.idUsuario, idPostulacion, usuario.direccion, usuario.trabajo, curriculum FROM usuario INNER JOIN postulacion ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+                  }
                   $resultado = $mysqli->query($query);
                   while ($var = mysqli_fetch_row($resultado)) {
 
@@ -518,6 +542,16 @@ while ($cant = mysqli_fetch_row($resultado)) {
                       $estud = 'Sin estudios universitarios';
                     }
 
+                    if($ia ==2){
+                      if ($var[14] == 1) {
+                        $esp = 'Front End';
+                      } else if ($var[14] == 2) {
+                        $esp = 'Full Stack';
+                      } else if ($var[14] == 3) {
+                        $esp = 'Back End';
+                      }
+                    }
+
                     $uNombre = $var[0];
                     $uApellido = $var[1];
                     $uCorreo = $var[2];
@@ -537,6 +571,10 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         <td><?php echo $ano ?></td>
                         <td><?php echo $comu ?></td>
                         <td><?php echo $cantT ?></td>
+                        <?php if ($ia == 2) { ?>
+                          <td><?php echo $esp ?></td>
+                        <?php
+                        } ?>
                         <td><?php echo $estud ?></td>
                         <td><?php echo $var[7] ?></td>
                         <form method="post" action="Perfil.php">
@@ -547,9 +585,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         <?php
                         if ($var[13]) {
                           echo "<a id='des' class='btn btn-primary' href='peguitasYA/$var[13]' download = " . $var[0] . "-" . $var[1] . " role='button' hidden > </a>";
-                          ?>
+                        ?>
                           <td><button class="btn btn-primary" onclick="document.getElementById('des').click()">Descargar Curriculum</button></td>
-                          <?php
+                        <?php
                         } else {
                         }
                         ?>
