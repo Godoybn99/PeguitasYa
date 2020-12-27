@@ -264,7 +264,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   ?>
                     <span class="badge badge-dark">IA No Disponible</span>
                   <?php
-                  } else if ($var[6] == '1') {
+                  } else {
                   ?>
                     <span class="badge badge-success">IA Disponible</span>
                   <?php
