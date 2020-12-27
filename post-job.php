@@ -280,10 +280,13 @@ if(is_numeric(session_id())){
 
               <div class="form-group">
                 <label>¿Necesita de la IA de PeguitasYa?</label><br>
-                <select class="selectpicker border rounded" name="IA" data-style="btn-black" data-width="20%" data-live-search="true">
+                <select class="selectpicker border rounded" name="IA" id="IA" data-style="btn-black" data-width="20%" data-live-search="true">
                   <option value="0">No</option>
                   <option value="1">Si</option>
                 </select>
+              </div>
+              
+              <div class="form-group" name="perfil" id="perfil" >
               </div>
 
         <div class="row align-items-center mb-5">          
@@ -296,7 +299,7 @@ if(is_numeric(session_id())){
           </div>
         </div>
       </div>
-                    </form>
+    </form>
     </section>
 
 
@@ -332,9 +335,14 @@ if(is_numeric(session_id())){
 	$(document).ready(function(){
 		$('#region').val(0);
 		recargarLista();
+    $('#IA').val(0);
+		recargarLista2();
 
 		$('#region').change(function(){
 			recargarLista();
+		});
+    $('#IA').change(function(){
+			recargarLista2();
 		});
 	})
 </script>
@@ -349,6 +357,18 @@ if(is_numeric(session_id())){
 			}
 		});
 	}
+
+  function recargarLista2(){
+		$.ajax({
+			type:"POST",
+			url:"php/ajax_perfil.php",
+			data:"per=" + $('#IA').val(),
+			success:function(response){
+				$('#perfil').html(response);
+			}
+		});
+	}
 </script>
+
   </body>
 </html>
