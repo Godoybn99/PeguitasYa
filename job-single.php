@@ -159,7 +159,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="index.php" class="nav-link active">Inicio</a></li>
+              <li><a href="index.php">Inicio</a></li>
               <li><a href="about.php">Sobre Nosotros</a></li>
               <li class="has-children">
                 <a>Servicios</a>
@@ -361,6 +361,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <input name='publicacion' type="hidden" value=<?php echo $trabajo ?>></input>
               <input name='idPublicante' type="hidden" value=<?php echo $uId ?>></input>
               <input name='dire' type="hidden" value='1'></input>
+              <?php if ($usu != $uId) { ?>
               <div class="form-group">
                 <label for="exp" class="cik-fomr-label">Valora esta publicación</label>
                 <div class="valores">
@@ -376,6 +377,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                 </div>
               </div>
               <button type="submit" class="btn btn-primary">Puntuar</button>
+              <?php } ?>
             </form>
 
           </div>

@@ -201,13 +201,6 @@ if(is_numeric(session_id())){
           <div class="col-lg-12">
             <form class="p-4 p-md-5 border rounded" method="post" action="php/Publicar.php" method="POST">
               <h3 class="text-black mb-5 border-bottom pb-2">Detalles del trabajo</h3>
-              
-              <div class="form-group">
-                <label for="company-website-tw d-block">Subir imagen de refrencia</label> <br>
-                <label class="btn btn-primary btn-md btn-file">
-                  Browse File<input type="file" hidden>
-                </label>
-              </div>
               <div class="form-group">
                 <label for="job-title">Titulo del trabajo</label>
                 <input type="text" class="form-control" name="job-title" placeholder="Se necesita Ingeniero..." pattern="[a-zA-Z0-9''' ']{3,50}" required>

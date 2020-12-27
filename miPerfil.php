@@ -320,6 +320,9 @@ if(is_numeric(session_id())){
               if($es == 2){
                 $es = "No Disponible";
               }
+              if($es == 3){
+                $es = "Finalizado";
+              }
               
               if($tipo == 1){
                 $tipo = "Full time";
@@ -344,9 +347,17 @@ if(is_numeric(session_id())){
                 <td><?php echo$var[9]?></td>
                 <td><?php echo$var[10]?></td>
                 <td><?php echo$var[11]?></td>
-               
-                <td><a  class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Ver Publicacion</a></td>
-      <?php } ?>
+                <?php  if($es == 'Finalizado'){ ?>
+                <td><a class="btn btn-danger" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Eliminar Postulacion</a></td>
+                <?php }?>
+                <?php  if($es == "Disponible"){ ?>
+                <td><a class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Ver Publicacion</a></td>
+                <?php }?>
+                <?php  if($es == "No Disponible"){ ?>
+                <td><a class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Eliminar Postulacion</a></td>
+                <?php }?>
+                <?php       
+    } ?>
 
             </tbody>
     </table>

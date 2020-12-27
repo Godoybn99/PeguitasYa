@@ -348,7 +348,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
               <?php
-              $queryE = "SELECT count(idTrabajo) FROM trabajo where idEstado = 2 ";
+              $queryE = "SELECT count(idTrabajo) FROM trabajo where idEstado = 2 or idEstado = 3 ";
               $resultado = $mysqli->query($queryE);
               while ($var = mysqli_fetch_row($resultado)) { ?>
                 <strong class="number" data-number="<?php echo $var[0] ?>"></strong>

@@ -229,6 +229,10 @@ if(is_numeric(session_id())){
               $dis = "No Disponible";
               $mensaje = "badge badge-danger";
             }
+            if($dis == "3"){
+              $dis = "Finalizado";
+              $mensaje = "badge badge-dark";
+            }
           ?>
          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <?php
@@ -271,23 +275,35 @@ if(is_numeric(session_id())){
               <form  method="post" action="editarTrabajo.php" method="POST">
               <div class="job-listing-meta">
               <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <button data-toggle="modal" style="margin: 10px" data-target="#staticBackdrop" class="btn btn-info border-width-2 d-none d-lg-inline-block">Editar</button>
-              </div>
-              </form>
-              <form  method="post" action="php/eliminarPublicacion.php" method="POST">
-              <div class="job-listing-meta">
-              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
-              <button type="submit" style="margin: 10px" class="btn btn-danger border-width-2 d-none d-lg-inline-block">Eliminar</button>
+              <button data-toggle="modal" style="margin: 10px" data-target="#staticBackdrop" class="btn btn-info border-width-2 d-none d-lg-inline-block btn-md">Editar</button>
               </div>
               </form>
               <form  method="post" action="php/cambiarEstado.php" method="POST">
               <div class="job-listing-meta">
               <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
               <input type="hidden" name="estado" value="<?php echo $var[7]?>">
-              <button type="submit" style="margin: 10px" class="btn btn-primary border-width-2 d-none d-lg-inline-block ">CambiarEstado</button>
+              <button type="submit" style="margin: 10px" class="btn btn-primary border-width-2 d-none d-lg-inline-block btn-md ">CambiarEstado</button>
               </div>
               </form>
-              <?php } ?>     
+              <?php if($dis=="Finalizado"){ ?>
+              <form  method="post" action="php/eliminarPublicacion.php" method="POST">
+              <div class="job-listing-meta">
+              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
+              <button type="submit" style="margin: 10px" class="btn btn-danger border-width-2 d-none d-lg-inline-block btn-md">Eliminar</button>
+              </div>
+              </form>
+              <?php }else{ ?>
+              <form  method="post" action="php/finalizarPostualcion.php" method="POST">
+              <div class="job-listing-meta">
+              <input type="hidden" name="publicacion" value="<?php echo $var[0]?>">
+              <input type="hidden" name="estado" value="<?php echo $var[7]?>">
+              <input type="hidden" name="estado" value="3">
+              <button type="submit" style="margin: 10px" class="btn btn-danger border-width-2 d-none d-lg-inline-block ">Finalizar Publicacion</button>
+              </div>
+              </form>
+              <?php 
+              }
+            } ?>     
             </div>            
             </ul>
 
