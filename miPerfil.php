@@ -313,6 +313,7 @@ if (is_numeric(session_id())) {
             <th>Renta Min</th>
             <th>Renta Max</th>
             <th>Fecha</th>
+            <th>Eliminar Publicacion</th>
             <th>Ver Publicacion</th>
           </tr>
         </thead>
@@ -327,12 +328,15 @@ if (is_numeric(session_id())) {
 
             if ($es == 1) {
               $es = "Disponible";
+              $estilo="success";
             }
             if ($es == 2) {
               $es = "No Disponible";
+              $estilo="danger";
             }
             if ($es == 3) {
               $es = "Finalizado";
+              $estilo="dark";
             }
 
             if ($tipo == 1) {
@@ -350,7 +354,7 @@ if (is_numeric(session_id())) {
             <tr align="center">
               <td><?php echo $var[0] ?></td>
               <td><?php echo $var[1] . ' ' . $var[2] ?></td>
-              <td><?php echo $es ?></td>
+              <td><span class="badge badge-<?php echo $estilo ?> text-white px-4"><?php echo $es ?></span></td>
               <td><?php echo $tipo ?></td>
               <td><?php echo $var[5] . ', ' . $var[6] ?></td>
               <td><?php echo $var[7] ?></td>
@@ -358,32 +362,21 @@ if (is_numeric(session_id())) {
               <td><?php echo $var[9] ?></td>
               <td><?php echo $var[10] ?></td>
               <td><?php echo $var[11] ?></td>
-              <?php if ($es == "Finalizado") { ?>
-                <td>
+              <td>
                   <form action="php\eliminarPostulacion.php" method="POST">
                     <div class="job-listing-meta">
                       <input type="hidden" name="publicacion" value="<?php echo $trabajo ?>">
                       <input type="hidden" name="usuario" value="<?php echo $us ?>">
-                      <button type="submit" class="btn btn-danger border-width-2 d-none d-lg-inline-block ">Eliminar tu postulacion</button>
+                      <button type="submit" class="btn btn-danger border-width-2 d-none d-lg-inline-block">Eliminar</button>
                     </div>
                   </form>
                 </td>
-              <?php } ?>
               <?php if ($es == "Disponible") { ?>
                 <td><a class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Ver Publicacion</a></td>
-              <?php } ?>
-              <?php if ($es == "No Disponible") { ?>
-                <td>
-                  <form action="php\eliminarPostulacion.php" method="POST">
-                    <div class="job-listing-meta">
-                      <input type="hidden" name="publicacion" value="<?php echo $trabajo ?>">
-                      <input type="hidden" name="usuario" value="<?php echo $us ?>">
-                      <button type="submit" class="btn btn-danger border-width-2 d-none d-lg-inline-block ">Eliminar tu postulacion</button>
-                    </div>
-                  </form>
-                </td>
-              <?php } ?>
+              <?php }else{ ?>
+                <td><a class="btn px-4 btn-danger text-white" type="button">No Disponible</a></td>
             <?php
+          }
           } ?>
         </tbody>
       </table>
