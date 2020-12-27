@@ -318,7 +318,7 @@ if (is_numeric(session_id())) {
         </thead>
         <tbody>
           <?php
-          $query = "SELECT trabajo.titulo,usuario.nombre,usuario.apellidos, trabajo.idEstado, trabajo.idTipo, region.nombreRegion,comuna.nombreComuna, trabajo.correo, trabajo.fono, trabajo.rentaMin,trabajo.rentaMax,trabajo.fecha,trabajo.idTrabajo FROM postulacion inner join trabajo on postulacion.idTrabajo = trabajo.idTrabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN direccion on trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna on direccion.idComuna = comuna.idComuna INNER JOIN region on comuna.idRegion = region.idRegion WHERE postulacion.idUsuario ='$us'";
+          $query = "SELECT trabajo.titulo, usuario.nombre, usuario.apellidos, trabajo.idEstado, trabajo.idTipo, region.nombreRegion, comuna.nombreComuna, trabajo.correo, trabajo.fono, trabajo.rentaMin, trabajo.rentaMax, trabajo.fecha, trabajo.idTrabajo FROM postulacion inner join trabajo on postulacion.idTrabajo = trabajo.idTrabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN direccion on trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna on direccion.idComuna = comuna.idComuna INNER JOIN region on comuna.idRegion = region.idRegion WHERE postulacion.idUsuario ='$us'";
           $resultado = $mysqli->query($query);
           while ($var = mysqli_fetch_row($resultado)) {
             $trabajo = $var[12];
@@ -358,18 +358,33 @@ if (is_numeric(session_id())) {
               <td><?php echo $var[9] ?></td>
               <td><?php echo $var[10] ?></td>
               <td><?php echo $var[11] ?></td>
-              <?php if ($es == 'Finalizado') { ?>
-                <td><a class="btn btn-danger" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Eliminar Postulacion</a></td>
+              <?php if ($es == "Finalizado") { ?>
+                <td>
+                  <form action="php\eliminarPostulacion.php" method="POST">
+                    <div class="job-listing-meta">
+                      <input type="hidden" name="publicacion" value="<?php echo $trabajo ?>">
+                      <input type="hidden" name="usuario" value="<?php echo $us ?>">
+                      <button type="submit" class="btn btn-danger border-width-2 d-none d-lg-inline-block ">Eliminar tu postulacion</button>
+                    </div>
+                  </form>
+                </td>
               <?php } ?>
               <?php if ($es == "Disponible") { ?>
                 <td><a class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Ver Publicacion</a></td>
               <?php } ?>
               <?php if ($es == "No Disponible") { ?>
-                <td><a class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Eliminar Postulacion</a></td>
+                <td>
+                  <form action="php\eliminarPostulacion.php" method="POST">
+                    <div class="job-listing-meta">
+                      <input type="hidden" name="publicacion" value="<?php echo $trabajo ?>">
+                      <input type="hidden" name="usuario" value="<?php echo $us ?>">
+                      <button type="submit" class="btn btn-danger border-width-2 d-none d-lg-inline-block ">Eliminar tu postulacion</button>
+                    </div>
+                  </form>
+                </td>
               <?php } ?>
             <?php
           } ?>
-
         </tbody>
       </table>
     </section>
