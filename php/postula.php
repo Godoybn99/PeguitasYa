@@ -23,7 +23,15 @@ if ($_POST) {
     $ano = $_POST['anos'];
     $com = $_POST['comuna'];
     $cantT = $_POST['cantT'];
-    //$esp = $_POST['esp'];
+
+    if ($_POST['esp'] == 'Back End') {
+        $esp = 3;
+    }else if($_POST['esp'] == 'Full Stack'){
+        $esp = 2;
+    }else if($_POST['esp'] == 'Front End'){
+        $esp = 1;
+    }
+
     $est = $_POST['study'];
 
     if ($_POST['anos'] == 'Sin experiencia') {
@@ -66,25 +74,49 @@ if ($_POST) {
         $subirarchivo = move_uploaded_file($_FILES["curriculum"]["tmp_name"], $ruta);
 
 
-        $queryValidar = "SELECT idPostulacion FROM postulacion WHERE idUsuario = '$id' AND idTrabajo = '$trabajo'";
-        $repetido = $mysqli->query($queryValidar);
-        if ($valorRepetido = mysqli_fetch_row($repetido)) {
-            $idPostulacion = $valorRepetido[0];
-            if ($subirarchivo) {
-                $queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', studies='$est', score='$valor', curriculum='$ruta' where idPostulacion = $idPostulacion";
-                $resultadoU = $mysqli->query($queryUpdate);
+        if ($esp) {
+            $queryValidar = "SELECT idPostulacion FROM postulacion WHERE idUsuario = '$id' AND idTrabajo = '$trabajo'";
+            $repetido = $mysqli->query($queryValidar);
+            if ($valorRepetido = mysqli_fetch_row($repetido)) {
+                $idPostulacion = $valorRepetido[0];
+                if ($subirarchivo) {
+                    $queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', specialty='$esp', studies='$est', score='$valor', curriculum='$ruta' where idPostulacion = $idPostulacion";
+                    $resultadoU = $mysqli->query($queryUpdate);
+                } else {
+                    $queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', specialty='$esp', studies='$est', score='$valor', curriculum=Null where idPostulacion = $idPostulacion";
+                    $resultadoU = $mysqli->query($queryUpdate);
+                }
+                //$queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', studies='$est', score='$valor', curriculum='$ruta' where idPostulacion = $idPostulacion";
             } else {
-                $queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', studies='$est', score='$valor', curriculum=Null where idPostulacion = $idPostulacion";
-                $resultadoU = $mysqli->query($queryUpdate);
+                if ($subirarchivo) {
+                    $query = "INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score, curriculum) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT','$esp', '$est', '$valor', '$ruta' )";
+                    $resultadoI = $mysqli->query($query);
+                } else {
+                    $query = "INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, specialty, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$esp' '$est', '$valor')";
+                    $resultadoI = $mysqli->query($query);
+                }
             }
-            $queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', studies='$est', score='$valor', curriculum='$ruta' where idPostulacion = $idPostulacion";
         } else {
-            if ($subirarchivo) {
-                $query = "INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, studies, score, curriculum) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$est', '$valor', '$ruta' )";
-                $resultadoI = $mysqli->query($query);
+            $queryValidar = "SELECT idPostulacion FROM postulacion WHERE idUsuario = '$id' AND idTrabajo = '$trabajo'";
+            $repetido = $mysqli->query($queryValidar);
+            if ($valorRepetido = mysqli_fetch_row($repetido)) {
+                $idPostulacion = $valorRepetido[0];
+                if ($subirarchivo) {
+                    $queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', studies='$est', score='$valor', curriculum='$ruta' where idPostulacion = $idPostulacion";
+                    $resultadoU = $mysqli->query($queryUpdate);
+                } else {
+                    $queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', studies='$est', score='$valor', curriculum=Null where idPostulacion = $idPostulacion";
+                    $resultadoU = $mysqli->query($queryUpdate);
+                }
+                //$queryUpdate = "UPDATE postulacion set idTrabajo ='$trabajo', idUsuario='$id', years='$ano', city='$com', nWorks='$cantT', studies='$est', score='$valor', curriculum='$ruta' where idPostulacion = $idPostulacion";
             } else {
-                $query = "INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$est', '$valor')";
-                $resultadoI = $mysqli->query($query);
+                if ($subirarchivo) {
+                    $query = "INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, studies, score, curriculum) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$est', '$valor', '$ruta' )";
+                    $resultadoI = $mysqli->query($query);
+                } else {
+                    $query = "INSERT INTO postulacion (idTrabajo, idUsuario, years, city, nWorks, studies, score) VALUES ('$trabajo', '$id', '$ano', '$com', '$cantT', '$est', '$valor')";
+                    $resultadoI = $mysqli->query($query);
+                }
             }
         }
     }
@@ -97,11 +129,11 @@ if ($_POST) {
         $_SESSION['message'] = 'Se ingresó postulación';
         $_SESSION['message_type'] = 'success';
         $id = $_SESSION['id'];
-    }else if ($resultadoU) {
+    } else if ($resultadoU) {
         $_SESSION['message'] = 'Se ACTUALIZÓ su postulación';
         $_SESSION['message_type'] = 'success';
         $id = $_SESSION['id'];
-    }else {
+    } else {
         $_SESSION['message'] = "Hubo un error para ingresar tu publicacion";
         $_SESSION['message_type'] = 'danger';
         $id = $_SESSION['id'];

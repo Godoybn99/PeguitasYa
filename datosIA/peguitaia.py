@@ -13,26 +13,43 @@ import joblib
 import pandas as pd
 import numpy as np
 
-clf = joblib.load('datosIA/general.pkl')
+
 public = sys.argv[1]
-data = pd.read_csv('datosIA/publicacion'+public+'.csv', header = None)
 
-data.columns = ['id', 'years', 'city', 'works', 'study', 'score']
-data.sample()
-dataset = data.values
-X = dataset[:,1:6]
-id = dataset[0:,0:1]
+if sys.argv[2] == '2':
+  clf = joblib.load('datosIA/modelo_entrenado_ING.pkl')  
+  data = pd.read_csv('datosIA/publicacion'+public+'.csv', header = None)
+  data.columns = ['id', 'years', 'city', 'works', 'specialty', 'study', 'score']
+  data.sample()
+  dataset = data.values
+  X = dataset[:,1:7]
+  id = dataset[0:,0:1]
+  resultado = np.concatenate(id)
+  data.set_index('id')
+  predic = clf.predict(X)
+  listResultado = []
+  indice = 0
+  for elemento in predic:
+    if elemento == b'3':
+      listResultado.append(resultado[indice])
+    indice = indice + 1
+  print (listResultado)
 
-resultado = np.concatenate(id)
-
-data.set_index('id')
-
-predic = clf.predict(X)
-
-listResultado = []
-indice = 0
-for elemento in predic:  
-  if elemento == b'3':     
-    listResultado.append(resultado[indice])
-  indice = indice + 1
-print (listResultado)
+elif sys.argv[2] == '1':
+  clf = joblib.load('datosIA/general.pkl')
+  data = pd.read_csv('datosIA/publicacion'+public+'.csv', header = None)
+  data.columns = ['id', 'years', 'city', 'works', 'study', 'score']
+  data.sample()
+  dataset = data.values
+  X = dataset[:,1:6]
+  id = dataset[0:,0:1]
+  resultado = np.concatenate(id)
+  data.set_index('id')
+  predic = clf.predict(X)
+  listResultado = []
+  indice = 0
+  for elemento in predic:
+    if elemento == b'3':
+      listResultado.append(resultado[indice])
+    indice = indice + 1
+  print (listResultado)

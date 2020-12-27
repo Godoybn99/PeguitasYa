@@ -225,6 +225,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
           $query = "SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo,trabajo.ia FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where idTrabajo = '$trabajo'";
           $resultado = $mysqli->query($query);
           while ($var = mysqli_fetch_row($resultado)) {
+            $ia = $var[6];
             if ($var[5] == 'Full Time') {
               $estilo = 'danger';
             } else if ($var[5] == 'Esporadico') {
@@ -264,7 +265,11 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   ?>
                     <span class="badge badge-dark">IA No Disponible</span>
                   <?php
+<<<<<<< Updated upstream
                   } else {
+=======
+                  } else if ($var[6] == '1' || $var[6] == '2' ) {
+>>>>>>> Stashed changes
                   ?>
                     <span class="badge badge-success">IA Disponible</span>
                   <?php
@@ -280,7 +285,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                     <?php } else { ?>
                       <input name='valor' type="hidden" value=<?php echo $v = 1 ?>></input>
                       <?php
-                      if ($var[6] == '1') { ?>
+                      if ($var[6] == '1' || $var[6] == '2') { ?>
                         <button role="button" class="btn btn-info" data-toggle="modal" data-target="#modalPostulacion" name="busquedaIA">Buscar Postulante con IA</button>
                     <?php
                       }
@@ -295,7 +300,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
 
 
       <?php
-      $queryIA = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+      if($ia == 2){
+
+        $queryIA = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, specialty, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
       $resultadoIA = $mysqli->query($queryIA);
       //fopen('datosIA.txt','a');
       //$file - 'datosIA.txt';
@@ -304,12 +311,33 @@ while ($cant = mysqli_fetch_row($resultado)) {
         $separator = "\t";
         $fp = fopen('datosIA/publicacion' . $trabajo . '.csv', 'w');
         while ($var = mysqli_fetch_row($resultadoIA)) {
-          $registro = array($var[8], $var[3], $var[4], $var[5], $var[6], $var[7]);
+          $registro = array($var[9], $var[3], $var[4], $var[5], $var[6], $var[7], $var[8]);
           fputcsv($fp, $registro);
         }
         fclose($fp);
         chmod('datosIA/publicacion' . $trabajo . '.csv', 0777);
       }
+
+      }else{
+
+        $queryIA = "SELECT usuario.nombre, usuario.apellidos, usuario.correo, years, city, nWorks, studies, score, usuario.idUsuario FROM postulacion INNER JOIN usuario ON postulacion.idUsuario = usuario.idUsuario WHERE idTrabajo = '$trabajo'";
+        $resultadoIA = $mysqli->query($queryIA);
+        //fopen('datosIA.txt','a');
+        //$file - 'datosIA.txt';
+        if (mysqli_num_rows($resultadoIA)) {
+          $jump = "\r\n";
+          $separator = "\t";
+          $fp = fopen('datosIA/publicacion' . $trabajo . '.csv', 'w');
+          while ($var = mysqli_fetch_row($resultadoIA)) {
+            $registro = array($var[8], $var[3], $var[4], $var[5], $var[6], $var[7]);
+            fputcsv($fp, $registro);
+          }
+          fclose($fp);
+          chmod('datosIA/publicacion' . $trabajo . '.csv', 0777);
+        }
+
+      }
+      
       ?>
 
       <!---Lista de postulantes -->
@@ -346,8 +374,9 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <tbody>
                 <?php
                 if ($v == 0) {
+                  echo ($ia);
 
-                  $p = exec("python datosIA/peguitaia.py $trabajo");
+                  $p = exec("python datosIA/peguitaia.py $trabajo $ia");
                   $arrayId = [];
                   $count = 0;
                   $idList = '';
@@ -376,10 +405,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
                       if ($var[3] == 1) {
                         $ano = 'Sin experiencia';
                       } else if ($var[3] == 2) {
-                        $ano = '1 año';
+                        $ano = '1 a 2 años';
                       } else if ($var[3] == 3) {
-                        $ano = '2 años';
-                      } else if ($var[3] == 4) {
                         $ano = '3 o más años';
                       }
 
@@ -460,10 +487,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
                     if ($var[3] == 1) {
                       $ano = 'Sin experiencia';
                     } else if ($var[3] == 2) {
-                      $ano = '1 año';
+                      $ano = '1 a 2 años';
                     } else if ($var[3] == 3) {
-                      $ano = '2 años';
-                    } else if ($var[3] == 4) {
                       $ano = '3 o más años';
                     }
 
