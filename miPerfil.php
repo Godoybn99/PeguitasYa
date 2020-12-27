@@ -313,7 +313,7 @@ if (is_numeric(session_id())) {
             <th>Renta Min</th>
             <th>Renta Max</th>
             <th>Fecha</th>
-            <th>Eliminar Publicacion</th>
+            <th>Eliminar Postulacion</th>
             <th>Ver Publicacion</th>
           </tr>
         </thead>
