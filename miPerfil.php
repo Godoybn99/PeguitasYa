@@ -374,7 +374,7 @@ if (is_numeric(session_id())) {
               <?php if ($es == "Disponible") { ?>
                 <td><a class="btn btn-primary" type="button" href="job-single.php?publicacion=<?php echo $trabajo ?>">Ver Publicacion</a></td>
               <?php }else{ ?>
-                <td><a class="btn px-4 btn-danger text-white" type="button">No Disponible</a></td>
+                <td><a class="btn px-4 btn-danger text-white disabled" type="button" aria-disabled="true">No Disponible</a></td>
             <?php
           }
           } ?>
