@@ -265,11 +265,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   ?>
                     <span class="badge badge-dark">IA No Disponible</span>
                   <?php
-<<<<<<< Updated upstream
-                  } else {
-=======
                   } else if ($var[6] == '1' || $var[6] == '2' ) {
->>>>>>> Stashed changes
                   ?>
                     <span class="badge badge-success">IA Disponible</span>
                   <?php
