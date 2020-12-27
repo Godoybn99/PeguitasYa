@@ -199,7 +199,7 @@ if(is_numeric(session_id())){
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
           <?php
-          $query="SELECT count(idTrabajo) FROM trabajo where idUsuario = '$id'";
+          $query="SELECT count(idTrabajo) FROM trabajo where idUsuario = '$id' AND (trabajo.idEstado = '1' OR trabajo.idEstado = '2')";
           $resultado= $mysqli->query($query);
           while($var=mysqli_fetch_row($resultado)){            
           ?>
@@ -210,7 +210,7 @@ if(is_numeric(session_id())){
         
         <ul class="job-listings mb-5">
         <?php
-          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.ia,trabajo.idEstado FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id'";
+          $query="SELECT idTrabajo,titulo, usuario.nombre, comuna.nombreComuna, region.nombreRegion, tipotrabajo.nombreTipo, trabajo.ia,trabajo.idEstado FROM trabajo INNER JOIN usuario ON trabajo.idUsuario = usuario.idUsuario INNER JOIN tipotrabajo ON trabajo.idTipo = tipotrabajo.idTipo INNER JOIN direccion ON trabajo.idDireccion = direccion.idDireccion INNER JOIN comuna ON direccion.idComuna = comuna.idComuna INNER JOIN region ON comuna.idRegion = region.idRegion where trabajo.idUsuario = '$id' AND (trabajo.idEstado = '1' OR trabajo.idEstado = '2')";
           $resultado= $mysqli->query($query); 
           while($var=mysqli_fetch_row($resultado)){
             if ($var[5] == 'Full Time') {
