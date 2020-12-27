@@ -12,7 +12,7 @@ if(isset($_POST)){
     $des = $_POST['txtDes'];
     $fecha = $_POST['fechaP'];
     
-    $ia = $_POST['IA'];
+    $ia = $_POST['perfil'];
     
     if($_POST['rentamin'] > $_POST['rentamax']){
         $rentMin = $_POST['rentamax'];

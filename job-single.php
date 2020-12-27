@@ -297,12 +297,12 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   $resultadoPostulacion = $mysqli->query($queryPostulacion);
                   if (mysqli_fetch_row($resultadoPostulacion) != null) { ?>
                     <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Actualiza tu postulacion</a>
-                    <?php
-                  }else{ ?>
+                  <?php
+                  } else { ?>
                     <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#modalPostulacion">Postular</a>
-                    <?php
+                  <?php
                   }
-                ?>                  
+                  ?>
                 <?php
                 }
                 ?>
@@ -362,21 +362,21 @@ while ($cant = mysqli_fetch_row($resultado)) {
               <input name='idPublicante' type="hidden" value=<?php echo $uId ?>></input>
               <input name='dire' type="hidden" value='1'></input>
               <?php if ($usu != $uId) { ?>
-              <div class="form-group">
-                <label for="exp" class="cik-fomr-label">Valora esta publicación</label>
-                <div class="valores">
-                  <?php for ($i = 1; $i <= 5; $i++) {
-                    if ($valor == $i) { ?>
-                      <input type="radio" name="example" class="rating" checked value="<?php echo $i ?>" />
+                <div class="form-group">
+                  <label for="exp" class="cik-fomr-label">Valora esta publicación</label>
+                  <div class="valores">
+                    <?php for ($i = 1; $i <= 5; $i++) {
+                      if ($valor == $i) { ?>
+                        <input type="radio" name="example" class="rating" checked value="<?php echo $i ?>" />
+                      <?php
+                      } else { ?>
+                        <input type="radio" name="example" class="rating" value="<?php echo $i ?>" />
                     <?php
-                    } else { ?>
-                      <input type="radio" name="example" class="rating" value="<?php echo $i ?>" />
-                  <?php
-                    }
-                  } ?>
+                      }
+                    } ?>
+                  </div>
                 </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Puntuar</button>
+                <button type="submit" class="btn btn-primary">Puntuar</button>
               <?php } ?>
             </form>
 
@@ -468,16 +468,18 @@ while ($cant = mysqli_fetch_row($resultado)) {
                   </select>
                 </div>
               </div>
-              <div class="form-group" visibility: hidden>
-                <label for="esp" class="cik-fomr-label">Especialización</label>
-                <div>
-                  <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="58%" data-live-search="true" title="Seleccione una orientación">
-                    <option>Back End</option>
-                    <option>Full Stack</option>
-                    <option>Front End</option>
-                  </select>
+              <?php if ($ia == '2') { ?>
+                <div class="form-group">
+                  <label for="esp" class="cik-fomr-label">Especialización</label>
+                  <div>
+                    <select for="espec" name="esp" class="selectpicker border rounded" data-style="btn-black" data-width="58%" data-live-search="true" title="Seleccione una orientación">
+                      <option>Back End</option>
+                      <option>Full Stack</option>
+                      <option>Front End</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
+              <?php } ?>
               <div class="form-group">
                 <label for="esp" class="cik-fomr-label">Nivel de Estudios</label>
                 <div>
@@ -500,7 +502,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
               </div>
               <div>
                 <?php
-                if ($ia == '1') {
+                if ($ia == '1' || $ia == '2') {
                 ?>
                   <input type="file" name="curriculum" class="form__file" accept="image/png, .jpeg, .jpg, .pdf, .doc" required>
                 <?php
