@@ -66,7 +66,7 @@ if ($_POST) {
         $subirarchivo = move_uploaded_file($_FILES["curriculum"]["tmp_name"], $ruta);
 
 
-        $queryValidar = "SELECT idPostulacion FROM postulacion WHERE idUsuario = '$id'";
+        $queryValidar = "SELECT idPostulacion FROM postulacion WHERE idUsuario = '$id' AND idTrabajo = '$trabajo'";
         $repetido = $mysqli->query($queryValidar);
         if ($valorRepetido = mysqli_fetch_row($repetido)) {
             $idPostulacion = $valorRepetido[0];

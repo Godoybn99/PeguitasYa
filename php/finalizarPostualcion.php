@@ -10,9 +10,7 @@ if(isset($_POST['publicacion'])){
 
     $query="UPDATE trabajo set idEstado = '$es' where idTrabajo = '$pu'";
     $resultado = $mysqli->query($query);
-    if($resultado){
-    $query="DELETE from postulacion where idTrabajo = '$pu'";
-    $resultado = $mysqli->query($query);
+    if($resultado){ 
     $_SESSION['message'] = 'Se finalizo la publicacion';
     $_SESSION['message_type'] = 'success';
     }else{
