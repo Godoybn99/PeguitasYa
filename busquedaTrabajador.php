@@ -435,8 +435,10 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         $estud = 'Titulo profesional';
                       } else if ($var[6] == 4) {
                         $estud = 'Post Grados';
-                      } else {
+                      } else if ($var[6] == 1) {
                         $estud = 'Sin estudios universitarios';
+                      }else{
+                        $estud = 'Sin Informacion';
                       }
 
                       if($ia ==2){
@@ -446,6 +448,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
                           $esp = 'Full Stack';
                         } else if ($var[14] == 3) {
                           $esp = 'Back End';
+                        }else{
+                          $esp = 'Sin Informacion';
                         }
                       }
 
@@ -538,7 +542,7 @@ while ($cant = mysqli_fetch_row($resultado)) {
                       $estud = 'Titulo profesional';
                     } else if ($var[6] == 4) {
                       $estud = 'Post Grados';
-                    } else {
+                    } else if ($var[6] == 1) {
                       $estud = 'Sin estudios universitarios';
                     }
 
@@ -549,6 +553,8 @@ while ($cant = mysqli_fetch_row($resultado)) {
                         $esp = 'Full Stack';
                       } else if ($var[14] == 3) {
                         $esp = 'Back End';
+                      }else{
+                        $esp = 'Sin Informacion';
                       }
                     }
 

@@ -65,6 +65,8 @@ if ($_POST) {
         $est = 2;
     } else if ($_POST['study'] == 'Titulo profesional') {
         $est = 3;
+    }else if ($_POST['study'] == 'Estudios Post Grados') {
+        $est = 4;
     }
 
     if ($_FILES["curriculum"]) {

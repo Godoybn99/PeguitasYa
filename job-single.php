@@ -487,6 +487,12 @@ while ($cant = mysqli_fetch_row($resultado)) {
                     <option>Sin estudios universitarios</option>
                     <option>Titulo Tecnico</option>
                     <option>Titulo profesional</option>
+                    <?php
+                    if ($ia == '2') {
+                    ?>
+                      <option>Estudios Post Grados</option>
+                    <?php
+                    } ?>
                   </select>
                 </div>
               </div>
